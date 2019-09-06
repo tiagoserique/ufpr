@@ -4,7 +4,7 @@ var
 begin
 	read(n);
 	fat:=1;
-	while n <> 1 do
+	while (n <> 1) and (n <> 0) do
 	begin
 		fat:=fat*n;
 		n:=n-1;	
