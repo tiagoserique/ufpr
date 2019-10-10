@@ -14,3 +14,8 @@ begin
 	else
 		writeln('divisao por zero');
 end.
+//EXERCICIO: ler 5 valores reais (a,b,c,d,e), calcular o valor da expressao
+//  a+b
+//  ---e
+//  c-d
+//Se o denominador for zero, o programa deve escrever 'divisao por zero'.
