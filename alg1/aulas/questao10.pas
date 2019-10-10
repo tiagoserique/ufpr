@@ -8,3 +8,5 @@ begin
 	else
 		writeln('fora do intervalo');
 end.
+//EXERCICIO: ler um inteiro n e escrever 'dentro do 
+//intervalo' se 1 <= n <= 100 e 'fora do intervalo' caso contrario.
