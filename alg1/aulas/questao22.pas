@@ -25,3 +25,10 @@ begin
 	else
 		writeln('ERRO');
 end.
+//EXERCICIO
+//Faca um programa em Pascal que que receba como entrada um numero 
+//inteiro positivo N de exatamente tres digitos. Se a soma de seus 
+//digitos for par, imprima o valor da soma, se a soma for impar 
+//imprima o valor do produto dos tres digitos.  Se o usuario nao 
+//informar um inteiro positivo de 3 digitos, o programa deve exibir 
+//uma mensagem de erro.
