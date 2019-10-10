@@ -9,3 +9,4 @@ begin
 		writeln('impar');
 
 end.
+//EXERCICIO: ler um inteiro n e escrever se o numero e' par ou impar.
