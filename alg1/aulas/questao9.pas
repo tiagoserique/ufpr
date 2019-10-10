@@ -13,3 +13,7 @@ begin
 	end;
 	writeln(' ');
 end.
+//EXERCICIO: ler o termo inicial (a1) e a razao 
+//de uma progressao geometrica e escrever o valor 
+//dos 5 primeiros termos. Ex: se a1=2 e a razao=3, 
+//os 5 primeiros termos sao: 2 6 18 54 162
