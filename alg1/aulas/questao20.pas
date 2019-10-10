@@ -15,3 +15,7 @@ begin
 	end;
 	writeln(dec);
 end.
+//EXERCICIO
+//Dado um numero inteiro de cinco digitos representando um 
+//numero binario, determinar seu valor equivalente em decimal. 
+//Por exemplo, se a entrada for 10001, a saida deve ser 17.
