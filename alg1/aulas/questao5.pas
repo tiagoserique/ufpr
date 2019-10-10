@@ -7,3 +7,4 @@ begin
 	x:=upcase(x);
 	writeln(x);
 end.
+//EXERCICIO: ler um caracter e escrever seu sucessor em maiusculo
