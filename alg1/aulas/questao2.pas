@@ -2,9 +2,9 @@ program exer2;
 var
 	hor1, hor2, min1, min2: integer;
 begin
-	writeln('Hora e Minutos: ');
+	writeln('Horas e Minutos: ');
 	read(hor1, min1);
-	writeln('Hora e Minutos: ');
+	writeln('Horas e Minutos: ');
 	read(hor2, min2);
 	
 	hor1:=hor1+hor2;
@@ -21,3 +21,5 @@ begin
 
 	writeln('Horas: ',hor1,' - Minutos: ',min1);
 end.
+//EXERCICIO (casa): ler dois horarios (hora e minuto) e fazer a sua soma
+//             10h50m + 11h43m = 22h33m
