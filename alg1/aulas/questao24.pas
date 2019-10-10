@@ -10,3 +10,4 @@ begin
 			writeln(cont);
 	end;
 end.
+//2) escrever os numeros pares de 1 a 100
