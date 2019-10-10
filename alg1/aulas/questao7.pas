@@ -8,3 +8,5 @@ begin
 	else
 		writeln('FALSE');
 end.
+//EXERCICIO: ler um inteiro n e escrever 
+//TRUE se 1 <= n <= 100 e FALSE caso contrario
