@@ -14,3 +14,9 @@ begin
 	else if (val >= f3) then
 		writeln('faixa 4');
 end.
+//EXERCICIO: Escreva um programa que leia um valor real num, seguido de 3 
+//inteiros f1, f2, f3.  O programa deve escrever:
+//'faixa 1' se o valor num for menor que f1;
+//'faixa 2' se o numero estiver no intervalo [f1, f2)
+//'faixa 3' se o numero estiver no intervalo [f2, f3)
+//'faixa 4' se o numero for maior ou igual a f3 
