@@ -17,3 +17,4 @@ begin
 	end;
 	writeln(soma:0:10);
 end.
+//7) ler n e calcular: 1/1! + 2/2! + ... + n/n!
