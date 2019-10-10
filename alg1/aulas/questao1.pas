@@ -10,3 +10,5 @@ begin
 	
 	writeln('Horas: ',hor,' Minutos: ',min,' Segundos: ',seg);		
 end.
+//EXERCICIO: ler um inteiro que representa uma quantidade de segundos e
+//transformar para horas, minutos e segundo
