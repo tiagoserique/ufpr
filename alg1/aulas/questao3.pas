@@ -10,3 +10,4 @@ begin
 	writeln('Área: ',area:0:10);
 	writeln('Circunferência: ',circ:0:10);
 end.
+//EXERCICIO: ler o raio de um circulo e escrever a sua circunferencia e area.
