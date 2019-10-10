@@ -21,3 +21,6 @@ begin
 	writeln('resultado: ',q);
 	writeln('resto: ',r);
 end.
+//5) dados 2 inteiros n1 e n2, calcular o valor da divisao 
+//inteira (n1 div n2) e o resto da divisao inteira (n1 mod n2) 
+//sem usar div/mod
