@@ -11,3 +11,4 @@ begin
 		writeln(cont*cont);
 	end;
 end.
+//3) dado um valor inteiro N, escrever 1^2 2^2 3^2 4^2 ... N^2
