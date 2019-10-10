@@ -10,3 +10,7 @@ begin
 	else
 		writeln('desordenado');
 end.
+//EXERCICIO: ler 3 inteiros (n1, n2, n3) e escrever:
+//   'ordenado crescente' se n1 <= n2 <= n3
+//   'ordenado decrescente' se n1 >= n2 >= n3
+//   'desordenado', caso contrario
