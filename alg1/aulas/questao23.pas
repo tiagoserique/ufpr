@@ -9,3 +9,4 @@ begin
 		writeln(cont);
 	end;
 end.
+//1) escrever numeros de 1 a 100
