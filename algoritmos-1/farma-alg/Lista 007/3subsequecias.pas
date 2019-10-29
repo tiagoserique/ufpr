@@ -133,9 +133,9 @@ begin
     ler_vetor (v,n); 
     pos:= 0;
 	if n mod 2 = 0 then
-    tamanho_subsequencia:= n div 2
+		tamanho_subsequencia:= n div 2
 	else
-	tamanho_subsequencia:= (n div 2)+1;
+		tamanho_subsequencia:= (n div 2)+1;
 	; // inicia com maior valor possivel
     while (pos = 0) and (tamanho_subsequencia >= 2) do
     begin
