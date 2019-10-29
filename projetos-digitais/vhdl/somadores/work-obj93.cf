@@ -1,0 +1,39 @@
+v 4
+file . "tb_somador.vhd" "eeca459734d67f3a9a5ef389c1c916fb88ae9f85" "20190917131241.059":
+  entity tb_somador at 8( 446) + 0 on 42;
+  architecture tb of tb_somador at 15( 550) + 0 on 43;
+  configuration cfg_tb at 189( 6899) + 0 on 44;
+file . "aux.vhd" "e341bb9368f6a4a7bafde8c33f1a176000962609" "20190917131240.709":
+  entity inv at 22( 952) + 0 on 13;
+  architecture comport of inv at 30( 1116) + 0 on 14;
+  entity and2 at 41( 1484) + 0 on 15;
+  architecture comport of and2 at 49( 1655) + 0 on 16;
+  entity and3 at 59( 2023) + 0 on 17;
+  architecture comport of and3 at 67( 2198) + 0 on 18;
+  entity or2 at 79( 2573) + 0 on 19;
+  architecture comport of or2 at 87( 2741) + 0 on 20;
+  entity or3 at 96( 3105) + 0 on 21;
+  architecture comport of or3 at 104( 3277) + 0 on 22;
+  entity xor2 at 116( 3650) + 0 on 23;
+  architecture comport of xor2 at 124( 3821) + 0 on 24;
+  entity xor3 at 133( 4188) + 0 on 25;
+  architecture comport of xor3 at 141( 4363) + 0 on 26;
+file . "packageWires.vhd" "787df55833369c3356d0a0ae4bcc9d8afdc0d386" "20190917131240.670":
+  package p_wires at 5( 229) + 0 on 11 body;
+  package body p_wires at 48( 1990) + 0 on 12;
+file . "somador.vhd" "d440f2484631e6b1f4ba88736e428d4cd7edc8e9" "20190917131240.766":
+  entity addbit at 9( 421) + 0 on 27;
+  architecture estrutural of addbit at 16( 630) + 0 on 28;
+  entity addercadeia at 47( 1714) + 0 on 29;
+  architecture addercadeia of addercadeia at 57( 1929) + 0 on 30;
+  entity adianta4 at 97( 3683) + 0 on 31;
+  architecture adianta4 of adianta4 at 106( 3931) + 0 on 32;
+  entity adderadianta4 at 145( 5562) + 0 on 33;
+  architecture adderadianta4 of adderadianta4 at 155( 5781) + 0 on 34;
+  entity adianta16 at 217( 8110) + 0 on 35;
+  architecture adianta16 of adianta16 at 226( 8376) + 0 on 36;
+  entity adderadianta16 at 274( 10316) + 0 on 37;
+  architecture adderadianta16 of adderadianta16 at 285( 10651) + 0 on 38;
+  entity addercsa32 at 352( 13145) + 0 on 39;
+  architecture functional of addercsa32 at 401( 14643) + 0 on 40;
+  architecture structural of addercsa32 at 420( 15103) + 1 on 41;

@@ -1,0 +1,44 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Tue Sep 10 18:57:54 2019
+[*]
+[dumpfile] "/home/prof/roberto/digital/adm/labs/somadores/v_csa.vcd"
+[dumpfile_mtime] "Tue Sep 10 18:56:12 2019"
+[dumpfile_size] 4633
+[savefile] "/home/prof/roberto/digital/adm/labs/somadores/csa.sav"
+[timestart] 0
+[size] 1092 445
+[pos] 0 153
+*-20.411135 18277000 1000000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_csa.
+[sst_width] 210
+[signals_width] 175
+[sst_expanded] 1
+[sst_vpaned_height] 87
+@420
+[color] 2
+tb_csa.u_csa.aint
+@22
+[color] 2
+tb_csa.u_csa.inpa[31:0]
+@200
+-
+@420
+[color] 3
+tb_csa.u_csa.bint
+@22
+[color] 3
+tb_csa.u_csa.inpb[31:0]
+@200
+-
+@420
+tb_csa.u_csa.cint
+@22
+tb_csa.u_csa.outc[31:0]
+@200
+-
+@29
+[color] 2
+tb_csa.u_csa.vai
+[pattern_trace] 1
+[pattern_trace] 0

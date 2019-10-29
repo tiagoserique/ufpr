@@ -1,0 +1,55 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Mon Sep  2 18:45:34 2019
+[*]
+[dumpfile] "/home/prof/roberto/.html.source/ci210/vhdl/somadores/v_somador.vcd"
+[dumpfile_mtime] "Mon Sep  2 18:36:48 2019"
+[dumpfile_size] 76411
+[savefile] "/home/prof/roberto/.html.source/ci210/vhdl/somadores/add.sav"
+[timestart] 5669800
+[size] 1114 478
+[pos] -1 265
+*-17.411135 6000000 1000000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 213
+[signals_width] 166
+[sst_expanded] 1
+[sst_vpaned_height] 112
+@22
+tb_somador.inpa[15:0]
+tb_somador.inpb[15:0]
+@29
+tb_somador.addsub
+@200
+-  resp esperada
+@22
+[color] 7
+tb_somador.esp_res[15:0]
+@28
+[color] 7
+tb_somador.esp_vai
+@200
+-  cadeia
+@22
+[color] 3
+tb_somador.rescad[15:0]
+@28
+[color] 3
+tb_somador.vaicad
+@200
+-  adiant 4 em 4
+@22
+[color] 2
+tb_somador.resad4[15:0]
+@28
+[color] 2
+tb_somador.vaiad4
+@200
+-  adiant 16 em 16
+@22
+[color] 1
+tb_somador.resad16[15:0]
+@28
+[color] 1
+tb_somador.vaiad16
+[pattern_trace] 1
+[pattern_trace] 0
