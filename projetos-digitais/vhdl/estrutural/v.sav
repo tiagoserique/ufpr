@@ -1,0 +1,91 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Mon Sep  2 13:57:08 2019
+[*]
+[dumpfile] "/home/prof/roberto/.html.source/ci210/vhdl/estrutural/v_estrut.vcd"
+[dumpfile_mtime] "Mon Sep  2 13:48:13 2019"
+[dumpfile_size] 5906
+[savefile] "/home/prof/roberto/.html.source/ci210/vhdl/estrutural/v.sav"
+[timestart] 0
+[size] 1344 673
+[pos] 1226 205
+*-19.000000 39000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_estrut.
+[sst_width] 213
+[signals_width] 228
+[sst_expanded] 1
+[sst_vpaned_height] 183
+@28
+tb_estrut.s[2:0]
+tb_estrut.s0
+tb_estrut.s1
+tb_estrut.s2
+@200
+-
+-  MUX
+@28
+tb_estrut.esperadamux
+[color] 2
+tb_estrut.entr_2[1:0]
+[color] 2
+tb_estrut.saidamux2
+@200
+-
+@22
+[color] 3
+tb_estrut.entr_4[3:0]
+@28
+[color] 3
+tb_estrut.saidamux4
+@200
+-
+@22
+tb_estrut.entr_8[7:0]
+@28
+tb_estrut.saidamux8
+[color] 7
+tb_estrut.saidamux8vet
+@200
+-
+-  DEMUX
+@28
+tb_estrut.inp
+[color] 2
+tb_estrut.esperadademux_2[1:0]
+[color] 2
+tb_estrut.sdemux2[1:0]
+@200
+-
+@22
+[color] 3
+tb_estrut.esperadademux_4[3:0]
+[color] 3
+tb_estrut.sdemux4[3:0]
+@200
+-
+@22
+tb_estrut.esperadademux_8[7:0]
+tb_estrut.sdemux8[7:0]
+@200
+-
+-  DECODIF / SELETOR
+@28
+[color] 2
+tb_estrut.esperadadecod_2[1:0]
+[color] 2
+tb_estrut.sdecod2[1:0]
+@200
+-
+@22
+[color] 3
+tb_estrut.sdecod4[3:0]
+@23
+[color] 3
+tb_estrut.esperadadecod_4[3:0]
+@200
+-
+@22
+tb_estrut.sdecod8[7:0]
+tb_estrut.esperadadecod_8[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

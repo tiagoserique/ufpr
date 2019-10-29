@@ -1,0 +1,17 @@
+initial_window_x -1
+
+left_justify_sigs 1
+
+enable_fast_exit 1
+
+splash_disable 1
+
+# fontname_signals geneva 9
+# fontname_waves geneva 9
+
+##fontname_signals schumacher 8
+#fontname_waves schumacher 7
+fontname_waves fixed 7
+
+fontname_signals fixed 7
+fontname_waves   fixed 6

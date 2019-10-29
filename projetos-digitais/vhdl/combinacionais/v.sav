@@ -1,0 +1,83 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Mon Sep  2 15:12:48 2019
+[*]
+[dumpfile] "/home/prof/roberto/.html.source/ci210/vhdl/combinacionais/v_combin.vcd"
+[dumpfile_mtime] "Mon Sep  2 15:06:54 2019"
+[dumpfile_size] 6114
+[savefile] "/home/prof/roberto/.html.source/ci210/vhdl/combinacionais/v.sav"
+[timestart] 0
+[size] 1344 651
+[pos] -4 0
+*-19.000000 1801000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_combin.
+[sst_width] 213
+[signals_width] 228
+[sst_expanded] 1
+[sst_vpaned_height] 173
+@28
+tb_combin.s[2:0]
+tb_combin.s0
+tb_combin.s1
+tb_combin.s2
+@200
+-
+-   MUX
+@28
+tb_combin.esperadamux
+[color] 5
+tb_combin.entr_2[1:0]
+[color] 5
+tb_combin.saidamux2
+@200
+-
+@22
+[color] 2
+tb_combin.entr_4[3:0]
+@28
+[color] 2
+tb_combin.saidamux4
+@200
+-
+@22
+tb_combin.entr_8[7:0]
+@28
+tb_combin.saidamux8
+@200
+-   DEMUX
+@28
+tb_combin.inp
+[color] 5
+tb_combin.esperadademux_2[1:0]
+[color] 5
+tb_combin.sdemux2[1:0]
+@200
+-
+@22
+[color] 2
+tb_combin.esperadademux_4[3:0]
+[color] 2
+tb_combin.sdemux4[3:0]
+@200
+-
+@22
+tb_combin.esperadademux_8[7:0]
+tb_combin.sdemux8[7:0]
+@200
+-   DECOD
+@28
+[color] 5
+tb_combin.esperadadecod_2[1:0]
+[color] 5
+tb_combin.sdecod2[1:0]
+@22
+[color] 2
+tb_combin.esperadadecod_4[3:0]
+@23
+[color] 2
+tb_combin.sdecod4[3:0]
+@22
+tb_combin.esperadadecod_8[7:0]
+tb_combin.sdecod8[7:0]
+[pattern_trace] 1
+[pattern_trace] 0
