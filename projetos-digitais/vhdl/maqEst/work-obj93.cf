@@ -1,0 +1,36 @@
+v 4
+file . "tb_reduz.vhd" "9d4265b4eb22ab149ff98ef66ce67f0606144e65" "20191024142145.742":
+  entity tb_reduz at 8( 438) + 0 on 41;
+  architecture tb of tb_reduz at 15( 564) + 0 on 42;
+  configuration cfg_tb at 181( 5241) + 0 on 43;
+file . "aux.vhd" "9da0caf2223f399f77f891a2e711af5069297ade" "20191024142145.561":
+  entity inv at 10( 419) + 0 on 15;
+  architecture comport of inv at 18( 540) + 0 on 16;
+  entity and2 at 27( 874) + 0 on 17;
+  architecture and2 of and2 at 35( 1033) + 0 on 18;
+  entity or2 at 44( 1348) + 0 on 19;
+  architecture comport of or2 at 52( 1473) + 0 on 20;
+  entity or3 at 61( 1827) + 0 on 21;
+  architecture or3 of or3 at 69( 1992) + 0 on 22;
+  entity xor2 at 78( 2309) + 0 on 23;
+  architecture comport of xor2 at 85( 2402) + 0 on 24;
+  entity xor3 at 95( 2762) + 0 on 25;
+  architecture xor3 of xor3 at 103( 2932) + 0 on 26;
+  entity mux2 at 113( 3245) + 0 on 27;
+  architecture estrut of mux2 at 121( 3361) + 0 on 28;
+  entity ffd at 149( 4241) + 0 on 29;
+  architecture funcional of ffd at 156( 4361) + 0 on 30;
+  entity ffdqq at 180( 4953) + 0 on 31;
+  architecture funcional of ffdqq at 187( 5083) + 0 on 32;
+  entity registrador32 at 212( 5708) + 0 on 33;
+  architecture funcional of registrador32 at 220( 5870) + 0 on 34;
+  entity ula at 241( 6379) + 0 on 35;
+  architecture functional of ula at 252( 6595) + 0 on 36;
+  entity write_int at 278( 7452) + 0 on 37;
+  architecture behavioral of write_int at 290( 7717) + 0 on 38;
+file . "packageWires.vhd" "349185540ac55c0d922c6ae4c0c11fd228833633" "20191024142145.498":
+  package p_wires at 8( 269) + 0 on 13 body;
+  package body p_wires at 75( 3053) + 0 on 14;
+file . "reduz.vhd" "be4fb01af7ab6372d11f163ffe496b3ea05ac13f" "20191024142145.659":
+  entity reduz at 9( 400) + 0 on 39;
+  architecture functional of reduz at 18( 611) + 0 on 40;

@@ -1,0 +1,64 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Tue Sep  3 19:09:28 2019
+[*]
+[dumpfile] "/home/prof/roberto/digital/adm/labs/maqEst/v_reduz.vcd"
+[dumpfile_mtime] "Tue Sep  3 19:07:06 2019"
+[dumpfile_size] 30383
+[savefile] "/home/prof/roberto/digital/adm/labs/maqEst/v.sav"
+[timestart] 0
+[size] 1240 578
+[pos] 1101 45
+*-21.000000 12800000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_reduz.
+[sst_width] 210
+[signals_width] 170
+[sst_expanded] 1
+[sst_vpaned_height] 148
+@28
+tb_reduz.rst
+tb_reduz.clk
+@200
+-
+-   reduz
+@420
+[color] 3
+tb_reduz.u_reduz.dbg_st
+@22
+[color] 2
+tb_reduz.entrada[31:0]
+@28
+[color] 2
+tb_reduz.u_reduz.sync
+@200
+-
+@28
+[color] 7
+tb_reduz.u_reduz.ld_op
+[color] 3
+tb_reduz.u_reduz.init_b
+[color] 3
+tb_reduz.u_reduz.ld_b
+@200
+-
+@24
+[color] 7
+tb_reduz.u_reduz.oper[2:0]
+@22
+[color] 2
+tb_reduz.u_reduz.alfa[31:0]
+[color] 3
+tb_reduz.u_reduz.beta[31:0]
+[color] 1
+tb_reduz.u_reduz.delta[31:0]
+@200
+-   saida
+@28
+tb_reduz.u_write_output.sel
+@23
+[color] 1
+tb_reduz.saida[31:0]
+@22
+tb_reduz.esp_res[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
