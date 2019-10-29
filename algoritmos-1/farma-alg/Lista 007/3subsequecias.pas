@@ -87,9 +87,9 @@ var
 begin
 	auxtam_seg:=tam_seg;
 	if n mod 2 = 0 then
-	tam_seg_original:=n div 2
+		tam_seg_original:=n div 2
 	else
-	tam_seg_original:=(n div 2)+1;
+		tam_seg_original:=(n div 2)+1;
 
         if tam_seg_original>tam_seg then
 		auxtam_seg:=(tam_seg_original-tam_seg)*2+tam_seg;
@@ -104,9 +104,9 @@ begin
 	begin
 		cont:=cont+1;
 		for posi:=cont to (tam_seg+cont-1) do
-	    begin
+	    	begin
 			aux[posi-naocont]:=v[posi];
-	    end;
+	  	end;
 		posi:=0;
 		repeat
 			posi:=posi+1;
