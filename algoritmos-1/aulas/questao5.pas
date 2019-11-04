@@ -1,4 +1,4 @@
-program exeer5;
+program exer5;
 var
 	x: char;
 begin
