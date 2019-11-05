@@ -55,10 +55,10 @@ begin
 		    imp:=0;
 	    end
 	    else if (((val mod 2 = 1) and (val <> 0)) or (par = k)) then
-	    	begin
+		begin
 				imp:=imp+1;
 				par:=0;
-	    	end;
+		end;
 	   if (par > k) then
 			con := false;
 	    if (imp > k) then
