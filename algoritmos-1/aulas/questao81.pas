@@ -83,3 +83,4 @@ begin
    clareiaImagem(im, numLin, numCol);
    escreveImagem( im, numLin, numCol, BRANCO );
 end.
+//Clarear uma imagem no formato PGM
