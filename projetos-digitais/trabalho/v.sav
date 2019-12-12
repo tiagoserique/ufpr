@@ -1,0 +1,70 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Fri Nov 15 01:38:06 2019
+[*]
+[dumpfile] "/home/prof/roberto/digital/adm/trab19-2/v_mico.vcd"
+[dumpfile_mtime] "Fri Nov 15 01:35:35 2019"
+[dumpfile_size] 39262
+[savefile] "/home/prof/roberto/digital/adm/trab19-2/v.sav"
+[timestart] 0
+[size] 1240 784
+[pos] -1 -1
+*-21.000000 2350000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_mico.
+[treeopen] tb_mico.u_mico.
+[sst_width] 213
+[signals_width] 175
+[sst_expanded] 1
+[sst_vpaned_height] 215
+@28
+tb_mico.u_mico.clk
+@200
+-   instr ptr
+@22
+tb_mico.u_mico.ip[15:0]
+@200
+-   instr
+@22
+tb_mico.u_mico.instr[31:0]
+@24
+tb_mico.u_mico.opcode[3:0]
+@22
+tb_mico.u_mico.const[15:0]
+@200
+-   ULA
+@22
+tb_mico.u_mico.a[31:0]
+tb_mico.u_mico.b[31:0]
+tb_mico.u_mico.u_ula.fun[3:0]
+@28
+tb_mico.u_mico.selbeta
+@22
+tb_mico.u_mico.beta[31:0]
+tb_mico.u_mico.c[31:0]
+tb_mico.u_mico.u_ula.beta[31:0]
+tb_mico.u_mico.u_ula.gama[31:0]
+tb_mico.u_mico.ula_d[31:0]
+@200
+-   regs
+@22
+tb_mico.u_mico.a[31:0]
+tb_mico.u_mico.b[31:0]
+@28
+tb_mico.u_mico.wr_reg
+@22
+tb_mico.u_mico.c[31:0]
+@200
+-   mem
+@28
+tb_mico.u_mico.mem_wr
+tb_mico.u_mico.mem_sel
+@22
+tb_mico.u_mico.mem_d[31:0]
+@200
+-  display
+@28
+tb_mico.u_mico.wr_display
+@22
+tb_mico.u_mico.b[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

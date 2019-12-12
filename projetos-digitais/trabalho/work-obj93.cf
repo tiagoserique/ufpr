@@ -1,0 +1,51 @@
+v 4
+file . "mico.vhd" "dc9ca86f2414e58571a93a035ac35121883f88ba" "20191203204214.470":
+  entity mico at 9( 395) + 0 on 2100;
+  architecture functional of mico at 18( 541) + 0 on 2101;
+  entity ula at 202( 6423) + 0 on 2102;
+  architecture behaviour of ula at 211( 6599) + 0 on 2103;
+  entity display at 244( 7675) + 0 on 2104;
+  architecture functional of display at 253( 7845) + 0 on 2105;
+  entity ram at 275( 8509) + 0 on 2106;
+  architecture rtl of ram at 292( 8955) + 0 on 2107;
+  entity r at 358( 10696) + 0 on 2108;
+  architecture rtl of r at 368( 10923) + 0 on 2109;
+file . "mem.vhd" "81043599988d2fafe6512f3da0ed03a6ac43a254" "20191203204214.350":
+  entity mem_prog at 5( 229) + 0 on 2070;
+  architecture tabela of mem_prog at 166( 5465) + 0 on 2071;
+file . "packageWires.vhd" "90242aca2d1d7afe4a108693304473dba639f465" "20191203204214.279":
+  package p_wires at 8( 269) + 0 on 2068 body;
+  package body p_wires at 81( 3304) + 0 on 2069;
+file . "aux.vhd" "db5c1f146b2d7bc8527bbbf8b65c853401d8befa" "20191203204214.382":
+  entity inv at 12( 440) + 0 on 2072;
+  architecture comport of inv at 20( 561) + 0 on 2073;
+  entity and2 at 29( 895) + 0 on 2074;
+  architecture and2 of and2 at 37( 1054) + 0 on 2075;
+  entity or2 at 46( 1369) + 0 on 2076;
+  architecture comport of or2 at 54( 1494) + 0 on 2077;
+  entity or3 at 63( 1848) + 0 on 2078;
+  architecture or3 of or3 at 71( 2013) + 0 on 2079;
+  entity xor2 at 80( 2330) + 0 on 2080;
+  architecture comport of xor2 at 87( 2423) + 0 on 2081;
+  entity xor3 at 97( 2783) + 0 on 2082;
+  architecture xor3 of xor3 at 105( 2953) + 0 on 2083;
+  entity mux2 at 115( 3266) + 0 on 2084;
+  architecture estrut of mux2 at 123( 3382) + 0 on 2085;
+  entity registern at 151( 4278) + 0 on 2086;
+  architecture functional of registern at 162( 4568) + 0 on 2087;
+  entity count32up at 184( 5182) + 0 on 2088;
+  architecture funcional of count32up at 193( 5417) + 0 on 2089;
+  entity count32dwn at 218( 6099) + 0 on 2090;
+  architecture funcional of count32dwn at 227( 6336) + 0 on 2091;
+  entity registrador32 at 252( 7012) + 0 on 2092;
+  architecture funcional of registrador32 at 260( 7174) + 0 on 2093;
+  entity registrador20 at 281( 7739) + 0 on 2094;
+  architecture funcional of registrador20 at 289( 7901) + 0 on 2095;
+  entity ffd at 310( 8455) + 0 on 2096;
+  architecture funcional of ffd at 317( 8575) + 0 on 2097;
+  entity ffdqq at 341( 9167) + 0 on 2098;
+  architecture funcional of ffdqq at 348( 9297) + 0 on 2099;
+file . "tb_mico.vhd" "72031b96efcf8bd82367460cc97cf0be87d79621" "20191203204214.645":
+  entity tb_mico at 8( 404) + 0 on 2110;
+  architecture tb of tb_mico at 13( 459) + 0 on 2111;
+  configuration cfg_tb at 46( 1266) + 0 on 2112;
