@@ -7,7 +7,7 @@ begin
 	read(m);
 	for i:=1 to m do
 	begin
-		n:=i;
+		n:=i*i*i;
 		cont:=0;
 		cont2:=0;
 		while (cont < n) do
@@ -17,23 +17,23 @@ begin
 			begin
 				cont2:=cont2+1;
 				vet[cont2]:= cont;
-			end;
+			end;			
 		end;
 		
-		aux:=n;
+		aux:=i;
 		cont:=1;
 		flag:=false;
 		while (not flag) do
 		begin
 			soma:=0;
 			auxc:=cont;
-			while (auxc < aux) do
+			while (auxc <= aux) do
 			begin
-				soma:=soma+vet[aux];
+				soma:=soma+vet[auxc];
 				auxc:=auxc+1;	
 			end;
 			
-			if n*n*n = soma then
+			if n = soma then
 				flag:=true
 			else
 			begin
