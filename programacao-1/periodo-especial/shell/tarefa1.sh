@@ -8,4 +8,4 @@
 #drwx------ Mail
 #drwxr-xr-x tmp
 
-ls -l | grep ^d | grep "mar "  | cut -d" " -f1,9
+ls -l | grep ^d | awk ' $6 == "mar" ' | cut -d" " -f1,9-
