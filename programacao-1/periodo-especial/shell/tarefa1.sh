@@ -8,4 +8,5 @@
 #drwx------ Mail
 #drwxr-xr-x tmp
 
-ls -l | grep ^d | awk ' $6 == "mar" ' | cut -d" " -f1,9-
+ls -l | grep ^d | awk  '$6 == "mar" {for (x=2; x<=8;x++) $x=""; print $0}' | cut -d" " -f1,9-
+
