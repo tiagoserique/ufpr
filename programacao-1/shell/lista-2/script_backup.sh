@@ -15,8 +15,8 @@ echo "arquivos modificados nas ultimas 24 horas: "
 pushd ~
 	VAR=$( find -mtime -1 )
 	echo "${VAR}"
-	tar --exclude='./.*' -czvf ${BACKUP}${TAR} .
+	tar --exclude='./.*' -czvf ${BACKUP}${TAR} ~ 
 	cd ${BACKUP}
-	tar -xzvf ${TAR}
+	tar -xzf ${TAR}
 popd
 
