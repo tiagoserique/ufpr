@@ -51,6 +51,7 @@ item3 (){
     done
 }
 
+
 item4 (){
 
     echo -e "[ITEM 4]\n"
@@ -81,14 +82,49 @@ item4 (){
     # pega a maior qtd de anos no curso
     local QTD_MAXIMA=$( awk 'END{print $2}' evasao_anual2 ) 
 
-    for ((x=0; x<= $QTD_MAXIMA;x++))
+    for ((x=0; x<=$QTD_MAXIMA; x++))
     do
         awk '{ print $NF, $0}' evasao_anual | sort -n | grep ^"$x " | awk '{SUM+=$2}END{print SUM",",$3}' >> evasao_anual_final
     done
 
-    cat evasao_anual_final | grep -v ^,
+    sed -i '1 iALUNOS, ANOS' evasao_anual_final
+    cat evasao_anual_final | grep -v ^, | column -s, -t
     echo ""
+ 
+}
+
+
+item5 (){
+    echo -e "[ITEM 5]\n"
+
+    for arquivo in $NOME_ARQUIVOS
+    do
+        local CAMINHO=$( find -name $arquivo )
+
+        # pega o ano do arquivo
+        local ANO=${arquivo%.*}
+        ANO=${ANO#*-}
+
+        local SEMESTRE1=$( cat $CAMINHO | cut -d, -f2 | grep -v PERIODO | grep 1 | wc -l )
+        local SEMESTRE2=$( cat $CAMINHO | cut -d, -f2 | grep -v PERIODO | grep 2 | wc -l )
+        local TOTAL=$( cat $CAMINHO | cut -d, -f2 | grep -v PERIODO | wc -l )
+
+        local VAR=$(echo "$SEMESTRE1 > $SEMESTRE2" | bc )
         
+        if [ "$VAR" -eq 1 ]
+        then
+            echo "$ANO, semestre 1° - $( expr $SEMESTRE1 \* 100 / $TOTAL )%" >> porcentagem_evasao 
+        elif [ "$VAR" -eq 0 ]
+        then
+            echo "$ANO, semestre 2° - $( expr $SEMESTRE2 \* 100 / $TOTAL )%" >> porcentagem_evasao 
+        fi
+    done
+    cat porcentagem_evasao | grep -v ^, | column -s, -t
+}
+
+
+item6 (){
+
 }
 
 
@@ -102,6 +138,7 @@ apaga_arquivos (){
     rm evasao_anual
     rm evasao_anual2
     rm evasao_anual_final
+    rm porcentagem_evasao
 }
 
 item1
@@ -109,8 +146,8 @@ item2
 item3
 item4
 item5
-: 'item6
-item7
+item6
+: 'item7
 item8'
 apaga_arquivos
 
