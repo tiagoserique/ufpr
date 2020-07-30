@@ -53,7 +53,6 @@ item3 (){
 
 
 item4 (){
-
     echo -e "[ITEM 4]\n"
 
     # pega a qtd de alunos de cada arquivo que ficaram uma qtd x de anos no curso
@@ -89,13 +88,11 @@ item4 (){
 
     sed -i '1 iALUNOS, ANOS' evasao_anual_final
     cat evasao_anual_final | grep -v ^, | column -s, -t
-    echo ""
- 
 }
 
 
 item5 (){
-    echo -e "[ITEM 5]\n"
+    echo -e "\n[ITEM 5]\n"
 
     for arquivo in $NOME_ARQUIVOS
     do
@@ -124,7 +121,19 @@ item5 (){
 
 
 item6 (){
+    echo -e "\n[ITEM 6]\n"
 
+    local CAMINHO=$( find -name evasao_geral )
+
+    local M=$( cat $CAMINHO | cut -d, -f5 | grep -v SEXO | grep M | wc -l )
+    local F=$( cat $CAMINHO | cut -d, -f5 | grep -v SEXO | grep F | wc -l )
+    local TOTAL=$( cat $CAMINHO | cut -d, -f5 | grep -v SEXO | wc -l )
+
+    echo "SEXO, MÉDIA EVASÕES (5 anos)" >> evasao_sexo
+    echo "F, $( expr \( $F \* 100 / $TOTAL \) + 1 )%" >> evasao_sexo
+    echo "M, $( expr \( $M \* 100 / $TOTAL \) + 1 )%" >> evasao_sexo
+
+    cat evasao_sexo | column -s, -t
 }
 
 
@@ -139,6 +148,7 @@ apaga_arquivos (){
     rm evasao_anual2
     rm evasao_anual_final
     rm porcentagem_evasao
+    rm evasao_sexo
 }
 
 item1
