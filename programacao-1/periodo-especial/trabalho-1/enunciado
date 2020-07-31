@@ -1,0 +1,87 @@
+Considere o arquivo "nomes.csv.gz" que acompanha este enunciado.
+
+Após descompactado, o arquivo resultante irá servir como nomes de usuários para seu sistema. 
+
+Agora você é o administrador de um sistema Linux e precisa criar diretórios HOME para os usuários 
+cujos login names são os 10 primeiros nomes válidos iniciados por cada uma das letras do alfabeto. 
+Os login names precisam ser extraídos das linhas do arquivo dado.
+
+ATENÇÃO: o HOME desses usuários deve ser criado em /nobackup para não estourar a cota de vocês!!!
+
+Notem que há linhas deste arquivo que contêm mais de um nome (se for o caso, somente o primeiro 
+nome deve ser considerado), enquanto que há linhas que não possuem nome algum (neste caso, a 
+linha inteira deve ser desconsiderada). 
+
+
+Os usuários serão classificados em três grupos:
+
+grupo1: login names de usuários constituídos apenas por letras de a-z,
+        desde que iniciem e terminem com vogais e tenham exatamente 5 letras;
+
+grupo2: login names de usuários que na sua constituição possuem mais de 5 letras;
+
+grupo3: o restante dos usuários do arquivo fornecido.
+
+Todos os diretórios criados deverão estar sob /nobackup/users
+
+Sob /nobackup/users, deverão ser criados os seguintes subdiretórios:
+
+/nobackup/users/grupo1
+/nobackup/users/grupo2
+/nobackup/users/grupo3
+
+Os diretórios para cada login name deverão ser criados no diretório
+correspondente ao grupo ao qual ele pertence e terão o próprio login
+name como nome de diretório. Assim, por exemplo:
+
+. um login name "izuko" implicará em um diretório /nobackup/users/grupo1/izuko
+. um login name "rycharlyssom" implicará em um diretório /nobackup/users/grupo2/rycha.rlyssom
+. um login name "erica" implicará em um diretório /nobackup/users/grupo3/erica
+
+Os diretórios correspondentes a cada grupo deverão ser criados com as
+seguintes permissões:
+
+. grupo1: drwxr-xr-x
+. grupo2: drwxr-x---
+. grupo3: drwx------
+
+Todos os usuários devem ter um arquivo .bashrc em seu diretório. O
+conteúdo deste .bashrc deve conter apenas e tão somente alguns aliases,
+conforme o grupo:
+
+. grupo1: alias ll="ls -ltr" e mais nada
+. grupo2: alias la="ls -la" além do alias do grupo1
+. grupo3: alias lF="ls -lF" além dos aliases dos grupos 1 e 2
+
+Os usuários do grupo1 devem ter um diretório .html imediatamente sob
+seu diretório principal. Os dos outros grupos não. As permissões
+do diretório .ssh deverá ser "drwx--x--x", e deverá conter um
+arquivo de nome "index.html" com o seguinte conteúdo:
+
+--------------- index.html --------------------
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+*** substitua esta linha pelo login name do usuario ***
+</title>
+</head>
+
+<body>
+Alo mamae!
+</body>
+</html>
+-----------------------------------------------
+
+Todos os usuários devem ter sob seu diretório dois outros subdiretórios:
+
+. tmp
+. bin
+
+Este diretório "bin" deverá conter um script de nome "limpa_cookies.sh"
+cuja função é limpar os cookies gerados pelo famoso navegador NAVEGAAIPO,
+que fica sempre no arquivo .navegaaipo/cookies
+
+Finalmente, crie um arquivo .bash_logout na conta de cada usuário
+que invoque o script limpa_cookies.sh, isto é, cada vez que o usuário
+der logout, vai limpar os cookies.
