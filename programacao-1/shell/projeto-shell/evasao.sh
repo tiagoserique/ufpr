@@ -137,6 +137,15 @@ item6 (){
 }
 
 
+item7 (){
+    #Produza um gráfico (de linha) com os anos de evasão no eixo x e o número de evasões no eixo y (use o Gnuplot) 
+}
+#OBSERVAÇÃO 2: Os itens 7 e 8 devem ser salvos no mesmo diretório que contém os arquivos de entrada como "evasoes-ano.png" e "evasoes-forma.png", respectivamente.
+
+item8 (){
+    #Produza um gráfico (de barras) mostrando, para cada ano, o número de evasões por forma de ingresso
+}
+
 apaga_arquivos (){
     ### ARQUIVOS TEMPORARIOS PRA APAGAR
     rm evasao_geral
@@ -157,7 +166,7 @@ item3
 item4
 item5
 item6
-: 'item7
-item8'
+item7
+#item8
 apaga_arquivos
 
