@@ -25,7 +25,7 @@ item3 (){
 
     for tipo in "${FORMAS_EVASAO[@]}"
     do
-        # formata o texto com 'tipo de evsao, qtd'
+        # formata o texto com 'tipo de evasao, qtd'
         echo "$tipo, $( grep "$tipo" evasao_geral | wc -l )" >> ranking_geral
     done
 
@@ -138,12 +138,88 @@ item6 (){
 
 
 item7 (){
-    #Produza um gráfico (de linha) com os anos de evasão no eixo x e o número de evasões no eixo y (use o Gnuplot) 
+    for arquivo in $NOME_ARQUIVOS
+    do
+        # pega o ano do arquivo
+        local ANO=${arquivo%.*}
+        ANO=${ANO#*-}
+
+        local CAMINHO=$( find -name $arquivo )
+        QTD_EVASOES=$( expr $( cat $CAMINHO | wc -l ) - 1 )
+
+        echo "$ANO,$QTD_EVASOES" >> evasao-ano
+    done
+
+    gnuplot -p << EOF
+    set datafile separator ","
+    set title "[ITEM 7]"
+    set xlabel "ANOS"
+    set ylabel "N° DE EVASOES"
+    set term png
+    set output "evasao-ano.png"
+    plot "evasao-ano" with line title "Evasoes"
+EOF
+
+    mv evasao-ano.png evasao/
 }
+
 #OBSERVAÇÃO 2: Os itens 7 e 8 devem ser salvos no mesmo diretório que contém os arquivos de entrada como "evasoes-ano.png" e "evasoes-forma.png", respectivamente.
 
 item8 (){
-    #Produza um gráfico (de barras) mostrando, para cada ano, o número de evasões por forma de ingresso
+    for arquivo in $NOME_ARQUIVOS
+    do
+        local CAMINHO=$( find -name $arquivo )
+
+        # pega todas as formas de ingresso e tira o cabecalho
+        cat $CAMINHO | cut -d, -f3 | sort -u | grep -v FORMA_INGRESSO >> tipos_ingresso
+    done
+        
+    cat tipos_ingresso | sort -u > tipos_ingresso2    
+
+    # preenche vetor com as formas de ingresso
+    mapfile -t FORMAS_INGRESSO < tipos_ingresso2
+    
+    for arquivo in $NOME_ARQUIVOS
+    do
+        local CAMINHO=$( find -name $arquivo )
+
+        # pega o ano do arquivo
+        local ANO=${arquivo%.*}
+        ANO=${ANO#*-}
+
+        echo -n "$ANO" >> evasao-forma
+        for tipo in "${FORMAS_INGRESSO[@]}"
+        do
+            echo -n ",$( grep "$tipo" $CAMINHO | wc -l )" >> evasao-forma
+        done
+        echo >> evasao-forma
+     done
+
+    gnuplot -p << EOF
+    set datafile separator ","
+    set title "[ITEM 8]"
+    set xlabel "ANOS"
+    set ylabel "N° DE EVASOES"
+    set term png
+    set output "evasao-forma.png"
+    set style data histogram
+    set style histogram cluster gap 1
+    set style fill solid
+    set boxwidth 0.8
+    set xtics format
+    set yrange[0:180]
+    plot 'evasao-forma' using 2:xtic(1) title 'Aluno Intercâmbio',\
+    '' using 3 title 'Aproveitamento Curso Superior',\
+    '' using 4 title 'Convênio AUGM',\
+    '' using 5 title 'Convênio Pec-G',\
+    '' using 6 title 'Mobilidade Acadêmica',\
+    '' using 7 title 'Processo Seletivo/Enem',\
+    '' using 8 title 'Reopção',\
+    '' using 9 title 'Transferência Ex-Ofício',\
+    '' using 10 title 'Transferência Provar',\
+    '' using 11 title 'Vestibular',
+EOF
+    mv evasao-forma.png evasao/
 }
 
 apaga_arquivos (){
@@ -158,6 +234,10 @@ apaga_arquivos (){
     rm evasao_anual_final
     rm porcentagem_evasao
     rm evasao_sexo
+    rm evasao-ano
+    rm tipos_ingresso
+    rm tipos_ingresso2
+    rm evasao-forma
 }
 
 item1
@@ -167,6 +247,6 @@ item4
 item5
 item6
 item7
-#item8
+item8
 apaga_arquivos
 
