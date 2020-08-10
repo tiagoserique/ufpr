@@ -121,12 +121,11 @@ login_names (){
 
 
 cria_diretorios (){
-    mkdir users
-    mkdir users/grupo{1,2,3}
+    mkdir -p nobackup/bcc/tsv19/users/grupo{1,2,3}
 
-    DIR_GRUPO1="users/grupo1"
-    DIR_GRUPO2="users/grupo2"
-    DIR_GRUPO3="users/grupo3"
+    DIR_GRUPO1="nobackup/bcc/tsv19/users/grupo1"
+    DIR_GRUPO2="nobackup/bcc/tsv19/users/grupo2"
+    DIR_GRUPO3="nobackup/bcc/tsv19/users/grupo3"
 
     login_names
 }
