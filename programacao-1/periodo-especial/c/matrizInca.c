@@ -97,3 +97,41 @@ int main(){
 
     return 0;
 }
+
+/*
+Os incas construíram pirâmides de base quadrada em que a única forma de se 
+atingir o topo era seguir em espiral pela borda, que acabava formando uma escada
+ em espiral.
+
+Faça um programa em C que leia do teclado uma matriz quadrada N × N de números 
+inteiros e verifica se a matriz é inca; ou seja, se partindo do canto superior 
+esquerdo da matriz, no sentido horário, em espiral, a posição seguinte na ordem 
+é o inteiro consecutivo da posição anterior. Por exemplo, as matrizes abaixo são
+ incas:
+
+ 1  2  3  4
+
+12 13 14  5
+
+11 16 15  6
+
+10  9  8  7 
+
+e
+
+
+ 1  2  3  4  5 
+
+16 17 18 19  6
+
+15 24 25 20  7
+
+14 23 22 21  8
+
+13 12 11 10  9
+
+O programa deve ler do teclado a dimensão da matriz (um inteiro N, 1 ≤ N ≤ 100) 
+e em cada uma das próximas N linhas, os inteiros correspondentes às entradas da 
+matriz naquela linha. A saída do programa deve ser “A matriz eh inca” ou “A 
+matriz nao eh inca”.
+*/
