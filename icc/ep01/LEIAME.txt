@@ -1,0 +1,42 @@
+Nomes, GRR e login DInf dos alunos da equipe:
+Tiago Serique Valadares, GRR20195138, tsv19
+Fernanda Yukari Kawasaki, GRR20185057, fyk18 
+
+--------------------------------
+
+A dupla decidiu utilizar a diferença entre a raiz estimada atual e a raiz estimada
+na iteração anterior (critério 1). Especificamente, o Erro Relativo Aproximado.
+Assim, o critério é calculado dividindo o Erro Absoluto Aproximado dividido pelo x atual, e tirando seu módulo.
+A função correspondente no código se chama "calc_crit_parada".
+
+Na disciplina foram vistos 3 critérios de parada.
+Decidimos escolher o primeiro critério tendo em vista que as outras duas opções apresentavam pontos negativos:
+
+    2- A diferença entre o valor da função na raiz estimada atual e na
+    iteração anterior: é um critério bastante interessante. No entanto, por ser baseado no valor da função,
+    há a possibilidade de que estes valores resultantes tenham dimensões bastante diferentes,
+    o que pode gerar problemas de cancelamento subtrativo/catastrófico.
+
+    3- O valor da função na raiz estimada: além de ter sido o exemplo no enuncidado do
+    exercício, é um critério muito simples.
+
+
+Vale reforçar que estamos assumindo que o x0 fornecido é uma boa aproximação da solução de fato. Por isso, quando
+calculamos a diferença entre as raízes estimadas, não há o risco de cancelamento catastrófico.
+
+Por fim, dentro do critério 1, haviam duas opções: absoluto ou relativo.
+Como foi visto em aula, normalizar o erro com o cálculo relativo evita que sua
+dimensão afete diretamente no resultado.
+
+--------------------------------
+
+Para executar o código, basta rodar os comandos:
+$ make
+$ ./ep01 < samples/sample.in > saida.csv
+
+Foi criada uma pasta "sample" com os testes criados. Os arquivos
+são do formato sample*.in, variando de sample1.in até sample6.in.
+
+O arquivo sample.in é o teste fornecido no enunciado.
+
+--------------------------------
