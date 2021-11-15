@@ -7,9 +7,14 @@
 #include <stdint.h>
 #include <matheval.h>
 #include <math.h>
+#include "utils.h"
 
 
-// 
-void gauss_seidel();
+// Com base na linha e coluna da iteracao atual de gauss seidel, retorna o valor
+// do coeficiente da diagonal desejada
+double pega_coeficiente(SisLinear_T *sl, int linha, int coluna);
+
+// Metodo de gauss seidel
+double *gauss_seidel(SisLinear_T *sl, unsigned int max_iter, double epsilon);
 
 #endif

@@ -1,64 +1,99 @@
+/* Trabalho 1 - CI1164 (2021-1 ERE)
+Prof. Dr. Guilherme Alex Derenievicz
+
+
+Autores:
+Tiago Serique Valadares (GRR20195138)
+Fernanda Yukari Kawasaki (GRR20185057)
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
 #include <matheval.h>
-#include <math.h>
-#include "newton.h"
+#include <stdlib.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <ctype.h>
+#include "entrada.h"
+#include "newtonSNL.h"
+#include "jacobiana.h"
+#include "gauss.h"
+#include "utils.h"
 
-#define BUFFER_SIZE 256
 
-void read_input(char *fx, double *x0, double *epsilon, int *max_iter){
-    scanf("%s", fx);
-    scanf("%lf", x0);
-    scanf("%lf", epsilon);
-    scanf("%d", max_iter);
-}
+int main(int argc, char *argv[]){
+	FILE* input  				= stdin;
+	FILE *output				= stdout;
+	SNL_T *sistema_nao_linear	= NULL;
 
-int main(){
-    char fx[BUFFER_SIZE];
-	char *print_format = "%d, %1.16e, %1.16e\n";
-    
-	// Declara variaveis - Newton
-	int newton_stop;
-	double newton_x, newton_x_prev, newton_crit;
-
-	// Declara variaveis - Loop
-	int max_iter, i, is_last_iter;
+	double epsilon 				= 0; 
+	unsigned int max_iter		= 0;
 	
-	// Declara variaveis - Funcao dada e derivada
-    void *f, *f_deriv;
-	double x0, epsilon;
-    
-	// Recebe os dados
-	read_input(fx, &x0, &epsilon, &max_iter);
+	int opcao					= 0;
+	int ret						= 0; 
 
-    // Processa a funcao dada e sua derivada
-    f = evaluator_create(fx);
-    f_deriv = evaluator_derivative_x(f);
-
-	// Atribui valores - Newton
-	newton_stop 	= 0;
-	newton_x 		= x0;
-    newton_x_prev 	= x0;
-    newton_crit 	= epsilon;
-
-	// Atribui valores - Loop
-	i = 0;
-	is_last_iter = i == max_iter;
-
-	while (!is_last_iter && !newton_stop){
-		// printf(print_format, i, newton_x, newton_crit);
-		
-		// if (!newton_stop)
-			newtonMetod(f, f_deriv, epsilon, &newton_x, &newton_x_prev, 
-													&newton_crit, &newton_stop);
-	
-
-
-		i++;
-		is_last_iter = i == max_iter;
+    // usa getopt para filtrar as entradas do programa
+	while ((opcao = getopt(argc, argv, "o:")) != -1){
+		switch (opcao){
+			// opcao de saida
+			case 'o':
+				output = fopen(optarg, "w+");
+				if (!output){
+					fprintf(stderr, "Erro ao abrir arquivo de saida\n");
+					exit(1);
+				}
+			break;
+			
+			// caso seja digitada uma opcao diferente
+			case '?':
+				if ( optopt == 'o')
+					fprintf(stderr, "Opcao -%c requer um argumento.\n", optopt);
+				else if (isprint (optopt))
+					fprintf(stderr, "Opcao desconhecida `-%c'.\n", optopt);
+				else
+					fprintf(stderr, "Caracter de opcao desconhecido`\\x%x'.\n",
+							optopt);
+			return 1;
+			
+			default:
+				abort();
+		}
 	}
 
-	return EXIT_SUCCESS;
+	// le o arquivo da entrada padrao
+    while (!feof(input)){
+		double newton_time = 0, deriv_time = 0, jacobiana_time = 0, sl_time = 0;
+
+		// Obtem um bloco em cada iteracao
+		sistema_nao_linear = le_input(input, &epsilon, &max_iter);
+
+		// Gera a matriz com as funcoes derivadas parciais
+		ret 		= gera_matriz_derivadas(sistema_nao_linear->derivadas, sistema_nao_linear->expressoes, sistema_nao_linear->incognitas, sistema_nao_linear->n, &deriv_time);
+		if ( ret ){
+			destroi_snl(sistema_nao_linear);
+			return EXIT_FAILURE;
+		}
+
+		// Imprime as expressoes das funcoes (nao lineares) do sistema
+		imprime_expressoes(output, sistema_nao_linear);
+
+		// Calcula o valor aproximado das incognitas usando o metodo de newton
+		
+		ret 		= newtonMetod(sistema_nao_linear, epsilon, max_iter, &jacobiana_time, &sl_time, &newton_time, output);  // Resolve cada ENL
+		if ( ret ){
+			destroi_snl(sistema_nao_linear);
+			return EXIT_FAILURE;
+		}
+
+		// Imprime o tempo gasto para o calculo de Newton, das derivadas parciais, da Jacobiana e do SL
+		imprime_tempo(output, newton_time, deriv_time, jacobiana_time, sl_time);
+
+		// Libera a memoria
+		destroi_snl(sistema_nao_linear);
+    }
+
+	// Fecha os arquivos
+	fclose(input);
+	fclose(output);
+    return EXIT_SUCCESS;
 }

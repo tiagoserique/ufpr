@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,32 +10,24 @@
 
 
 int main(){
-	// char *formato_saida = "N = %ld; K = %ld; EPSILON = %1.6e; ITER = %ld;\n";
-	// char *formato_solucao = "solucao: %1.6e %1.6e %1.6e %1.6e %1.6e %1.6e\n";
 	double tempo;
 	double epsilon;					// tolerância no método de Gauss-Seidel.
+	double * incognitas;
 	unsigned int max_iter;			// número máximo de iterações.
-	SisLinear_T *sistema_linear = aloca_SL();
-
-	read_input(sistema_linear, &epsilon, &max_iter);
-
-    tempo = timestamp();
+	SisLinear_T *sistema_linear;
 	
-	// while (){
-	// 	gauss_seidel();
-	// }
-    
+	sistema_linear = read_input(&epsilon, &max_iter);
+	gera_sistema_linear(sistema_linear);
+
+	tempo = timestamp();
+	incognitas = gauss_seidel(sistema_linear, max_iter, epsilon);
 	tempo = timestamp() - tempo;
 
-	// printf(formato_saida, sistema_linear->n, sistema_linear->k, epsilon, max_iter);
-	// printf(formato_solucao, );
-	printf("tempo: %1.6e", tempo);
+	imprime_diagonais(sistema_linear);
+	imprime_termos_indep(sistema_linear);
+	imprime_solucao(incognitas, sistema_linear->n);
+	imprime_tempo(tempo);
 
-
-	// for (int i = 0; i < sistema_linear->n; i++)
-	// 	printf("%1.6e ", evaluator_evaluate_x(sistema_linear->fx[i], 1));
-	// printf("\n");
-
-	destroi_sl(sistema_linear);
+	destroi_sistema_linear(sistema_linear);
 	return EXIT_SUCCESS;
 }

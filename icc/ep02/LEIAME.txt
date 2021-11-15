@@ -1,3 +1,75 @@
+Exercicio EP-02
 
 Tiago Serique Valadares - GRR20195138 - tsv19
+Fernanda Yukari Kawasaki - GRR20185057 - fyk18
 
+--------------------------------------------------------------------------------
+
+	As k-funcoes recebidas no input sao alocadas em um vetor e sao utilizadas no
+calculo dos termos independentes e no calculo dos coeficientes das diagonais
+utilizadas em gauss seidel. Esse vetor eh guardado por um ponteiro de SisLinear_T;
+
+	Para as k-diagonais foram criados k-1 vetores para armazenar o calculo
+de seus coeficientes. Os vetores possuem tamanhos diferentes, baseados na quantidade
+de elementos que as diagonais possuem, que no codigo sao valores entre n e (k-1)/2;
+As k-diagonais podem ser armazeadas em um vetor de ponteiros de SisLinear_T;
+	
+	Para os termos independentes nao foi feita alocacao, os valores sao calculados
+a cada iteracao de gauss seidel e no output do programa;
+	
+	Em gauss seidel a movimentacao na matriz eh feita baseada na diagonal principal
+atual. A quantidade de diagonais acima ou abaixo eh utilizada para calcular a quantidade
+de valores existentes. Para os valores acima da diagonal, vamos adicionando o indice das
+colunas de um em um, usando como base a posicao (linha, linha). Entao na iteracao seguinte,
+a posicao eh (linha, linha+1). Isso eh feito ate que a quantidade maxima de diagonais acima
+da diagonal principal seja alcancada, ou ate que a posicao obtida extrapole o tamanho da matriz.
+Para os valores abaixo da diagonal, o processo eh parecido, com a unica diferenca sendo que
+ao inves de aumentar, diminuimos o valor do indice da coluna de um em um, isto eh, (linha, linha)
+torna-se (linha, linha-1). Dessa forma, conseguimos garantir que estamos acessando somente os valores
+que realmente existem.
+
+Para calcular a quantidade de diagonais acima ou abaixo da diagonal principal, basta subtrair um
+(que representa a diagonal principal) e dividir o resultado por dois, ja que metade das diagonais
+sao acima e metade sao abaixo.
+
+	Para alcancar os coeficientes das diagonais desejados, é feita a 
+diferenca entre linha e coluna. Se (linha - coluna) > 0, entao eh uma diagonal 
+inferior e por isso usamos "coeficientes[qual_vetor][coluna]" para os coeficientes.
+Se (linha - coluna) <= 0, entao eh uma diagonal principal ou superior, por isso 
+usamos, "coeficientes[qual_vetor][linha]" para encontrar os coeficientes correto.
+Para determinar qual o vetor correto em "coeficientes[][]" correspondente a 
+diagonal da iteracao atual, calculamos "qual_vetor = (k-1)/2+i-j". Com essa 
+formula obtemos valores entre 0 e k-1, que correspondem aos vetores de 
+coeficientes previamente alocados;
+
+Em seguida, multiplicamos os valores dos coeficientes pelas respectivas incognitas (o indice que identifica
+a coluna da matriz de coeficientes eh o indice que identifica a incognita correspondente)
+e somamos esses valores na variavel resultado, que contem a multiplicacao dos valores da linha
+pelos valores das incognitas, com excecao dos coeficientes das diagonais principais e 
+da incognita[linha], cujo valor queremos aproximar na iteracao da vez. Em seguida calculamos:
+termo independente da linha - resultado, que eh a aproximacao da incognita.
+
+Esse processo se repete ate que o numero maximo de iteracoes seja atingido ou ate que os
+valores sejam "bons o suficiente". Para medir isso, utilizamos o valor epsilon, a partir
+do qual geramos a norma. Se a diferenca entre a incognita atual e a proxima incognita for
+menor que a norma, entao chegamos em um resultado proximo o suficiente.
+
+Por fim, utilizamos a funcao timestamp fornecida para medir o tempo que a implementacao
+do Gauss-Seidel leva para calcular o valor das incognitas.
+
+--------------------------------------------------------------------------------
+
+Para executar o código, basta rodar os comandos:
+$ make
+$ ./ep01 < sample/sample.in > sample.out
+
+Foram utilizados os samples disponibilizados pelos professores. Estão disponíveis
+no diretorio "sample", nomeados como sample_k{3,5,7}.in.
+
+O arquivo sample.in é o teste fornecido no enunciado.
+
+--------------------------------------------------------------------------------
+
+Para fazer o trabalho, fizemos diversas ligacoes pela plataforma Discord. Ao mesmo tempo,
+ambos programavam, o que foi possivel gracas a feature 'Live Share' do editor VSCode, que
+permite que mais de uma pessoa edite um arquivo ao mesmo tempo utilizando conexao com a Internet.
