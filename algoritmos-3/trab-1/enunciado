@@ -1,0 +1,27 @@
+CI1057
+Implementação de um analisador de espressões aritméticas, codificado em uma 
+árvore binária.
+
+Entrada:
+O programa deverá receber uma expressão aritmética seguindo o formato de 
+parênteses aninhados. Um exemplo de expressão aritmética de entrada: 
+(*(5)(+(4)(3)). A espressão aritmética a ser avaliada será (5 * ( 4 + 3)).
+
+A espressão de entrada deverá ser lida e criada uma árvore binária. Os números 
+serão nós folhas, e as operações (*, /, -, +) serão os nós internos. Deverá ser 
+escolhido um tipo de percurso para que a análise da espressão seja feita 
+corretamente, isto é, respeitando a precedência de operadores. 
+
+Saída: 
+A saída deverá ser as operações realizadas e o valor calculado da espressão 
+aritmética.
+
+Para o exemplo acima, a saída será:
+
+4 + 3
+7 * 5
+35
+
+Isto é, primeiro será calculada a operação de soma, e o resultado será utilizado
+ na operação de multiplicação. A espressão de entrada sempre será correta, com o
+  número exato de parênteses necessários. Não serão omitidos parênteses.
