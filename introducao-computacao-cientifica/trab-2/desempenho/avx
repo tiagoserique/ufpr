@@ -1,0 +1,39 @@
+trab,dimensao,derivadas,newton,jacobiana,gauss
+Trab 1,10,0,0,0,0
+Trab 2 (Otimizado),10,0,0,0,0
+Trab 1,32,0,0,0,0
+Trab 2 (Otimizado),32,0,0,0,0
+Trab 1,50,0,0,0,0
+Trab 2 (Otimizado),50,0,0,0,0
+Trab 1,64,0,0,0,0
+Trab 2 (Otimizado),64,0,0,0,0
+Trab 1,100,0,0,0,0
+Trab 2 (Otimizado),100,0,0,0,0
+Trab 1,128,0,0,0,0
+Trab 2 (Otimizado),128,0,0,0,0
+Trab 1,200,0,0,0,0
+Trab 2 (Otimizado),200,0,0,0,0
+Trab 1,250,0,0,0,0
+Trab 2 (Otimizado),250,0,0,0,0
+Trab 1,256,0,0.0062,0.0129,0
+Trab 2 (Otimizado),256,0,0,0,0
+Trab 1,300,0,0.0029,0.0064,0
+Trab 2 (Otimizado),300,0,0,0,0
+Trab 1,400,0,0.0048,0.0125,0
+Trab 2 (Otimizado),400,0,0,0,0
+Trab 1,512,0,0.0020,0.0056,0
+Trab 2 (Otimizado),512,0,0,0,0
+Trab 1,600,0,0.0037,0.0119,0
+Trab 2 (Otimizado),600,0,0,0,0
+Trab 1,1000,0,0.0025,0.0105,0
+Trab 2 (Otimizado),1000,0,0,0,0
+Trab 1,1024,0,0.0024,0.0105,0
+Trab 2 (Otimizado),1024,0,0,0,0
+,,,,,
+Trab 2 (Otimizado),2000,0,0,0,0
+,,,,,
+Trab 2 (Otimizado),2048,0,0,0,0
+,,,,,
+Trab 2 (Otimizado),3000,0,0,0,0
+,,,,,
+Trab 2 (Otimizado),4096,0,0,0,0
