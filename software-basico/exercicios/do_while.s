@@ -1,7 +1,7 @@
 .section .data
-	A:	.quad 0
-	B:	.quad 0
-	C:	.quad 0
+	A:	.quad 0 # %rdi
+	B:	.quad 0 # %rbx
+	C:	.quad 0 # %rcx
 
 .section .text
 
@@ -13,10 +13,10 @@ _start:
 	movq A, %rdi
 	movq B, %rbx
 	movq C, %rcx
-do:	
+loop:	
 	addq %rbx, %rdi
 	addq $1, %rcx
-	cmpq $10, %rcx
-	jl do
+	cmpq $10, %rcx		# compara %rcx com 10
+	jl loop				# se for menor, pula para o inicio do loop 
 	movq $60, %rax
 	syscall
