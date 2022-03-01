@@ -1,18 +1,29 @@
-/*==================================*/
-/*= Autor: Tiago Serique Valadares =*/
-/*= GRR: 20195138				   =*/
-/*= Disciplina: Otimizacao		   =*/
-/*==================================*/
+/*======================================*/
+/*= Autor: Tiago Serique Valadares     =*/
+/*= GRR: 20195138				       =*/
+/*= Disciplina: Aprendizado de Maquina =*/
+/*======================================*/
 
 
 #ifndef __KNN__
 #define __KNN__
 
 
-double euclideanDistance(int x1, int y1, int x2, int y2);
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
 
+typedef struct Data {
+	int label;
+	double *features;
+} Data;
 
+
+double euclideanDistance();
+
+void printConfusionMatrix();
 
 
 #endif
