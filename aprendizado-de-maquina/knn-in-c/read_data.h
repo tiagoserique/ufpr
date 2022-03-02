@@ -4,6 +4,7 @@
 /*= Disciplina: Aprendizado de Maquina =*/
 /*======================================*/
 
+
 #ifndef __READ_DATA__
 #define __READ_DATA__
 
@@ -12,13 +13,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
 #include "knn.h"
 
 
 #define LINESIZE 1024
 
 
-void readData(FILE *file, Data *data_array);
+Data *readData(FILE *file, int *number_of_lines, int *number_of_features);
 
 
 

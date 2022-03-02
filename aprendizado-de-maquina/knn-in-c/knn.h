@@ -18,12 +18,23 @@
 typedef struct Data {
 	int label;
 	double *features;
+	double distance;
 } Data;
 
 
-double euclideanDistance();
+#define DIGITS 10
 
-void printConfusionMatrix();
+int classification(Data *k_nearest, int len);
 
+void sortNeighborsArray(Data *array, int len);
+
+void euclideanDistance(Data *train_data, Data *test_data, int num_features);
+
+void knn(int **confusion_matrix, Data *train_data, Data *test_data, int k, 
+int train_n_lines, int test_num_lines, int num_features);
+
+void printConfusionMatrix(int **confusion_matrix);
+
+void calculateAccuracy(int ** confusion_matrix);
 
 #endif
