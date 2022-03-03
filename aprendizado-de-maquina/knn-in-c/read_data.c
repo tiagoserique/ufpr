@@ -4,6 +4,7 @@
 /*= Disciplina: Aprendizado de Maquina =*/
 /*======================================*/
 
+
 #include "read_data.h"
 
 
@@ -14,7 +15,7 @@ Data *readData(FILE *file, int *number_of_lines, int *number_of_features){
 
 	if ( !data_array )
 		exit(1);
-
+	
 	for (int i = 0; i < *number_of_lines; i++){
 		fscanf(file, "%d", &data_array[i].label);
 		
@@ -26,16 +27,6 @@ Data *readData(FILE *file, int *number_of_lines, int *number_of_features){
 			fscanf(file, "%lf", &data_array[i].features[j]);
 		}
 	}
-
-	// int i = 0;
-	// for (i = 0; i < *number_of_lines; i++){
-	// 	printf("%d ", data_array[i].label);
-	// 	// if (i % 10 == 0) {
-	// 	// 	printf("\n");
-	// 	// }
-	// }
-	// printf("\n\nlines: %d | features: %d\n", *number_of_lines, *number_of_features);
-	// printf("\n%d\n\n", i);
 
 	return data_array;
 }

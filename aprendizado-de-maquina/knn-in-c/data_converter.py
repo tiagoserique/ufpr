@@ -1,6 +1,5 @@
 
 
-import pandas as pd
 import sys
 
 
@@ -16,7 +15,8 @@ try:
 except (IndexError):
 	print("Faltam argumentos")
 	print("Execute o programa da seguinte forma")
-	print("python3 data_converter <arquivo_de_entrada> <nome_arquivo_de_saida>")
+	print("python3 data_converter <caminho/arquivo_de_entrada>"
+		" <caminho/nome_arquivo_de_saida>")
 
 temp_lines = []
 

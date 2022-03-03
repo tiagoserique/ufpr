@@ -5,7 +5,6 @@
 /*======================================*/
 
 
-
 #include "knn.h"
 
 
@@ -13,9 +12,11 @@ int classification(Data *k_nearest, int len){
 	int count[DIGITS];
 	int higher = 0;
 
+	#pragma omp parallel for
 	for (int i = 0; i < DIGITS; i++)
 		count[i] = 0;
 
+	#pragma omp parallel for reduction(+:count)
 	for (int i = 0; i < len; i++){
 		count[k_nearest[i].label] += 1;
 	}
@@ -25,7 +26,7 @@ int classification(Data *k_nearest, int len){
 			higher = i;
 		}
 	}
-	// printf("%d ", higher);
+
 	return higher;
 }
 
@@ -33,7 +34,7 @@ int classification(Data *k_nearest, int len){
 void sortNeighborsArray(Data *array, int len){
 	Data aux;
 
-	for (int i = 1; i < len; i++)
+	for (int i = 1; i < len; i++){
 		for (int j = 0; j < len - 1; j++){
 			if ( array[j].distance > array[j + 1].distance ){
 				aux = array[j];
@@ -41,12 +42,14 @@ void sortNeighborsArray(Data *array, int len){
 				array[j + 1] = aux;  
 			}
 		}
+	}
 }
 
 
 void euclideanDistance(Data *train_data, Data *test_data, int num_features){
 	double x1 = 0, x2 = 0, x = 0, sum = 0;
 
+	#pragma omp parallel for private(x1, x2, x) reduction(+:sum)
 	for (int k = 0; k < num_features; k++){
 		x1 = train_data->features[k];
 		x2 = test_data->features[k];
@@ -67,9 +70,11 @@ int train_n_lines, int test_num_lines, int num_features){
 
 
 	for (int i = 0; i < test_num_lines; i++){
+		#pragma omp parallel for
 		for (int j = 0; j < train_n_lines; j++)
 			euclideanDistance(&train_data[j], &test_data[i], num_features);
 
+		#pragma omp parallel for
 		for (int j = 0; j < k; j++){
 			k_nearest[j].label = train_data[j].label;
 			k_nearest[j].distance = train_data[j].distance;
@@ -78,10 +83,8 @@ int train_n_lines, int test_num_lines, int num_features){
 		sortNeighborsArray(k_nearest, k);	
 
 		for (int j = k; j < train_n_lines; j++){
-			double distance = train_data[j].distance;
-
 			for (int l = 0; l < k; l++){
-				if ( distance < k_nearest[l].distance ){
+				if ( train_data[j].distance < k_nearest[l].distance ){
 					for (int m = k - 2; m >= l; m--)
 						k_nearest[m + 1] = k_nearest[m];
 					
@@ -104,22 +107,22 @@ int train_n_lines, int test_num_lines, int num_features){
 void printConfusionMatrix(int **confusion_matrix){
 	for (int i = 0; i < DIGITS; i++){
 		for (int j = 0; j < DIGITS; j++)
-			printf("%d ", confusion_matrix[i][j]);
-		
+			printf("%d\t", confusion_matrix[i][j]);
 		printf("\n");
 	}
 }
 
 
-void calculateAccuracy(int ** confusion_matrix){
-	int total = 0, positive = 0;
-	double accuracy = 0;
+void calculateAccuracy(int **confusion_matrix){
+	double accuracy = 0, positive = 0, total = 0;
 
+	#pragma omp parallel for reduction(+:total)
 	for (int i = 0; i < DIGITS; i++){
 		for (int j = 0; j < DIGITS; j++)
 			total += confusion_matrix[i][j];
 	}
 
+	#pragma omp parallel for reduction(+:positive)
 	for (int i = 0; i < DIGITS; i++)
 		positive += confusion_matrix[i][i];
 

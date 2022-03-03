@@ -13,7 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
 #include "knn.h"
 
 
@@ -21,7 +20,6 @@
 
 
 Data *readData(FILE *file, int *number_of_lines, int *number_of_features);
-
 
 
 #endif

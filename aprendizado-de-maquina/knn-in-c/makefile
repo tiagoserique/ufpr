@@ -1,6 +1,6 @@
 
-CFLAGS = -Wall
-LIBS = -lm
+CFLAGS = -Wall -Wextra
+LIBS = -lm -fopenmp
 
 objects = main.o knn.o read_data.o
 

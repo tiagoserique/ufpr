@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
 #include "knn.h"
 #include "read_data.h"
 
@@ -29,9 +28,11 @@ int main(int argc, char *argv[]){
 	
 	confusion_matrix[0] = (int *)(confusion_matrix + DIGITS);
 	
+	#pragma omp parallel for
 	for (int i = 1; i < DIGITS; i++)
 		confusion_matrix[i] = confusion_matrix[0] + (i * DIGITS);
 
+	#pragma omp parallel for
 	for (int i = 0; i < DIGITS; i++)
 		for (int j = 0; j < DIGITS; j++)
 			confusion_matrix[i][j] = 0;
@@ -39,8 +40,8 @@ int main(int argc, char *argv[]){
 	Data *train_data_array = NULL;
 	Data *test_data_array = NULL;
 
-	FILE* train_base_file;
-	FILE* test_base_file;
+	FILE* train_base_file = NULL;
+	FILE* test_base_file = NULL;
 
 
 	if ( argc < 4 ){
@@ -83,12 +84,8 @@ int main(int argc, char *argv[]){
 
 	calculateAccuracy(confusion_matrix);
 
-
+	free(train_data_array);
+	free(test_data_array);
+	free(confusion_matrix);
 	return EXIT_SUCCESS;
 }
-
-
-
-
-
-
