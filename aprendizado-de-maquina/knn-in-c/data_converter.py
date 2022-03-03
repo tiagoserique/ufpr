@@ -41,8 +41,6 @@ if ( ok ):
 
 				temp_lines.append(" ".join(temp_line)+"\n")
 
-
-		print(len(classes))
 		number_of_classes = len(classes)		
 		number_of_lines = len(lines)
 		number_of_features = len(temp_line) - 1
