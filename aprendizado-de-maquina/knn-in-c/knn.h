@@ -22,19 +22,17 @@ typedef struct Data {
 } Data;
 
 
-#define DIGITS 10
-
-int classification(Data *k_nearest, int len);
+int classification(Data *k_nearest, int len, int n_classes);
 
 void sortNeighborsArray(Data *array, int len);
 
 void euclideanDistance(Data *train_data, Data *test_data, int num_features);
 
 void knn(int **confusion_matrix, Data *train_data, Data *test_data, int k, 
-int train_n_lines, int test_num_lines, int num_features);
+int train_n_lines, int test_num_lines, int num_features, int num_classes);
 
-void printConfusionMatrix(int **confusion_matrix);
+void printConfusionMatrix(int **confusion_matrix, int n_classes);
 
-void calculateAccuracy(int ** confusion_matrix);
+void calculateAccuracy(int ** confusion_matrix, int n_classes);
 
 #endif

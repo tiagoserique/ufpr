@@ -19,7 +19,8 @@
 #define LINESIZE 1024
 
 
-Data *readData(FILE *file, int *number_of_lines, int *number_of_features);
+Data *readData(FILE *file, int *number_of_lines, int *number_of_features, 
+int *number_of_classes);
 
 
 #endif

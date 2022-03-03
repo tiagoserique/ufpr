@@ -19,23 +19,11 @@ int main(int argc, char *argv[]){
 	
 	int k = 0;
 	int n_lines_test = 0;
-	int n_features_train = 0;
-	int n_features_test = 0;
+	int n_features = 0;
 	int n_lines_train = 0;
+	int n_classes = 0;
 
-	int **confusion_matrix = (int **)malloc(sizeof(int *) * DIGITS + 
-		DIGITS * DIGITS * sizeof(int));
-	
-	confusion_matrix[0] = (int *)(confusion_matrix + DIGITS);
-	
-	#pragma omp parallel for
-	for (int i = 1; i < DIGITS; i++)
-		confusion_matrix[i] = confusion_matrix[0] + (i * DIGITS);
-
-	#pragma omp parallel for
-	for (int i = 0; i < DIGITS; i++)
-		for (int j = 0; j < DIGITS; j++)
-			confusion_matrix[i][j] = 0;
+	int **confusion_matrix = NULL;
 
 	Data *train_data_array = NULL;
 	Data *test_data_array = NULL;
@@ -63,7 +51,8 @@ int main(int argc, char *argv[]){
 		printf("Not able to open the train base file\n");
 		return EXIT_FAILURE;
 	}
-	train_data_array = readData(train_base_file, &n_lines_train, &n_features_train);
+	train_data_array = readData(train_base_file, &n_lines_train, 
+	&n_features, &n_classes);
 	fclose(train_base_file);
 
 
@@ -73,16 +62,31 @@ int main(int argc, char *argv[]){
 		printf("Not able to open the test base file\n");
 		return EXIT_FAILURE;
 	}
-	test_data_array = readData(test_base_file, &n_lines_test, &n_features_test);
+	test_data_array = readData(test_base_file, &n_lines_test, &n_features, &n_classes);
 	fclose(test_base_file);
 
 
+	confusion_matrix = (int **)malloc(sizeof(int *) * n_classes + 
+		n_classes * n_classes * sizeof(int));
+	
+	confusion_matrix[0] = (int *)(confusion_matrix + n_classes);
+	
+	#pragma omp parallel for
+	for (int i = 1; i < n_classes; i++)
+		confusion_matrix[i] = confusion_matrix[0] + (i * n_classes);
+
+	#pragma omp parallel for
+	for (int i = 0; i < n_classes; i++)
+		for (int j = 0; j < n_classes; j++)
+			confusion_matrix[i][j] = 0;
+
+
 	knn(confusion_matrix, train_data_array, test_data_array, k, n_lines_train, 
-	n_lines_test, n_features_train);
+	n_lines_test, n_features, n_classes);
 
-	printConfusionMatrix(confusion_matrix);
+	printConfusionMatrix(confusion_matrix, n_classes);
 
-	calculateAccuracy(confusion_matrix);
+	calculateAccuracy(confusion_matrix, n_classes);
 
 	free(train_data_array);
 	free(test_data_array);

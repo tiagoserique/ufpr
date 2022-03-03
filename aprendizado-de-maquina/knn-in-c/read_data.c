@@ -8,8 +8,9 @@
 #include "read_data.h"
 
 
-Data *readData(FILE *file, int *number_of_lines, int *number_of_features){
-	fscanf(file, "%d %d", number_of_lines, number_of_features);
+Data *readData(FILE *file, int *number_of_lines, int *number_of_features, 
+int *number_of_classes){
+	fscanf(file, "%d %d %d", number_of_lines, number_of_features, number_of_classes);
 
 	Data *data_array = (Data *)calloc(*number_of_lines, sizeof(Data));
 

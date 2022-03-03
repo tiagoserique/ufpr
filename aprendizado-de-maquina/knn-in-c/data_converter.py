@@ -20,6 +20,8 @@ except (IndexError):
 
 temp_lines = []
 
+classes = []
+
 if ( ok ):
 	with open(output, "w") as file:
 		with open(input, "r") as file2:
@@ -28,6 +30,10 @@ if ( ok ):
 
 			for line in lines:
 				temp_line = line.split()
+
+				if not( temp_line[0] in classes ):
+					classes.append(temp_line[0])
+
 				for x in temp_line[1:]:
 					x_index = temp_line.index(x)
 					result = x.split(":")
@@ -36,11 +42,12 @@ if ( ok ):
 				temp_lines.append(" ".join(temp_line)+"\n")
 
 
-		
+		print(len(classes))
+		number_of_classes = len(classes)		
 		number_of_lines = len(lines)
 		number_of_features = len(temp_line) - 1
 		
-		file.write(f"{number_of_lines} {number_of_features}\n")
+		file.write(f"{number_of_lines} {number_of_features} {number_of_classes}\n")
 
 		file.writelines(temp_lines)
 
