@@ -9,6 +9,9 @@ import os
 import numpy as np
 import random
 
+X=int(input("Width: "))
+Y=int(input("Height: "))
+
 def load_images(path_images, fout):
 	print ('Loading images...')
 	archives = os.listdir(path_images)
@@ -40,9 +43,7 @@ def load_images(path_images, fout):
 def rawpixel(image, label, fout):
 	
 	## novas dimensoes
-	X= 20
-	Y= 10
-	
+
 	image = cv2.resize(image, (X,Y) )
 	#cv2.imshow("image", image )
 	#cv2.waitKey(0)
@@ -72,10 +73,6 @@ if __name__ == "__main__":
 	fout = open("features.txt","w")
 	
 	images = load_images('digits/data', fout)
-
+	
 	fout.close
 	
-		
-
-
-
