@@ -11,7 +11,7 @@ from sklearn.datasets import load_svmlight_file
 from sklearn import preprocessing
 import pylab as pl
 
-def main(data):
+def main(data, k):
 
         # loads data
         print ("Loading data...")
@@ -29,7 +29,7 @@ def main(data):
         #X_test = scaler.fit_transform(X_test_dense)
         
         # cria um kNN
-        neigh = KNeighborsClassifier(n_neighbors=3, metric='euclidean')
+        neigh = KNeighborsClassifier(n_neighbors=k, metric='euclidean')
 
         print ('Fitting knn')
         neigh.fit(X_train, y_train)
@@ -48,9 +48,9 @@ def main(data):
 
 
 if __name__ == "__main__":
-        if len(sys.argv) != 2:
-                sys.exit("Use: knn.py <data>")
+        if len(sys.argv) != 3:
+                sys.exit("Use: knn.py <data> <k>")
 
-        main(sys.argv[1])
+        main(sys.argv[1], int(sys.argv[2]))
 
 
