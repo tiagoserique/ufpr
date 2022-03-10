@@ -48,7 +48,7 @@ def main(data):
 
 
 if __name__ == "__main__":
-        if len(sys.argv) != 3:
+        if len(sys.argv) != 2:
                 sys.exit("Use: knn.py <data>")
 
         main(sys.argv[1])
