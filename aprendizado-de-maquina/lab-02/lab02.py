@@ -12,7 +12,6 @@ from sklearn.linear_model import Perceptron
 
 
 
-
 def print_results(clf, X_test, y_test, y_pred):
 	# mostra o resultado do classificador na base de teste
 	print ('Accuracy: ', clf.score(X_test, y_test))
@@ -63,12 +62,6 @@ def naive_bayes(X_train, y_train, X_test, y_test):
 
 
 def knn(X_train, y_train, X_test, y_test):
-
-	# fazer a normalizacao dos dados #######
-	#scaler = preprocessing.MinMaxScaler()
-	#X_train = scaler.fit_transform(X_train_dense)
-	#X_test = scaler.fit_transform(X_test_dense)
-
 	# cria um kNN
 	neigh = KNeighborsClassifier(n_neighbors=3, metric='euclidean')
 	print ('Fitting knn')
