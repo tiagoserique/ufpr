@@ -1,0 +1,120 @@
+#!/usr/bin/env python3
+
+import sys
+import numpy as np
+import pandas as pd
+from gurobipy import *
+
+minimo_viagens = np.inf
+
+
+def parcial(n, pesos, carga_maxima, pares_ordenados, dados_parciais):
+
+    viagens = []
+    for i in range(n):
+        viagens.append(carga_maxima)
+
+    vatual = 0
+    i = 0
+    while(i < n):
+        viagens[vatual] -= pesos[i]
+        pesos[i] = 0
+        if viagens[vatual] < 0:
+            pesos[i] = -viagens[vatual]
+            viagens[vatual] = 0
+            i -= 1
+            vatual += 1
+        i += 1
+
+    return vatual + 1
+
+
+def branch_and_bound(n, pesos, carga_maxima, itens, viagem, pares_ordenados):
+    global minimo_viagens
+    if ( 0 not in itens ):              #Caso baso, todos os itens ja estão em alguma viagem
+        if np.max(itens) < minimo_viagens:
+            minimo_viagens = np.max(itens)
+        return itens
+
+    resultados = []
+    for i in range(n):           #Percorrer por todos os itens
+        if itens[i] == 0:
+
+            if testa_viavel(n, pesos, carga_maxima, itens, pares_ordenados, viagem, i):  #Se cabe na viagem atual
+                itens[i] = viagem
+                if parcial(n, pesos.copy(), carga_maxima, pares_ordenados, itens) < minimo_viagens:
+                    resultados.append(branch_and_bound(n, pesos, carga_maxima, itens.copy(), viagem, pares_ordenados))
+            elif testa_viavel(n, pesos, carga_maxima, itens, pares_ordenados, viagem + 1, i):
+                itens[i] = viagem + 1
+                if parcial(n, pesos.copy(), carga_maxima, pares_ordenados, itens) < minimo_viagens:
+                    resultados.append(branch_and_bound(n, pesos, carga_maxima, itens.copy(), viagem + 1, pares_ordenados))
+            itens[i] = 0
+    
+    if len(resultados) != 0 and None not in resultados:
+        melhor = melhor_resultado(resultados)
+        return(resultados[melhor])
+
+
+# Retorna o índice do melhor resultado
+def melhor_resultado(resultados):
+    melhor = 0
+    for i in range(len(resultados)):
+        if np.max(resultados[melhor]) > np.max(resultados[i]):
+            melhor = i
+    return melhor
+
+
+# testa se o item de indice_novo pode ser inserido na viagem atual
+def testa_viavel(n, pesos, carga_maxima, itens, pares_ordenados, viagem, indice_novo):
+    soma = 0
+    for i in pares_ordenados: #Verificar se o item respeita ordem
+        a, b = i                  #b depende de a
+        if indice_novo == b-1 and (itens[a-1] == viagem or itens[a-1] == 0): # se a ja foi colocado antes dessa viagem
+            return False
+
+    for j in range(n):   #Percorrer por todos os itens que ja estão na viagem que está sendo cálculada
+        if itens[j] == viagem:
+            soma += pesos[j]
+
+    return soma + pesos[indice_novo] <= carga_maxima
+
+
+def resolvedor(n, pesos, carga_maxima, pares_ordenados):
+    viagem = 0
+    itens = []
+    for i in range(n):
+        itens.append(0)
+
+    resultado_final = branch_and_bound(n, pesos, carga_maxima, itens, viagem, pares_ordenados)
+    if resultado_final:
+        print(len(set(resultado_final)))
+        [print(f"{x}") for x in resultado_final]
+    else:
+        print("Não existe solução")
+    
+
+def main():
+    # le o arquivo de entrada vindo de stdin e faz o split dos dados
+    entrada = sys.stdin.read().split()
+
+    # n = numero de itens
+    n = int(entrada[0])
+    # m = numero de pares
+    m = int(entrada[1])
+    # c = capacidade maxima
+    carga_maxima = int(entrada[2])
+    # pesos = lista de pesos dos itens
+    pesos = [int(entrada[i]) for i in range(3, 3 + n)]
+    # pares_ordenados = lista de pares ordenados com a ordem dos itens
+    pares_ordenados = [
+        (int(entrada[i]), int(entrada[i + 1])) 
+        for i in range(3 + n, 3 + n + m * 2, 2)
+    ]
+    # l = numero de pares ordenados da solucao parcial
+    l = int(entrada[3 + n + m * 2])
+
+    resolvedor(n, pesos, carga_maxima, pares_ordenados)
+
+
+if __name__ == '__main__':
+    main()

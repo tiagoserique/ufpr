@@ -1,6 +1,6 @@
 
 
-all: help
+all: exec
 
 
 install:
@@ -8,12 +8,12 @@ install:
 
 
 exec:
-	python3 parcial-relaxada.py < entrada.in
+	chmod 755 parcial-relaxada
 
 
 help:
 	@echo "======================== Ajuda ============================"
-	@echo " [*] Para executar o programa, use: make exec"
+	@echo " [*] Para executar o programa, use: make"
 	@echo " [*] Para instalar as dependências, use: make install"
 	@echo " [*] Para limpar eventuais lixos, use: make clean"
 	@echo "==========================================================="
