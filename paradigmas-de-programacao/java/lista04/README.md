@@ -1,17 +1,7 @@
 # Lista de exercicios 4
 
-1) Construa uma classe Pessoa com os atributos nome e email e com os métodos
-de acesso, além de um construtor.
+1) Construa uma classe Aluno que possua os atributos nome, endereco, email, telefone e 4 notas. Escreva os métodos get e set para os atributos da classe, um método para inserir uma nota passando o valor da nota e o índice, um método para retornar o valor de uma nota passando o índice e um método para calcular e retornar a média.
 
-2) Construa uma classe Aluno que herda de Pessoa e tem o atributo GRR, além
-dos métodos de acesso e o construtor.
+2) No exercício anterior verifique se é possível usar herança em relação à classe Pessoa. Se for possível, modifique a classe aluno da maneira adequada.
 
-3) Construa uma classe Arquivo com métodos de gravaAlunos(Vector alunos) e leAlunos().
-
-4) Construa uma classe ManterAluno com os métodos inserirAluno(), removerAluno(),
-salvarAlunos() e recuperarAlunos()
-
-5) Construa uma classe Menu que mostre para o usuário as opções inserir, remover
-salvar recuperar e sair.
-
-6) Construa uma classe Principal que chame as outras.
+3) Digite e rode os programas para gravação de arquivo de objetos.
