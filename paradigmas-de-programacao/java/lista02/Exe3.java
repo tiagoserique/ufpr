@@ -1,6 +1,6 @@
 import java.io.*;
 
-class Exe3{
+class Exe3 {
 	public static void main (String args[]){
 		int num1,num2;
 		try {
