@@ -1,5 +1,5 @@
+// GRR20195138 Tiago Serique Valadares
 // PingPongOS - PingPong Operating System
-// Tiago Serique Valadares -- grr20195138
 // Definição e operações em uma fila genérica.
 
 #include <stdio.h>
@@ -32,7 +32,7 @@ int queue_size (queue_t *queue){
 // void print_elem (void *ptr) ; // ptr aponta para o elemento a imprimir
 
 void queue_print (char *name, queue_t *queue, void print_elem (void*) ){
-	printf("%s [", name);
+	printf("%s: [", name);
 
 	// check if the queue is empty
 	if ( !queue ){
@@ -71,13 +71,31 @@ int queue_append (queue_t **queue, queue_t *elem){
 	// check if the element exists
 	if ( !elem ){
 		fprintf(stderr, "The element doesn't exist\n");
-		return -1;
+		return -2;
 	}
 
-	// check if the element is in another queue
+	// check if the element is in a queue
 	if ( elem->next != NULL || elem->prev != NULL ){
-		fprintf(stderr, "The element is in other queue\n");
-		return -1;
+
+		// check if the element is in the queue
+		// if element is not the first element, check if is in the queue
+		// else, element is the first element
+		if ( (* queue) != elem ){
+			queue_t *aux = (* queue)->next;
+
+			while ( aux != elem && aux != (* queue) )
+				aux = aux->next;
+
+			// check if the element is in other queue
+			// else, element is already in the queue
+			if ( aux == (* queue) ){
+				fprintf(stderr, "The element is in other queue\n");
+				return -3;
+			}
+		}
+
+		fprintf(stderr, "The element is already in queue\n");
+		return -4;
 	}
 
 	// check if the queue is empty
@@ -119,27 +137,34 @@ int queue_remove (queue_t **queue, queue_t *elem){
 	// check if the queue is empty
 	if ( !(* queue) ){
 		fprintf(stderr, "The queue is empty\n");
-		return -1;
+		return -5;
 	}
 
 	// check if the element exists
 	if ( !elem ){
 		fprintf(stderr, "The element doesn't exist\n");
-		return -1;
+		return -2;
+	}
+
+	// check if the element is in any queue
+	if ( elem->next == NULL || elem->prev == NULL ){
+		fprintf(stderr, "The element is not in any queue \n");
+		return -6;
 	}
 
 	// check if the element is in the queue
 	// if element is not the first element, check if is in the queue
 	// else, element is the first element of the queue
-	if ( (* queue) != elem){
+	if ( (* queue) != elem ){
 		queue_t *aux = (* queue)->next;
 
 		while ( aux != elem && aux != (* queue) )
 			aux = aux->next;
 
+		// check if the element is in other queue
 		if ( aux == (* queue) ){
-			fprintf(stderr, "The element is not in the queue\n");
-			return -1;
+			fprintf(stderr, "The element is in other queue\n");
+			return -3;
 		}
 	}
 	else {
