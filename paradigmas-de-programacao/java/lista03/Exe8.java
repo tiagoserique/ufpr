@@ -8,8 +8,8 @@ public class Exe8 {
 			65
 		);
 
-		Pessoa pessoa1 = new Pessoa();
-		Pessoa pessoa2 = new Pessoa(
+		Pessoa1 pessoa1 = new Pessoa1();
+		Pessoa1 pessoa2 = new Pessoa1(
 			"tiago",
 			"XV",
 			"123",

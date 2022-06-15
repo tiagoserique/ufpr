@@ -2,7 +2,7 @@ import java.io.*;
 
 public class Exe7 {
 	public static void main(String[] args) throws IOException {
-		Pessoa pessoa[] = new Pessoa[4];
+		Pessoa1 pessoa[] = new Pessoa1[4];
 		Leitor leitor = new Leitor();
 
 		for (int i = 0; i < 4; i++){
@@ -22,7 +22,7 @@ public class Exe7 {
 
 			System.out.println();
 
-			pessoa[i] = new Pessoa(nome, email, telefone, endereco);
+			pessoa[i] = new Pessoa1(nome, email, telefone, endereco);
 			pessoa[i].grava();
 		}
 	}

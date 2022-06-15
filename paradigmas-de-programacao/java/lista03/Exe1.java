@@ -1,7 +1,7 @@
 
 class Exe1 {
 	public static void main(String[] args) {
-		Pessoa pessoa[] = new Pessoa[4];
+		Pessoa1 pessoa[] = new Pessoa1[4];
 		Leitor leitor = new Leitor();
 
 		for (int i = 0; i < 4; i++){
@@ -21,7 +21,7 @@ class Exe1 {
 
 			System.out.println();
 
-			pessoa[i] = new Pessoa(nome, email, telefone, endereco);
+			pessoa[i] = new Pessoa1(nome, email, telefone, endereco);
 		}
 
 		System.out.println("Impressao\n");
