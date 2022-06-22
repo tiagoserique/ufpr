@@ -29,7 +29,7 @@ CUSTOMER  LINEITEM  NATION    ORDERS    PART      PARTSUPP  REGION    SUPPLIER
 ```
 
 O BD do TPC-H possui o seguinte esquema relacional:
-<image src="./tpch.png"><image>
+![imagem do bd](./tpch.png)
 
 ## Programando em SQL
 
@@ -50,73 +50,76 @@ LEMBRETE: Voce deve colocar SOMENTE o comando SQL no arquivo "q1_test.sql" SEM o
 
 ### Q2 Tipos de peças disponiveis
 
-Objetivo: liste os tipos distintos de peça dos produtos (tabela PART).
+- Objetivo: liste os tipos distintos de peça dos produtos (tabela PART).
 
-Detalhe: mostre somente o tipo distinto de peça sem ordenar os dados.
+- Detalhe: mostre somente o tipo distinto de peça sem ordenar os dados.
 
-Arquivo: q2_tipo_pecas.sql
+- Arquivo: q2_tipo_pecas.sql
 
 ### Q3 Quantidade de clientes pelo segmento de mercado
 
-Objetivo: Conhecer o mercado da clientela (tabela CUSTOMER).
+- Objetivo: Conhecer o mercado da clientela (tabela CUSTOMER).
 
-Detalhe: mostre o segmento de mercado e conte o numero de clientes para cada segmento. Por ex. uma linha da resposta:
+- Detalhe: mostre o segmento de mercado e conte o numero de clientes para cada segmento. Por ex. uma linha da resposta:
 
+```sql
 AUTOMOBILE|302
+```
 
-Arquivo: q3_segmento_cliente.sql
+- Arquivo: q3_segmento_cliente.sql
 
 ### Q4 Liste o status das encomendas
 
-Objetivo: liste os tipos distintos de status das encomendas (tabela ORDERS).
+- Objetivo: liste os tipos distintos de status das encomendas (tabela ORDERS).
 
-Detalhe: mostre somente o tipo distinto de status da encomenda sem ordenar os dados
+- Detalhe: mostre somente o tipo distinto de status da encomenda sem ordenar os dados
 
-Arquivo: q4_tipo_encomendas.sql
+- Arquivo: q4_tipo_encomendas.sql
 
 ### Q5 Liste os países que mais realizaram encomendas
 
-Objetivo: liste os países e a quantidade de encomendas de cada país.
+- Objetivo: liste os países e a quantidade de encomendas de cada país.
 
-Detalhe: mostre o nome do país e sua quantidade de encomendas ordenada de forma decrescente pela quantidade.
+- Detalhe: mostre o nome do país e sua quantidade de encomendas ordenada de forma decrescente pela quantidade.
 
-Arquivo: q5_qtd_encomendas.sql
+- Arquivo: q5_qtd_encomendas.sql
 
 ### Q6 Liste a quantidade de itens encomendados pelos países (somente os TOP 10)
 
-Objetivo: liste os países e a quantidade de itens de cada país.
+- Objetivo: liste os países e a quantidade de itens de cada país.
 
-Detalhe: mostre o nome do país e sua quantidade de itens encomendados ordenada de forma decrescente pela quantidade. Mostre somente os 10 países que mais possuem itens.
+- Detalhe: mostre o nome do país e sua quantidade de itens encomendados ordenada de forma decrescente pela quantidade. Mostre somente os 10 países que mais possuem itens.
 
-Arquivo: q6_qtd_itens.sql
+- Arquivo: q6_qtd_itens.sql
 
 ### Q7 Liste a quantidade de itens encomendados pelos países com mais de 62000 itens
 
-Objetivo: liste os países e a quantidade de itens de cada país.
+- Objetivo: liste os países e a quantidade de itens de cada país.
 
-Detalhe: mostre o nome do país e sua quantidade de itens encomendados ordenada de forma decrescente pela quantidade. Mostre somente os países que possuem mais de 62.000 de itens encomendados.
+- Detalhe: mostre o nome do país e sua quantidade de itens encomendados ordenada de forma decrescente pela quantidade. Mostre somente os países que possuem mais de 62.000 de itens encomendados.
 
-Arquivo: q7_qtd_itens_maior.sql
+- Arquivo: q7_qtd_itens_maior.sql
 
 ### Q8 Quantidade de clientes que nunca fizeram 'special request'
 
-Objetivo: contar os clientes que fizeram ordem de compra mas nunca fizeram 'special request': não podem ter o string 'special request' no comentário de compra O_COMMENT.
+- Objetivo: contar os clientes que fizeram ordem de compra mas nunca fizeram 'special request': não podem ter o string 'special request' no comentário de compra O_COMMENT.
 
-Detalhe: mostre somente a quantidade dos clientes
+- Detalhe: mostre somente a quantidade dos clientes
 
-Arquivo: q8_not_special.sql
+- Arquivo: q8_not_special.sql
 
 Q9 Quantidade de clientes que nunca fizeram ordem de compra:
-Objetivo: contar os clientes que nunca fizeram ordem de compra.
 
-Detalhe: mostre somente a quantidade dos clientes.
+- Objetivo: contar os clientes que nunca fizeram ordem de compra.
 
-Arquivo: q9_not_ordem.sql
+- Detalhe: mostre somente a quantidade dos clientes.
+
+- Arquivo: q9_not_ordem.sql
 
 ### Q10 Quantidade de clientes que somente fizeram 'special request', mas sem pacote incomum
 
-Objetivo: contar os clientes que somente fizeram ordem de compra com O_COMMENT '%special request%' e nunca pediram O_COMMENT '%unusual package%'.
+- Objetivo: contar os clientes que somente fizeram ordem de compra com O_COMMENT '%special request%' e nunca pediram O_COMMENT '%unusual package%'.
 
-Detalhe: mostre somente a quantidade dos clientes.
+- Detalhe: mostre somente a quantidade dos clientes.
 
-Arquivo: q10_only_special_ordem.sql
+- Arquivo: q10_only_special_ordem.sql
