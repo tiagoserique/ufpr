@@ -1,0 +1,7 @@
+coloca o elemento quer se quer empilha na pilha
+
+no codigo, cria um nodo com o elemento a ser empilhado e o coloca no topo da 
+pilha. Considerando o caso em que nao ha outros nodos na pilha, o topo da classe
+pilha eh atualizado apenas. Caso haja nodos da pilha, atualiza o campo proximo
+do nodo do elemento para o topo da pilha, e por fim atualiza o topo da pilha 
+para o nodo criado.

@@ -16,7 +16,7 @@ class Exe02L09 {
 
         System.out.println();
         
-        pilha.imprimePilha();
+        pilha.printStack();
 
         input.close();
     }

@@ -1,0 +1,5 @@
+quando voce precisa de uma estrutura que siga a politica de FILO, onde o
+primeiro item da pilha eh o ultimo a sair
+
+uma utilizacao esta na implementacao de processos do sistema operacional para
+guardar os valores das variaveis locais

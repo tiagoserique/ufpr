@@ -74,7 +74,7 @@ public class Pilha {
         return ( this.getSize() == 0 ) ? true: false;
     }
     
-    public void imprimePilha(){
+    public void printStack(){
         if ( this.getSize() > 0 ){
             NodoPilha topo_atual = this.getTopo();
 

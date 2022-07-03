@@ -1,0 +1,6 @@
+push
+pop
+size
+top
+empty
+printStack
