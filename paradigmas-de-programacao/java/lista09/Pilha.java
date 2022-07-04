@@ -1,16 +1,16 @@
 public class Pilha {
-    private NodoPilha topo = null;
+    private Nodo topo = null;
     private String nome = "pilha";
     private int size = 0;
 
     public Pilha(){}
 
     // getters and setters
-    private NodoPilha getTopo() {
+    private Nodo getTopo() {
         return this.topo;
     }
 
-    private void setTopo(NodoPilha topo) {
+    private void setTopo(Nodo topo) {
         this.topo = topo;
     }
 
@@ -33,7 +33,7 @@ public class Pilha {
 
 
     public void push(String elemento){
-        NodoPilha novo_nodo = new NodoPilha(elemento);
+        Nodo novo_nodo = new Nodo(elemento);
 
         if ( !this.empty() ){
             novo_nodo.setProximo(this.getTopo());
@@ -46,10 +46,10 @@ public class Pilha {
     }
     
     public void pop(){
-        NodoPilha topo = this.getTopo();
+        Nodo topo = this.getTopo();
         
         if ( topo != null ){
-            NodoPilha novo_topo = topo.getProximo();
+            Nodo novo_topo = topo.getProximo();
             
             topo.setProximo(null);
 
@@ -61,7 +61,7 @@ public class Pilha {
     }
     
     public String top(){
-        NodoPilha nodo = this.getTopo();
+        Nodo nodo = this.getTopo();
         
         return nodo.getElemento();
     }
@@ -76,7 +76,7 @@ public class Pilha {
     
     public void printStack(){
         if ( this.getSize() > 0 ){
-            NodoPilha topo_atual = this.getTopo();
+            Nodo topo_atual = this.getTopo();
 
             while ( topo_atual != null ){
                 System.out.println(topo_atual.getElemento());
