@@ -1,0 +1,4 @@
+usamos lista quando precisamos de uma estutura de dados que siga a politica FIFO,
+ou seja, primeiro que entra eh o primeiro que sai, mas sem restricao de acesso, 
+ou seja, um elemento do meio da lista pode ser retirado, por exemplo
+ 

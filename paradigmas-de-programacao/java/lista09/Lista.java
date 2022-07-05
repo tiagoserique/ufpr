@@ -1,7 +1,6 @@
 public class Lista {
-    String nome = "lista";
-    Nodo inicio = null;
-    int size    = 0;
+    private Nodo inicio = null;
+    private int size    = 0;
 
     public Lista(){}
 
