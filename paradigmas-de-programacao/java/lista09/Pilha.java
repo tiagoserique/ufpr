@@ -1,86 +1,57 @@
 public class Pilha {
     private Nodo topo = null;
-    private String nome = "pilha";
     private int size = 0;
 
     public Pilha(){}
 
-    // getters and setters
-    private Nodo getTopo() {
-        return this.topo;
-    }
-
-    private void setTopo(Nodo topo) {
-        this.topo = topo;
-    }
-
-    public String getNome() {
-        return this.nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    private int getSize() {
-        return this.size;
-    }
-
-    private void setSize(int size) {
-        this.size = size;
-    }
-    // getters and setters
-
-
     public void push(String elemento){
-        Nodo novo_nodo = new Nodo(elemento);
+        Nodo novo_nodo = new Nodo();
+        novo_nodo.elemento = elemento;
 
         if ( !this.empty() ){
-            novo_nodo.setProximo(this.getTopo());
+            novo_nodo.proximo = this.topo;
         }
         
-        this.setTopo(novo_nodo);
+        this.topo = novo_nodo;
 
-        int tamanho = this.getSize();
-        this.setSize(++tamanho);
+        this.size += 1;
     }
     
     public void pop(){
-        Nodo topo = this.getTopo();
+        Nodo topo = this.topo;
         
         if ( topo != null ){
-            Nodo novo_topo = topo.getProximo();
+            Nodo novo_topo = topo.proximo;
             
-            topo.setProximo(null);
+            topo.proximo = null;
 
-            this.setTopo(novo_topo);
+            this.topo = novo_topo;
 
-            int tamanho = this.getSize();
-            this.setSize(--tamanho);
+            this.size -= 1;
         }
     }
     
     public String top(){
-        Nodo nodo = this.getTopo();
+        Nodo nodo = this.topo;
         
-        return nodo.getElemento();
+        return nodo.elemento;
     }
     
     public int size(){
-        return this.getSize();
+        return this.size;
     }
     
     public boolean empty(){
-        return ( this.getSize() == 0 ) ? true: false;
+        return ( this.size == 0 ) ? true: false;
     }
     
     public void printStack(){
-        if ( this.getSize() > 0 ){
-            Nodo topo_atual = this.getTopo();
+        if ( this.size > 0 ){
+            Nodo topo_atual = this.topo;
 
             while ( topo_atual != null ){
-                System.out.println(topo_atual.getElemento());
-                topo_atual = topo_atual.getProximo();
+                System.out.println(topo_atual.elemento);
+                topo_atual = topo_atual.proximo;
             }
         }
         else
