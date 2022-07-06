@@ -1,0 +1,87 @@
+
+1) Explique o objetivo e os parâmetros de cada uma das quatro funções acima.
+
+- getcontext(&var) : recebe um endereco de uma variavel do tipo ucontext_t, uma 
+estrutura de dados que armazena informacoes sobre contextos. A funcao captura e 
+salva as informacoes do contexto atual na estrutura de dados.
+
+- setcontext(&var) : recebe um endereco de uma variavel do tipo ucontext_t, uma 
+estrutura de dados que armazena informacoes sobre contextos. A funcao restaura as 
+informacoes de um contexto previamente guardadas na variavel var
+
+- swapcontext(&var, &var2) : recebe dois enderecos de variaveis do tipo ucontext_t. 
+A funcao salva o contexto atual na variavel var e restaura o contexto salvo anteriormente
+em var2. Faz uma troca entre dois contextos, basicamente. 
+
+- makecontext(&var, ...) : recebe um endereco de uma variavel do tipo ucontext_t, 
+pode receber um endereco para funcao e argumentos. Ajusta alguns valores internos 
+do contexto salvo em var, como por exemplo setar uma funcao que deve ser executada 
+nele.
+
+
+2) Explique o significado dos campos da estrutura ucontext_t que foram utilizados
+ no código.
+
+- ContextPing.uc_stack.ss_sp : aponta para o inicio da sinal stack
+
+- ContextPing.uc_stack.ss_size : armazena o tamanho da sinal stack apontada por 
+.ss_sp
+
+- ContextPing.uc_stack.ss_flags : contem o bitwise ou as flags SS_DISABLE (diz ao 
+sistema que nao deve usar a sinal stack) ou SS_ONSTACK (setado pelo sistema, e 
+indica que a sinal stack esta em uso atualmente. Se nao tiver setado, os sinais 
+sao entregues na normal user stack) 
+
+- ContextPing.uc_link : ponteiro para a proxima estrutura de contexto, que eh usada
+se o contexto descrito na estrutura atual retorna
+
+
+3) Explique cada linha do código de contexts.c que chame uma dessas funções ou 
+que manipule estruturas do tipo ucontext_t.
+
+swapcontext (&ContextPing, &ContextPong) ;
+salva contexto de Ping e troca para o contexto de Pong.
+
+swapcontext (&ContextPing, &ContextMain) ;
+salva o contexto de Ping e troca para o contexto da Main
+
+swapcontext (&ContextPong, &ContextPing) ;
+salva o contexto de Pong e troca para o contexto de Ping
+
+swapcontext (&ContextPong, &ContextMain) ;
+salva o contexto de Pong e troca para o contexto da Main
+
+getcontext (&ContextPing) ;
+salva contexto atual em Ping
+
+ContextPing.uc_stack.ss_sp = stack ;
+ContextPing.uc_stack.ss_size = STACKSIZE ;
+ContextPing.uc_stack.ss_flags = 0 ;
+ContextPing.uc_link = 0 ;
+seta os valores da pilha para o contexto que esta em Ping
+
+makecontext (&ContextPing, (void*)(*BodyPing), 1, "    Ping") ;
+adiciona um comportamento descrito na funcao BodyPing ao contexto de Ping
+
+getcontext (&ContextPong) ;
+salva o contexto atual em Pong
+
+ContextPong.uc_stack.ss_sp = stack ;
+ContextPong.uc_stack.ss_size = STACKSIZE ;
+ContextPong.uc_stack.ss_flags = 0 ;
+ContextPong.uc_link = 0 ;
+seta os valores da pilha para o contexto que esta em Pong
+
+makecontext (&ContextPong, (void*)(*BodyPong), 1, "        Pong") ;
+adiciona um comportamento descrito na funcao BodyPong ao contexto de Pong
+
+swapcontext (&ContextMain, &ContextPing) ;
+salva o contexto da Main e troca para o contexto de Ping
+
+swapcontext (&ContextMain, &ContextPong) ;
+salva o contexto da Main e troca para o contexto de Pong
+
+4) Para visualizar melhor as trocas de contexto, desenhe o diagrama de tempo 
+dessa execução.
+
+

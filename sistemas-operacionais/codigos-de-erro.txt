@@ -1,0 +1,6 @@
+-1      pilha nao existe
+-2      elemento nao existe
+-3      elemento esta em outra fila
+-4      elemento ja esta na fila
+-5      pilha vazia
+-6      elemento nao esta em nenhuma fila
