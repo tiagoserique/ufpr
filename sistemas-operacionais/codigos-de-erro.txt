@@ -4,3 +4,8 @@
 -4      elemento ja esta na fila
 -5      pilha vazia
 -6      elemento nao esta em nenhuma fila
+-7      ponteiro para task nulo
+-8      ponteiro para funcao nulo
+-9      erro ao setar ponteiro com o contexto atual (getcontext)
+-10     erro na criacao da pilha do contexto
+-11     erro na troca de contexto
