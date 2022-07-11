@@ -9,3 +9,4 @@
 -9      erro ao setar ponteiro com o contexto atual (getcontext)
 -10     erro na criacao da pilha do contexto
 -11     erro na troca de contexto
+-12     tarefa atual eh nula (CurrentTask)
