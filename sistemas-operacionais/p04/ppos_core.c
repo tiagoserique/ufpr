@@ -1,3 +1,7 @@
+// GRR20195138 Tiago Serique Valadares
+// PingPongOS - PingPong Operating System
+// Prof. Carlos A. Maziero, DINF UFPR
+// Versão 1.4 -- Janeiro de 2022
 
 #include <stdio.h>
 #include <stdlib.h>
