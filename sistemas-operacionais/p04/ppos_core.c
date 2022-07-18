@@ -149,7 +149,6 @@ void task_exit(int exit_code){
     if ( task_id() > 1 ) userTask--;
 
     #ifdef DEBUG
-    task_t *cTask = CurrentTask; 
     printf("task_exit: tarefa %d sendo encerrada\n", cTask->id);
     #endif
 
