@@ -15,7 +15,7 @@ debug: ppos_core_debug.o $(objects)
 	gcc $(CFLAGS) ppos_core_debug.o $(objects) -o teste
 
 
-ppos_core_debug.o: ppos_core.c ppos.h ppos_data.h
+ppos_core.o: ppos_core.c ppos.h ppos_data.h
 	gcc $(CFLAGS) $(DEBUG) -c ppos_core.c
 
 
