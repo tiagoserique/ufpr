@@ -121,6 +121,7 @@ int task_create(task_t *task, void (*start_routine)(void *), void *arg){
     task->status = TASK_READY;
     task->static_prio  = DEFAUL_PRIO;
     task->dynamic_prio = DEFAUL_PRIO;
+    task->preemptable  = 0;
 
     // create the task context
     task->context.uc_stack.ss_sp    = stack;
@@ -135,14 +136,11 @@ int task_create(task_t *task, void (*start_routine)(void *), void *arg){
     #endif
 
     // return the task's id if the id is from the main task or the dispatcher
-    // if the id is from the main task or the dispatcher, set the task as not 
-    // preemptable
-    if ( tid <= 1 ){
-        task->preemptable = 0;
-        return task->id;
-    }
+    if ( tid <= 1 ) return task->id;
 
     userTask++;
+
+    // if is a user task, so it's preemptable
     task->preemptable = 1;
 
     // add the task to the ready queue
@@ -231,10 +229,7 @@ void tick_handler(){
             // reset the quantum
             quantum = QUANTUM_DEFAULT;
 
-            // set the task's status to ready
-            cTask->status = TASK_READY;
-
-            task_switch(&DispatcherTask);
+            task_yield();
         }
     }
 }
@@ -316,6 +311,11 @@ void dispatcher(){
 
 
 void task_yield(){
+    task_t *cTask = CurrentTask;
+
+    // set the task's status to ready
+    cTask->status = TASK_READY;
+
     // pass the control to the dispatcher
     task_switch(&DispatcherTask);
 }
