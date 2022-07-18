@@ -185,7 +185,10 @@ task_t *scheduler(){
 
     firstTaskReady->dynamic_prio -= TASK_AGING;
     while ( task != firstTaskReady ){
-        task->dynamic_prio -= TASK_AGING;
+        if ( task->dynamic_prio > MAX_PRIO ){
+            task->dynamic_prio -= TASK_AGING;
+        }
+        
         task = task->next;
     }
 
@@ -257,8 +260,12 @@ void task_yield(){
 }
 
 
-void task_setprio (task_t *task, int prio){
+void task_setprio(task_t *task, int prio){
     task_t *cTask = CurrentTask;
+
+    if ( prio > MIN_PRIO ) prio = MIN_PRIO;
+
+    if ( prio < MAX_PRIO ) prio = MAX_PRIO;
 
     // check if the task is null
     // if it is, set the task's priority to the current task
@@ -274,7 +281,7 @@ void task_setprio (task_t *task, int prio){
 }
 
 
-int task_getprio (task_t *task){
+int task_getprio(task_t *task){
     task_t *cTask = CurrentTask;
 
     // check if the task is null

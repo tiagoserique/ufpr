@@ -18,7 +18,9 @@
 #define TASK_BLOCKED  3
 #define TASK_FINISHED 4
 
+#define MIN_PRIO    20
 #define DEFAUL_PRIO 0
+#define MAX_PRIO    -20
 #define TASK_AGING  1
 
 // Estrutura que define um Task Control Block (TCB)
