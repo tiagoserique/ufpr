@@ -19,6 +19,17 @@ int main(void) {
 
     printf("\nEh completo? %s\n", completo(g) ? "sim" : "nao");
 
+    int **matriz = matriz_adjacencia(g);
+    int n = n_vertices(g);
+
+    printf("\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+
     destroi_grafo(g);
 
     return 0;

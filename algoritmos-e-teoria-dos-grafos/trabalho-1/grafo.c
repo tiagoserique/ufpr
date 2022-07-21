@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "grafo.h"
 
 //------------------------------------------------------------------------------
@@ -104,30 +105,48 @@ int completo(grafo g) {
 // -----------------------------------------------------------------------------
 int conexo(grafo g) {
   
-  return 0;
+    return 0;
 }
 
 // -----------------------------------------------------------------------------
 int bipartido(grafo g) {
   
-  return 0;
+    return 0;
 }
 
 // -----------------------------------------------------------------------------
 int n_triangulos(grafo g) {
   
-  return 0;
+    return 0;
 }
 
 // -----------------------------------------------------------------------------
 int **matriz_adjacencia(grafo g) {
-  
-  return NULL;
+    int n = n_vertices(g);
+    int **matriz = (int **) malloc(n * sizeof(int *) + n * n * sizeof(int));
+
+    matriz[0] = (int *) (matriz + n);
+
+    for (int i = 0; i < n; i++) {
+        matriz[i] = matriz[0] + i * n;
+    }
+
+    int i, j;
+    vertice v1, v2;
+    for (v1 = agfstnode(g), i = 0; v1 != NULL; v1 = agnxtnode(g, v1), i++) {
+        for (v2 = agfstnode(g), j = 0; v2 != NULL; v2 = agnxtnode(g, v2), j++){
+            if (v1 == v2) continue;
+            
+            matriz[i][j] = ( agedge(g, v1, v2, NULL, FALSE) ) ? 1 : 0;
+        }
+    }
+
+    return matriz;
 }
 
 // -----------------------------------------------------------------------------
 grafo complemento(grafo g) {
   
-  return NULL;
+    return NULL;
 }
 
