@@ -118,6 +118,22 @@ int bipartido(grafo g) {
 int n_triangulos(grafo g) {
     int triangulos = 0;
     
+    vertice fimk = NULL;
+    vertice fimj = aglstnode(g);
+    vertice fimi = agprvnode(g, fimj);
+
+    for (vertice i = agfstnode(g); i != fimi; i = agnxtnode(g, i)){
+        for (vertice j = agnxtnode(g, i); j != fimj; j = agnxtnode(g, j)){
+            for (vertice k = agnxtnode(g, j); k != fimk; k = agnxtnode(g, k)){
+                Agedge_t *ij = agedge(g, i, j, NULL, FALSE);
+                Agedge_t *jk = agedge(g, j, k, NULL, FALSE);
+                Agedge_t *ki = agedge(g, k, i, NULL, FALSE);
+
+                if ( ij != NULL && jk != NULL && ki != NULL ) triangulos++;
+            }
+        }
+    }
+
     return triangulos;
 }
 
@@ -162,10 +178,10 @@ grafo complemento(grafo g) {
     }
 
     for (vertice v = agfstnode(g); v != NULL; v = agnxtnode(g, v)){
-        for (vertice u = agfstnode(g); u != NULL; u = agnxtnode(g, u)) {
+        for (vertice u = agfstnode(g); u != NULL; u = agnxtnode(g, u)){
             if (v == u) continue;
             
-            if ( !agedge(g, v, u, NULL, FALSE) ) {
+            if ( !agedge(g, v, u, NULL, FALSE) ){
                 vertice a = agnode(h, agnameof(v), TRUE);
                 vertice b = agnode(h, agnameof(u), TRUE);
                 
@@ -173,8 +189,6 @@ grafo complemento(grafo g) {
             }
         }
     }
-
-    escreve_grafo(h);
 
     return h;
 }
