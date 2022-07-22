@@ -1,39 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "grafo.h"
+
+typedef long unsigned int uint_t;
 
 //------------------------------------------------------------------------------
 grafo le_grafo(void) {
-
     return agread(stdin, NULL); 
 }
 //------------------------------------------------------------------------------
 void destroi_grafo(grafo g) {
-  
     agclose(g);
+
     return;
 }
 //------------------------------------------------------------------------------
 grafo escreve_grafo(grafo g) {
-  
-    return agwrite(g, stdout);
+    agwrite(g, stdout);
+
+    return g;
 }
 
 // -----------------------------------------------------------------------------
 int n_vertices(grafo g) {
-  
     return agnnodes(g);
 }
 
 // -----------------------------------------------------------------------------
 int n_arestas(grafo g) {
-  
     return agnedges(g);
 }
 
 // -----------------------------------------------------------------------------
 int grau(vertice v, grafo g) {
-  
     return agdegree(g, v, TRUE, TRUE);
 }
 
@@ -116,17 +116,22 @@ int bipartido(grafo g) {
 
 // -----------------------------------------------------------------------------
 int n_triangulos(grafo g) {
-  
-    return 0;
+    int triangulos = 0;
+    
+    return triangulos;
 }
 
 // -----------------------------------------------------------------------------
 int **matriz_adjacencia(grafo g) {
     int n = n_vertices(g);
-    int **matriz = (int **) malloc(n * sizeof(int *) + n * n * sizeof(int));
+    
+    uint_t vet_ptrs =  (uint_t)n * sizeof(int *);
+    uint_t elem = (uint_t)n * (uint_t)n * sizeof(int);
+    
+    int **matriz = (int **) malloc(vet_ptrs + elem);
 
+    // ajusta ponteiros da matriz
     matriz[0] = (int *) (matriz + n);
-
     for (int i = 0; i < n; i++) {
         matriz[i] = matriz[0] + i * n;
     }
@@ -146,7 +151,31 @@ int **matriz_adjacencia(grafo g) {
 
 // -----------------------------------------------------------------------------
 grafo complemento(grafo g) {
-  
-    return NULL;
+    char *nome = (char *) malloc((strlen("complemento") + 1) * sizeof(char));
+    
+    strcpy(nome, "complemento");
+
+    grafo h = agopen(nome, Agundirected, NULL);
+
+    for (vertice v = agfstnode(g); v != NULL; v = agnxtnode(g, v)){
+        agnode(h, agnameof(v), TRUE);
+    }
+
+    for (vertice v = agfstnode(g); v != NULL; v = agnxtnode(g, v)){
+        for (vertice u = agfstnode(g); u != NULL; u = agnxtnode(g, u)) {
+            if (v == u) continue;
+            
+            if ( !agedge(g, v, u, NULL, FALSE) ) {
+                vertice a = agnode(h, agnameof(v), TRUE);
+                vertice b = agnode(h, agnameof(u), TRUE);
+                
+                if ( !agedge(h, b, a, NULL, FALSE) ) agedge(h, a, b, NULL, TRUE);
+            }
+        }
+    }
+
+    escreve_grafo(h);
+
+    return h;
 }
 

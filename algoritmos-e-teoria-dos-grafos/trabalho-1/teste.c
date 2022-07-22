@@ -15,9 +15,11 @@ int main(void) {
 
     printf("\ngrau medio = %d\n", grau_medio(g));
 
-    printf("\nEh regular? %s\n", regular(g) ? "sim" : "nao");
+    printf("\neh regular? %s\n", regular(g) ? "sim" : "nao");
 
-    printf("\nEh completo? %s\n", completo(g) ? "sim" : "nao");
+    printf("\neh completo? %s\n", completo(g) ? "sim" : "nao");
+
+    printf("\nn triangulos = %d\n", n_triangulos(g));
 
     int **matriz = matriz_adjacencia(g);
     int n = n_vertices(g);
@@ -29,6 +31,9 @@ int main(void) {
         }
         printf("\n");
     }
+
+    printf("\n");
+    complemento(g);
 
     destroi_grafo(g);
 
