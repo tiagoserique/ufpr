@@ -4,6 +4,11 @@
 #include "grafo.h"
 
 typedef long unsigned int uint_t;
+typedef Agedge_t *aresta;
+
+int buscaI(grafo g, vertice v, vertice *nodos);
+int backtracking(grafo g, vertice v, vertice buscando, int *visitados, vertice *nodos);
+
 
 //------------------------------------------------------------------------------
 grafo le_grafo(void) {
@@ -103,14 +108,60 @@ int completo(grafo g) {
 }
 
 // -----------------------------------------------------------------------------
-int conexo(grafo g) {
-  
+
+int buscaI(grafo g, vertice v, vertice *nodos){
+    for (int i = 0; i < n_vertices(g); i++) if ( v == nodos[i] ) return i;
+
+    return -1;
+}
+
+int backtracking(grafo g, vertice v, vertice buscando, int *visitados, vertice *nodos){
+    if ( v == buscando ) return 1;
+
+    visitados[buscaI(g, v, nodos)] = 1;
+
+    // pega as arestas do vertice v e itera sobre elas
+    // pega o proximo vertice da aresta e chama recursivamente
+    for (aresta e = agfstedge(g, v); e != NULL; e = agnxtedge(g, e, v)){
+        vertice proximo = aghead(e);
+
+        if ( !visitados[buscaI(g, proximo, nodos)] ){
+            if ( backtracking(g, proximo, buscando, visitados, nodos) ) return 1;
+        }
+    }
+
     return 0;
+}
+
+
+int conexo(grafo g) {
+    int *visitados = (int *) calloc((uint_t)n_vertices(g), sizeof(int));
+
+    vertice *nodos = (vertice *) calloc((uint_t)n_vertices(g), sizeof(vertice));
+
+    vertice v;
+    int j;
+    for (v = agfstnode(g), j = 0; v != NULL; v = agnxtnode(g, v), j++){
+        nodos[j] = v;
+    }
+
+    vertice nodo = agfstnode(g);
+
+    vertice busca;
+    for (busca = agnxtnode(g, nodo); busca; busca = agnxtnode(g, busca)){
+        if ( !backtracking(g, nodo, busca, visitados, nodos) ) return 0;
+
+        for (int i = 0; i < n_vertices(g); i++) visitados[i] = 0;
+    }
+
+    return 1;
 }
 
 // -----------------------------------------------------------------------------
 int bipartido(grafo g) {
-  
+    if ( conexo(g) ) return 0;
+
+
     return 0;
 }
 
@@ -125,9 +176,9 @@ int n_triangulos(grafo g) {
     for (vertice i = agfstnode(g); i != fimi; i = agnxtnode(g, i)){
         for (vertice j = agnxtnode(g, i); j != fimj; j = agnxtnode(g, j)){
             for (vertice k = agnxtnode(g, j); k != fimk; k = agnxtnode(g, k)){
-                Agedge_t *ij = agedge(g, i, j, NULL, FALSE);
-                Agedge_t *jk = agedge(g, j, k, NULL, FALSE);
-                Agedge_t *ki = agedge(g, k, i, NULL, FALSE);
+                aresta ij = agedge(g, i, j, NULL, FALSE);
+                aresta jk = agedge(g, j, k, NULL, FALSE);
+                aresta ki = agedge(g, k, i, NULL, FALSE);
 
                 if ( ij != NULL && jk != NULL && ki != NULL ) triangulos++;
             }
@@ -154,10 +205,8 @@ int **matriz_adjacencia(grafo g) {
 
     int i, j;
     vertice v1, v2;
-    for (v1 = agfstnode(g), i = 0; v1 != NULL; v1 = agnxtnode(g, v1), i++) {
+    for (v1 = agfstnode(g), i = 0; v1 != NULL; v1 = agnxtnode(g, v1), i++){
         for (v2 = agfstnode(g), j = 0; v2 != NULL; v2 = agnxtnode(g, v2), j++){
-            if (v1 == v2) continue;
-            
             matriz[i][j] = ( agedge(g, v1, v2, NULL, FALSE) ) ? 1 : 0;
         }
     }

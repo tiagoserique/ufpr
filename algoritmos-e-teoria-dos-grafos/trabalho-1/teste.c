@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "grafo.h"
 
 //------------------------------------------------------------------------------
@@ -19,6 +20,8 @@ int main(void) {
 
     printf("\neh completo? %s\n", completo(g) ? "sim" : "nao");
 
+    printf("\neh conexo? %s\n", conexo(g) ? "sim" : "nao");
+
     printf("\nn triangulos = %d\n", n_triangulos(g));
 
     int **matriz = matriz_adjacencia(g);
@@ -35,6 +38,7 @@ int main(void) {
     printf("\n");
     complemento(g);
 
+    free(matriz);
     destroi_grafo(g);
 
     return 0;
