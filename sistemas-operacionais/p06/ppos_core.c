@@ -28,6 +28,9 @@ task_t MainTask, *CurrentTask, DispatcherTask, *ReadyQueue;
 
 int tid, userTask, quantum;
 
+// register the time elapsed since the first tick
+unsigned int time;
+
 // struct that defines a signal handler (must be global or static)
 struct sigaction action;
 
@@ -122,6 +125,8 @@ int task_create(task_t *task, void (*start_routine)(void *), void *arg){
     task->static_prio  = DEFAUL_PRIO;
     task->dynamic_prio = DEFAUL_PRIO;
     task->preemptable  = 0;
+    task->execution_time = systime();
+    task->processor_time = 0;
 
     // create the task context
     task->context.uc_stack.ss_sp    = stack;
@@ -179,6 +184,7 @@ void task_exit(int exit_code){
 
     // set the task's status to finished
     cTask->status = TASK_FINISHED;
+    cTask->execution_time = systime() - cTask->execution_time;
 
     // check if the task is the main task or the dispatcher
     // if it is not, decrease the number of user tasks
@@ -187,6 +193,9 @@ void task_exit(int exit_code){
     #ifdef DEBUG
     printf("task_exit: tarefa %d sendo encerrada\n", cTask->id);
     #endif
+
+    printf("Task %d exit: execution time %d ms, processor time %d ms\n, %d activations\n", cTask->id, cTask->execution_time, cTask->processor_time, cTask->activations);
+    // printf("Task %d exit: execution time %d ms, processor time %d ms\n, %d activations\n", cTask->id, cTask->execution_time, cTask->processor_time, cTask->activations);
 
     // if the current task is the dispatcher, switch to the main task
     // otherwise, switch to the dispatcher task
@@ -212,9 +221,8 @@ int task_id(){
 void tick_handler(){
     task_t *cTask = CurrentTask;
 
-    #ifdef DEBUG
-    printf("tick_handler: quantum value = %d\n", quantum);
-    #endif
+    // add the 1ms to the system time 
+    time++;
 
     // check if the task is preemptable
     if ( cTask->preemptable ){
@@ -222,9 +230,6 @@ void tick_handler(){
         
         // check if the quantum is finished
         if ( quantum == 0 ){
-            #ifdef DEBUG
-            printf("tick_handler: the task's quantum ends\n");
-            #endif
 
             // reset the quantum
             quantum = QUANTUM_DEFAULT;
@@ -287,8 +292,20 @@ void dispatcher(){
             // remove the task from the ready queue
             queue_remove((queue_t **) &ReadyQueue, (queue_t *) nextTask);
 
+            // increase the task's activations
+            nextTask->activations++;
+
+            // get the system time before switch to the next task  
+            unsigned int time = systime();
+
             // switch to the next task
             task_switch(nextTask);
+            
+            // get the total time that the task was running
+            time = systime() - time;
+            
+            // increase the task's processor time
+            nextTask->processor_time += time;
 
             // handles all possible task status cases 
             switch ( nextTask->status ){
@@ -352,3 +369,8 @@ int task_getprio(task_t *task){
     return ( !task ) ? cTask->static_prio : task->static_prio;
 }
 
+// operações de gestão do tempo ================================================
+
+unsigned int systime(){
+    return time;
+}

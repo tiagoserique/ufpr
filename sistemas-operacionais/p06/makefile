@@ -1,34 +1,22 @@
 CFLAGS = -Wall 
 DEBUG = -DDEBUG -g
-objects = pingpong-preempcao.o queue.o
+
+all: ppos* queue.* pingpong*
+	gcc $(CFLAGS) ppos_core.c queue.c pingpong-contab.c -o teste-contab
+	gcc $(CFLAGS) ppos_core.c queue.c pingpong-contab-prio.c -o teste-contab-prio
 
 
-all: ppos_core.o $(objects)
-	gcc $(CFLAGS) ppos_core.o $(objects) -o teste
+debug: ppos* queue.* pingpong*
+	gcc $(CFLAGS) $(DEBUG) ppos_core.c queue.c pingpong-contab.c -o teste-contab
+	gcc $(CFLAGS) $(DEBUG) ppos_core.c queue.c pingpong-contab-prio.c -o teste-contab-prio
 
 
-ppos_core.o: ppos_core.c ppos.h ppos_data.h 
-	gcc $(CFLAGS) -c ppos_core.c
+diff1:
+	diff out.txt saida1.txt
 
 
-debug: ppos_core_debug.o $(objects)
-	gcc $(CFLAGS) ppos_core_debug.o $(objects) -o teste
-
-
-ppos_core_debug.o: ppos_core.c ppos.h ppos_data.h
-	gcc $(CFLAGS) $(DEBUG) -c ppos_core.c -o ppos_core_debug.o
-
-
-pingpong-preempcao.o: pingpong-preempcao.c 
-	gcc $(CFLAGS) -c pingpong-preempcao.c
-
-
-queue.o: queue.c queue.h 
-	gcc $(CFLAGS) -c queue.c
-
-
-diff:
-	diff out.txt saida.txt
+diff2:
+	diff out.txt saida2.txt
 
 
 clean:
