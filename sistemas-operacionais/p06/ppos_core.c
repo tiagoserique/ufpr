@@ -29,7 +29,7 @@ task_t MainTask, *CurrentTask, DispatcherTask, *ReadyQueue;
 int tid, userTask, quantum;
 
 // register the time elapsed since the first tick
-unsigned int time;
+unsigned int system_time;
 
 // struct that defines a signal handler (must be global or static)
 struct sigaction action;
@@ -127,6 +127,7 @@ int task_create(task_t *task, void (*start_routine)(void *), void *arg){
     task->preemptable  = 0;
     task->execution_time = systime();
     task->processor_time = 0;
+    task->activations    = 0;
 
     // create the task context
     task->context.uc_stack.ss_sp    = stack;
@@ -162,6 +163,9 @@ int task_switch(task_t *task){
         return -7;
     }
 
+    // increase the task's activations
+    task->activations++;
+
     task_t *cTask = CurrentTask; 
     CurrentTask   = task;
 
@@ -184,6 +188,8 @@ void task_exit(int exit_code){
 
     // set the task's status to finished
     cTask->status = TASK_FINISHED;
+
+    // calculate the task's execution time
     cTask->execution_time = systime() - cTask->execution_time;
 
     // check if the task is the main task or the dispatcher
@@ -194,8 +200,8 @@ void task_exit(int exit_code){
     printf("task_exit: tarefa %d sendo encerrada\n", cTask->id);
     #endif
 
-    printf("Task %d exit: execution time %d ms, processor time %d ms\n, %d activations\n", cTask->id, cTask->execution_time, cTask->processor_time, cTask->activations);
-    // printf("Task %d exit: execution time %d ms, processor time %d ms\n, %d activations\n", cTask->id, cTask->execution_time, cTask->processor_time, cTask->activations);
+    // output the task's information
+    printf("Task %d exit: execution time %d ms, processor time %d ms, %d activations\n", cTask->id, cTask->execution_time, cTask->processor_time, cTask->activations);
 
     // if the current task is the dispatcher, switch to the main task
     // otherwise, switch to the dispatcher task
@@ -222,7 +228,7 @@ void tick_handler(){
     task_t *cTask = CurrentTask;
 
     // add the 1ms to the system time 
-    time++;
+    system_time++;
 
     // check if the task is preemptable
     if ( cTask->preemptable ){
@@ -292,20 +298,17 @@ void dispatcher(){
             // remove the task from the ready queue
             queue_remove((queue_t **) &ReadyQueue, (queue_t *) nextTask);
 
-            // increase the task's activations
-            nextTask->activations++;
-
             // get the system time before switch to the next task  
-            unsigned int time = systime();
+            unsigned int prev_time = systime();
 
             // switch to the next task
             task_switch(nextTask);
             
             // get the total time that the task was running
-            time = systime() - time;
+            prev_time = systime() - prev_time;
             
             // increase the task's processor time
-            nextTask->processor_time += time;
+            nextTask->processor_time += prev_time;
 
             // handles all possible task status cases 
             switch ( nextTask->status ){
@@ -372,5 +375,6 @@ int task_getprio(task_t *task){
 // operações de gestão do tempo ================================================
 
 unsigned int systime(){
-    return time;
+    // return the system time
+    return system_time;
 }
