@@ -22,6 +22,8 @@ int main(void) {
 
     printf("\neh conexo? %s\n", conexo(g) ? "sim" : "nao");
 
+    printf("\neh bipartido? %s\n", bipartido(g) ? "sim" : "nao");
+
     printf("\nn triangulos = %d\n", n_triangulos(g));
 
     int **matriz = matriz_adjacencia(g);
