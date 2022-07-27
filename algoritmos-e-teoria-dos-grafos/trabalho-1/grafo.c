@@ -168,6 +168,8 @@ int conexo(grafo g) {
 
 // -----------------------------------------------------------------------------
 int bipartido(grafo g){
+    if ( !conexo(g) ) return 0;
+
     // cria um vetor de vertices para guardar os nodos do grafo
     vertice *nodos = (vertice *) calloc((uint_t)n_vertices(g), sizeof(vertice));
     vertice v1;
