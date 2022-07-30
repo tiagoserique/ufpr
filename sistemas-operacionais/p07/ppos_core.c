@@ -22,12 +22,15 @@ void dispatcher();
 // the handler for the SIGALRM signal
 void tick_handler();
 
+// print the elements of the queue test
 void print_queue(void *element);
 
 // global variables ============================================================
 
+// variables used to manipulate the tasks
 task_t MainTask, *CurrentTask, DispatcherTask, *ReadyQueue;
 
+// tasks IDs, counter of user tasks and quantum counter
 int tid, userTask, quantum;
 
 // register the time elapsed since the first tick
@@ -38,6 +41,15 @@ struct sigaction action;
 
 // struct that defines the timer
 struct itimerval timer;
+
+// another functions ===========================================================
+
+void print_queue(void *element){
+    task_t *task = (task_t *) element;
+
+    printf("%d <- %d -> %d ", task->prev->id, task->id, task->next->id);
+    task = task->next;
+}
 
 // funções gerais ==============================================================
 
@@ -77,7 +89,7 @@ void ppos_init(){
     MainTask.prev   = NULL;
     MainTask.next   = NULL;
     MainTask.id     = tid;
-    MainTask.status = TASK_READY;
+    MainTask.status = TASK_RUNNING;
     MainTask.static_prio  = DEFAUL_PRIO;
     MainTask.dynamic_prio = DEFAUL_PRIO;
     MainTask.preemptable  = 1;
@@ -96,7 +108,6 @@ void ppos_init(){
 
     task_yield();
 }
-
 
 // gerência de tarefas =========================================================
 
@@ -147,19 +158,20 @@ int task_create(task_t *task, void (*start_routine)(void *), void *arg){
 
     makecontext(&(task->context), (void*)start_routine, 1, arg);
 
+
     #ifdef DEBUG
     printf("task_create: criou tarefa %d\n", task->id);
     #endif
 
-    // return the task's id if the id is from the dispatcher
+
+    // return the id if the id is from the dispatcher
     if ( tid == 1 ) return task->id;
 
+
+    // if it is a user task, so increase the counter of user tasks, the task is 
+    // preemptable and add the task to the ready queue
     userTask++;
-
-    // if is a user task, so it's preemptable
     task->preemptable = 1;
-
-    // add the task to the ready queue
     queue_append((queue_t **) &ReadyQueue, (queue_t *) task);
 
     return task->id;
@@ -179,9 +191,11 @@ int task_switch(task_t *task){
     task_t *cTask = CurrentTask; 
     CurrentTask   = task;
 
+
     #ifdef DEBUG
     printf("task_switch: trocando contexto %d -> %d\n", cTask->id, task->id);
     #endif
+
 
     // switch the context
     if ( swapcontext(&(cTask->context), &(task->context)) < 0 ){
@@ -202,13 +216,15 @@ void task_exit(int exit_code){
     // calculate the task's execution time
     cTask->execution_time = systime() - cTask->execution_time;
 
-    // check if the task is the main task or the dispatcher
+    // check if the task is the dispatcher
     // if it is not, decrease the number of user tasks
     if ( task_id() != 1 ) userTask--;
+
 
     #ifdef DEBUG
     printf("task_exit: tarefa %d sendo encerrada\n", cTask->id);
     #endif
+
 
     // output the task's information
     printf("Task %d exit: execution time %d ms, processor time %d ms, %d activations\n", 
@@ -216,10 +232,8 @@ void task_exit(int exit_code){
 
     // if the current task is the dispatcher, switch to the main task
     // otherwise, switch to the dispatcher task
-    if ( cTask == &DispatcherTask )
-        task_switch(&MainTask);
-    else 
-        task_switch(&DispatcherTask);
+    if ( cTask == &DispatcherTask ) task_switch(&MainTask);
+    else task_switch(&DispatcherTask);
 }
 
 
@@ -296,34 +310,32 @@ task_t *scheduler(){
 void dispatcher(){
     // while there are user tasks 
     while ( userTask ){
-
+        
         #ifdef DEBUG
-        queue_print("Lista", (queue_t *) ReadyQueue, (void *) print_queue);
+        queue_print("Ready queue", (queue_t *) ReadyQueue, (void *) print_queue);
         #endif
+
 
         // get the next task
         task_t *nextTask = scheduler();
 
-        // if the scheduler choose a task and it is not null
+        // if the scheduler choose a task and the task is not null
         if ( nextTask ){
 
-            // set status to running
+            // set status to running and remove the task from the ready queue
             nextTask->status = TASK_RUNNING;
-            
-            // remove the task from the ready queue
             queue_remove((queue_t **) &ReadyQueue, (queue_t *) nextTask);
 
-            // get the system time before switch to the next task  
-            unsigned int prev_time = systime();
 
+            // get the system time before switch to the next task  
             // switch to the next task
-            task_switch(nextTask);
-            
             // get the total time that the task was running
-            prev_time = systime() - prev_time;
-            
-            // increase the task's processor time
-            nextTask->processor_time += prev_time;
+            // and increase the task's processor time
+            unsigned int process_task_time = systime();
+            task_switch(nextTask);
+            process_task_time = systime() - process_task_time;
+            nextTask->processor_time += process_task_time;
+
 
             // handles all possible task status cases 
             switch ( nextTask->status ){
@@ -361,12 +373,9 @@ void task_setprio(task_t *task, int prio){
 
     if ( prio > MIN_PRIO ) prio = MIN_PRIO;
 
-    if ( prio < MAX_PRIO ) prio = MAX_PRIO;
-
     // check if the task is null
     // if it is, set the task's priority to the current task
-    // otherwise, set the task's priority to the given task with the given 
-    // priority
+    // otherwise, set the task's priority to the given task
     if ( !task ){
         cTask->static_prio  = prio;
         cTask->dynamic_prio = prio;
@@ -394,9 +403,3 @@ unsigned int systime(){
     return system_time;
 }
 
-void print_queue(void *element){
-    task_t *task = (task_t *) element;
-
-    printf("%d <- %d -> %d ", task->prev->id, task->id, task->next->id);
-    task = task->next;
-}
