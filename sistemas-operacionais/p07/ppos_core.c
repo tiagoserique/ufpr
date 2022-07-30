@@ -22,6 +22,8 @@ void dispatcher();
 // the handler for the SIGALRM signal
 void tick_handler();
 
+void print_queue(void *element);
+
 // global variables ============================================================
 
 task_t MainTask, *CurrentTask, DispatcherTask, *ReadyQueue;
@@ -66,7 +68,7 @@ void ppos_init(){
 
     // initialize global variables
     tid         = 0; 
-    userTask    = 0;
+    userTask    = 1;
     CurrentTask = NULL;
     ReadyQueue  = NULL;
     quantum     = QUANTUM_DEFAULT;
@@ -75,16 +77,24 @@ void ppos_init(){
     MainTask.prev   = NULL;
     MainTask.next   = NULL;
     MainTask.id     = tid;
-    MainTask.status = TASK_RUNNING;
+    MainTask.status = TASK_READY;
     MainTask.static_prio  = DEFAUL_PRIO;
     MainTask.dynamic_prio = DEFAUL_PRIO;
-    MainTask.preemptable  = 0;
+    MainTask.preemptable  = 1;
+    MainTask.execution_time = systime();
+    MainTask.processor_time = 0;
+    MainTask.activations    = 0;
+
+    // append main task to the ready queue
+    queue_append((queue_t **) &ReadyQueue, (queue_t *) &MainTask);
 
     // set main task as current task
     CurrentTask = &MainTask;
 
     // create the task for dispatcher
     task_create(&DispatcherTask, dispatcher, NULL);
+
+    task_yield();
 }
 
 
@@ -141,8 +151,8 @@ int task_create(task_t *task, void (*start_routine)(void *), void *arg){
     printf("task_create: criou tarefa %d\n", task->id);
     #endif
 
-    // return the task's id if the id is from the main task or the dispatcher
-    if ( tid <= 1 ) return task->id;
+    // return the task's id if the id is from the dispatcher
+    if ( tid == 1 ) return task->id;
 
     userTask++;
 
@@ -194,14 +204,15 @@ void task_exit(int exit_code){
 
     // check if the task is the main task or the dispatcher
     // if it is not, decrease the number of user tasks
-    if ( task_id() > 1 ) userTask--;
+    if ( task_id() != 1 ) userTask--;
 
     #ifdef DEBUG
     printf("task_exit: tarefa %d sendo encerrada\n", cTask->id);
     #endif
 
     // output the task's information
-    printf("Task %d exit: execution time %d ms, processor time %d ms, %d activations\n", cTask->id, cTask->execution_time, cTask->processor_time, cTask->activations);
+    printf("Task %d exit: execution time %d ms, processor time %d ms, %d activations\n", 
+    cTask->id, cTask->execution_time, cTask->processor_time, cTask->activations);
 
     // if the current task is the dispatcher, switch to the main task
     // otherwise, switch to the dispatcher task
@@ -285,6 +296,10 @@ task_t *scheduler(){
 void dispatcher(){
     // while there are user tasks 
     while ( userTask ){
+
+        #ifdef DEBUG
+        queue_print("Lista", (queue_t *) ReadyQueue, (void *) print_queue);
+        #endif
 
         // get the next task
         task_t *nextTask = scheduler();
@@ -377,4 +392,11 @@ int task_getprio(task_t *task){
 unsigned int systime(){
     // return the system time
     return system_time;
+}
+
+void print_queue(void *element){
+    task_t *task = (task_t *) element;
+
+    printf("%d <- %d -> %d ", task->prev->id, task->id, task->next->id);
+    task = task->next;
 }

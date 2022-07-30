@@ -2,21 +2,15 @@ CFLAGS = -Wall
 DEBUG = -DDEBUG -g
 
 all: ppos* queue.* pingpong*
-	gcc $(CFLAGS) ppos_core.c queue.c pingpong-contab.c -o teste-contab
-	gcc $(CFLAGS) ppos_core.c queue.c pingpong-contab-prio.c -o teste-contab-prio
+	gcc $(CFLAGS) ppos_core.c queue.c pingpong-maintask.c -o teste
 
 
 debug: ppos* queue.* pingpong*
-	gcc $(CFLAGS) $(DEBUG) ppos_core.c queue.c pingpong-contab.c -o teste-contab
-	gcc $(CFLAGS) $(DEBUG) ppos_core.c queue.c pingpong-contab-prio.c -o teste-contab-prio
+	gcc $(CFLAGS) $(DEBUG) ppos_core.c queue.c pingpong-maintask.c -o teste
 
 
-diff1:
-	diff out.txt saida1.txt
-
-
-diff2:
-	diff out.txt saida2.txt
+diff:
+	diff out.txt saida.txt
 
 
 clean:
