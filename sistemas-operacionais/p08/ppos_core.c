@@ -277,6 +277,9 @@ void tick_handler(){
     // add the 1ms to the system time 
     system_time++;
 
+    // add the processor time to the current task
+    cTask->processor_time++;
+
     // check if the task is preemptable
     if ( cTask->preemptable ){
         quantum--;
@@ -286,9 +289,6 @@ void tick_handler(){
 
             // reset the quantum
             quantum = QUANTUM_DEFAULT;
-
-            // set the task's status to ready
-            cTask->status = TASK_READY;
 
             task_yield();
         }
@@ -352,14 +352,8 @@ void dispatcher(){
             queue_remove((queue_t **) &readyQueue, (queue_t *) nextTask);
 
 
-            // get the system time before switch to the next task  
             // switch to the next task
-            // get the total time that the task was running
-            // and increase the task's processor time
-            unsigned int process_task_time = systime();
             task_switch(nextTask);
-            process_task_time = systime() - process_task_time;
-            nextTask->processor_time += process_task_time;
 
 
             // handles all possible task status cases 

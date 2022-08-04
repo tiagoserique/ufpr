@@ -230,6 +230,9 @@ void tick_handler(){
     // add the 1ms to the system time 
     system_time++;
 
+    // add the processor time to the current task
+    cTask->processor_time++;
+
     // check if the task is preemptable
     if ( cTask->preemptable ){
         quantum--;
@@ -298,18 +301,9 @@ void dispatcher(){
             // remove the task from the ready queue
             queue_remove((queue_t **) &ReadyQueue, (queue_t *) nextTask);
 
-            // get the system time before switch to the next task  
-            unsigned int prev_time = systime();
-
             // switch to the next task
             task_switch(nextTask);
             
-            // get the total time that the task was running
-            prev_time = systime() - prev_time;
-            
-            // increase the task's processor time
-            nextTask->processor_time += prev_time;
-
             // handles all possible task status cases 
             switch ( nextTask->status ){
                 case TASK_READY:
