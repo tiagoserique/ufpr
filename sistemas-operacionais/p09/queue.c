@@ -63,13 +63,17 @@ void queue_print(char *name, queue_t *queue, void print_elem (void*) ){
 int queue_append(queue_t **queue, queue_t *elem){
 	// check if the queue exists
 	if ( !queue ){
+		#ifdef DEBUG
 		fprintf(stderr, "The queue doesn't exist\n");
+		#endif
 		return -1;
 	}
 
 	// check if the element exists
 	if ( !elem ){
+		#ifdef DEBUG
 		fprintf(stderr, "The element doesn't exist\n");
+		#endif
 		return -2;
 	}
 
@@ -88,12 +92,16 @@ int queue_append(queue_t **queue, queue_t *elem){
 			// check if the element is in other queue
 			// else, element is already in the queue
 			if ( aux == (* queue) ){
+				#ifdef DEBUG
 				fprintf(stderr, "The element is in other queue\n");
+				#endif
 				return -3;
 			}
 		}
 
+		#ifdef DEBUG
 		fprintf(stderr, "The element is already in queue\n");
+		#endif
 		return -4;
 	}
 
@@ -128,25 +136,33 @@ int queue_append(queue_t **queue, queue_t *elem){
 int queue_remove(queue_t **queue, queue_t *elem){
 	// check if the queue exists
 	if ( !queue ){
+		#ifdef DEBUG
 		fprintf(stderr, "The queue doesn't exist\n");
+		#endif
 		return -1;
 	}
 
 	// check if the queue is empty
 	if ( !(* queue) ){
+		#ifdef DEBUG
 		fprintf(stderr, "The queue is empty\n");
+		#endif
 		return -5;
 	}
 
 	// check if the element exists
 	if ( !elem ){
+		#ifdef DEBUG
 		fprintf(stderr, "The element doesn't exist\n");
+		#endif
 		return -2;
 	}
 
 	// check if the element is in any queue
 	if ( elem->next == NULL || elem->prev == NULL ){
+		#ifdef DEBUG
 		fprintf(stderr, "The element is not in any queue \n");
+		#endif
 		return -6;
 	}
 
@@ -161,7 +177,9 @@ int queue_remove(queue_t **queue, queue_t *elem){
 
 		// check if the element is in other queue
 		if ( aux == (* queue) ){
+			#ifdef DEBUG
 			fprintf(stderr, "The element is in other queue\n");
+			#endif
 			return -3;
 		}
 	}

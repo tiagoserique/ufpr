@@ -37,7 +37,7 @@ void task_resume(task_t * task, task_t **queue);
 task_t mainTask, *currentTask, dispatcherTask;
 
 // queues used to manage the tasks
-task_t *readyQueue;
+task_t *readyQueue, *suspendedQueue;
 
 // tasks IDs, counter of user tasks and quantum counter
 int tid, userTask, quantum;
@@ -105,6 +105,7 @@ void ppos_init(){
     mainTask.execution_time = systime();
     mainTask.processor_time = 0;
     mainTask.activations    = 0;
+    mainTask.awake_time     = 0;
 
     // append main task to the ready queue
     queue_append((queue_t **) &readyQueue, (queue_t *) &mainTask);
@@ -158,6 +159,7 @@ int task_create(task_t *task, void (*start_routine)(void *), void *arg){
     task->execution_time = systime();
     task->processor_time = 0;
     task->activations    = 0;
+    task->awake_time     = 0;
 
     // create the task context
     task->context.uc_stack.ss_sp    = stack;
@@ -255,7 +257,7 @@ void task_exit(int exit_code){
     // if the current task is the dispatcher, switch to the main task
     // otherwise, switch to the dispatcher task
     if ( cTask == &dispatcherTask ) task_switch(&mainTask);
-    else task_switch(&dispatcherTask);
+    else task_yield();
 }
 
 
@@ -271,27 +273,56 @@ int task_id(){
 
 // operações de escalonamento ==================================================
 
+void awake_tasks(){
+    // check if the queue is empty
+    if ( !suspendedQueue ) return;
+    
+    
+    #ifdef DEBUG
+        queue_print("awake_tasks: Suspended queue", (queue_t *) suspendedQueue, 
+                                                        (void *) print_queue);
+    #endif
+
+
+    // get the first task of the suspended queue
+    // get the time of the system
+    // compare the time of the system with the time of the task
+    // if the time of the system is greater than the time of the task,
+    // then the task is awake and it is added to the ready queue
+    task_t *cTask = suspendedQueue, *nextTask;
+    
+    unsigned int now = systime(); 
+    do {
+        // save the next task cause the current task could be removed from the 
+        // queue
+        nextTask = cTask->next;
+
+        if ( cTask->awake_time <= now ){
+            cTask->awake_time = 0;
+            task_resume((task_t *) cTask, (task_t **) &suspendedQueue);
+        }
+
+        // atualize the current task
+        cTask = nextTask;
+    } while ( suspendedQueue && nextTask != suspendedQueue );
+}
+
+
 void tick_handler(){
     task_t *cTask = currentTask;
 
     // add the 1ms to the system time 
     system_time++;
 
+    // add the processor time to the current task
+    cTask->processor_time++;
+
     // check if the task is preemptable
     if ( cTask->preemptable ){
         quantum--;
         
         // check if the quantum is finished
-        if ( quantum == 0 ){
-
-            // reset the quantum
-            quantum = QUANTUM_DEFAULT;
-
-            // set the task's status to ready
-            cTask->status = TASK_READY;
-
-            task_yield();
-        }
+        if ( quantum == 0 ) task_yield();
     }
 }
 
@@ -337,9 +368,12 @@ void dispatcher(){
     while ( userTask ){
         
         #ifdef DEBUG
-        queue_print("dispatcher: Ready queue", (queue_t *) readyQueue, (void *) print_queue);
+        queue_print("dispatcher: Ready queue", (queue_t *) readyQueue, 
+                                                        (void *) print_queue);
         #endif
 
+        // awake the tasks that are sleeping
+        awake_tasks();
 
         // get the next task
         task_t *nextTask = scheduler();
@@ -352,15 +386,13 @@ void dispatcher(){
             queue_remove((queue_t **) &readyQueue, (queue_t *) nextTask);
 
 
-            // get the system time before switch to the next task  
             // switch to the next task
-            // get the total time that the task was running
-            // and increase the task's processor time
-            unsigned int process_task_time = systime();
             task_switch(nextTask);
-            process_task_time = systime() - process_task_time;
-            nextTask->processor_time += process_task_time;
 
+            // reset the quantum
+            quantum = QUANTUM_DEFAULT;
+
+           
 
             // handles all possible task status cases 
             switch ( nextTask->status ){
@@ -450,7 +482,9 @@ void task_resume(task_t *task, task_t **queue){
 int task_join(task_t *task){
     // check if the task is null or if the task was finished
     if ( !task || task->status == TASK_FINISHED ){
+        #ifdef DEBUG
         perror("task_join: task is NULL or is finished");
+        #endif
         return -1;
     }
 
@@ -461,6 +495,15 @@ int task_join(task_t *task){
 }
 
 // operações de gestão do tempo ================================================
+
+void task_sleep (int t){
+    task_t *cTask = currentTask;
+
+    // calculate the system time when the task will wake up and suspend it
+    cTask->awake_time = systime() + t;
+    task_suspend((task_t **) &suspendedQueue);
+}
+
 
 unsigned int systime(){
     // return the system time

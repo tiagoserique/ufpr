@@ -44,6 +44,8 @@ typedef struct task_t
     unsigned int execution_time;    // tempo de execução da tarefa
     unsigned int processor_time;    // tempo de processamento da tarefa
     unsigned int activations;       // número de vezes que a tarefa foi ativada
+
+    unsigned int awake_time;        // tempo em que a tarefa tem que ser acordada           
   // ... (outros campos serão adicionados mais tarde)
 } task_t ;
 
