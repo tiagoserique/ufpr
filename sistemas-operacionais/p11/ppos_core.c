@@ -555,11 +555,24 @@ int sem_down(semaphore_t *s){
 
 
     // if the semaphore's count is less than zero, suspend the current task
-    if ( s->count < 0 ) task_suspend((task_t **) &s->queue);
-    
+    task_t *cTask = currentTask;
+    if ( s->count < 0 ){ 
+        // remove the task from the ready queue
+        queue_remove((queue_t **) &readyQueue, (queue_t *) cTask);
+
+        // set the task's status to suspended
+        cTask->status = TASK_SUSPENDED;
+
+        // append the task to the given queue
+        queue_append((queue_t **) &s->queue, (queue_t *) cTask);
+    }
+
 
     // leave the critical section
     leave_cs(&lock);
+
+    // pass the control to the dispatcher
+    if ( cTask->status == TASK_SUSPENDED ) task_yield();
 
     return 0;
 }
