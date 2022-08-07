@@ -104,8 +104,8 @@ int main(){
     task_create(&p1, taskProdutor, (void *) "p1");
     task_create(&p2, taskProdutor, (void *) "p2");
     task_create(&p3, taskProdutor, (void *) "p3");
-    task_create(&c1, taskConsumidor, (void *) "              c1");
-    task_create(&c2, taskConsumidor, (void *) "              c2");
+    task_create(&c1, taskConsumidor, (void *) "\t\t\tc1");
+    task_create(&c2, taskConsumidor, (void *) "\t\t\tc2");
 
     
     task_join(&p1);
