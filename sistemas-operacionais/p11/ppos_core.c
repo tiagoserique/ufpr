@@ -546,14 +546,20 @@ int sem_create(semaphore_t *s, int value){
 int sem_down(semaphore_t *s){
     if ( !s ) return -1;
 
-    // decrement the semaphore's count
+    // enter the critical section
     enter_cs(&lock);
+    
+
+    // decrement the semaphore's count
     s->count--;
-    leave_cs(&lock);
 
 
     // if the semaphore's count is less than zero, suspend the current task
     if ( s->count < 0 ) task_suspend((task_t **) &s->queue);
+    
+
+    // leave the critical section
+    leave_cs(&lock);
 
     return 0;
 }
@@ -562,15 +568,20 @@ int sem_down(semaphore_t *s){
 int sem_up(semaphore_t *s){
     if ( !s ) return -1;
     
-    // increment the semaphore's count
+    // enter the critical section
     enter_cs(&lock);
-    s->count++;
-    leave_cs(&lock);
 
+
+    // increment the semaphore's count
+    s->count++;
 
     // if there is a task suspended in the semaphore's queue, awake it and 
     // remove it from the queue
     if ( s->count <= 0 ) task_resume((task_t *) s->queue, (task_t **) &s->queue);
+
+
+    // leave the critical section
+    leave_cs(&lock);
 
     return 0;
 }
