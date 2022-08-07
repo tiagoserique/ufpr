@@ -280,7 +280,7 @@ void awake_tasks(){
     
     
     #ifdef DEBUG
-        queue_print("awake_tasks: Suspended queue", (queue_t *) suspendedQueue, 
+    queue_print("awake_tasks: Suspended queue", (queue_t *) suspendedQueue, 
                                                         (void *) print_queue);
     #endif
 
@@ -327,9 +327,6 @@ void tick_handler(){
 
             // set the task's status to ready
             cTask->status = TASK_READY;
-
-            // reset the quantum
-            quantum = QUANTUM_DEFAULT;
 
             task_yield();
         }
@@ -396,10 +393,13 @@ void dispatcher(){
             queue_remove((queue_t **) &readyQueue, (queue_t *) nextTask);
 
 
+            // reset the quantum
+            quantum = QUANTUM_DEFAULT;
+
             // switch to the next task
             task_switch(nextTask);
 
-
+            
             // handles all possible task status cases 
             switch ( nextTask->status ){
                 case TASK_READY:
@@ -560,7 +560,7 @@ int sem_down(semaphore_t *s){
 
 
 int sem_up(semaphore_t *s){
-    if ( !s ) return -1;
+    if ( !s || !s->queue ) return -1;
     
     // increment the semaphore's count
     enter_cs(&lock);
