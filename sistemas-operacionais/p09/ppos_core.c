@@ -322,7 +322,16 @@ void tick_handler(){
         quantum--;
         
         // check if the quantum is finished
-        if ( quantum == 0 ) task_yield();
+        if ( quantum == 0 ){
+
+            // set the task's status to ready
+            cTask->status = TASK_READY;
+
+            // reset the quantum
+            quantum = QUANTUM_DEFAULT;
+
+            task_yield();
+        }
     }
 }
 
@@ -389,10 +398,6 @@ void dispatcher(){
             // switch to the next task
             task_switch(nextTask);
 
-            // reset the quantum
-            quantum = QUANTUM_DEFAULT;
-
-           
 
             // handles all possible task status cases 
             switch ( nextTask->status ){
@@ -454,7 +459,7 @@ void task_suspend(task_t **queue){
     task_t *cTask = currentTask;
 
     // remove the task from the ready queue
-    queue_remove((queue_t **) readyQueue, (queue_t *) cTask);
+    queue_remove((queue_t **) &readyQueue, (queue_t *) cTask);
 
     // set the task's status to suspended
     cTask->status = TASK_SUSPENDED;
