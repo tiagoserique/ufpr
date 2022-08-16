@@ -1,27 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "utils.h"
+#include "graph.h"
 #include "linked_list.h"
 
 #define true 1
 
 int main(){
     list_t *list = createList();
-    list_node_t *node = NULL;
 
-    FILE *arq = stdin;
+    int vertex_count = 0;
 
-    int time, id;
-    char operation, attribute;
-
-    fscanf(arq, "%d %d %c %c", &time, &id, &operation, &attribute);
-    while ( !feof(arq) ){
-        node = createNode(time, id, operation, attribute);
-
-        appendList(list, node);
-
-        fscanf(arq, "%d %d %c %c", &time, &id, &operation, &attribute);
-    }
+    readInput(list, &vertex_count, stdin);
 
     printList(list);
+
+    destroyList(list);
     return 0;
 }

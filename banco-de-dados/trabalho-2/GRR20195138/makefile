@@ -1,6 +1,6 @@
 
 FLAGS = -Wall  
-objects = main.o linked_list.o
+objects = main.o utils.o graph.o linked_list.o
 
 
 all: compila
@@ -12,6 +12,14 @@ compila: $(objects)
 
 main.o: main.*
 	gcc -c $(FLAGS) main.c
+
+
+utils.o: utils.*
+	gcc -c $(FLAGS) utils.c
+
+
+graph.o: graph.*
+	gcc -c $(FLAGS) graph.c
 
 
 linked_list.o: linked_list.*
