@@ -1,0 +1,5 @@
+int incrementoSucessivo(int i, int j){
+    if ( j == 0 ) return i;
+
+    return ++(incrementoSucessivo(i, j - 1));
+}

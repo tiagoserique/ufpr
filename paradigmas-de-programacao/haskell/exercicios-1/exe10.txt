@@ -1,0 +1,9 @@
+void imprimeParesDecrescente(int n){
+    if ( n <= -1 ) return;
+
+    if ( n % 2 == 0 ) printf("%d ", n);
+
+    imprimeParesDecrescente(n - 1);
+
+    return;
+}

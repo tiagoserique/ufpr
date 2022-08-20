@@ -1,0 +1,9 @@
+void imprimeSerie(int i, int j, int k){
+    if ( i + k > j ) return;
+
+    printf("%d ", i);
+
+    imprimeSerie(i + k, j, k);
+
+    return;
+}

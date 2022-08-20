@@ -1,0 +1,5 @@
+int somatorio(int N){
+    if ( N <= 0 ) return 0;
+
+    return N + somatorio(N - 1);
+}

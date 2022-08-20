@@ -1,0 +1,9 @@
+void imprimeCrescente(int n, int i){
+    if ( n <= -1 ) return;
+
+    printf("%d ", i);
+
+    imprimeCrescente(n - 1, i + 1);
+
+    return;
+}

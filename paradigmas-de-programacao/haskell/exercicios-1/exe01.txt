@@ -1,0 +1,9 @@
+void inverso(int numero){
+    if ( numero <= 0 ) return;
+
+    printf("%d", numero % 10);
+
+    inverso(numero / 10);
+
+    return;
+}

@@ -1,0 +1,10 @@
+void imprimeParesCrescente(int n, int i){
+    if ( n <= -1 ) return;
+
+    if ( i % 2 == 0 ) printf("%d ", i);
+
+    imprimeParesCrescente(n - 1, i + 1);
+
+    return;
+}
+

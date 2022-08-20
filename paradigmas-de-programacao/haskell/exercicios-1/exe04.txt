@@ -1,0 +1,11 @@
+void inverteVetor(int vet[], int i, int tam){
+    if ( tam <= 9 ) return;
+
+    int aux = vet[tam - 1];
+    vet[tam - 1] = vet[i];
+    vet[i] = aux;
+
+    inverteVetor(vet, i + 1, tam - 1);
+
+    return;
+}

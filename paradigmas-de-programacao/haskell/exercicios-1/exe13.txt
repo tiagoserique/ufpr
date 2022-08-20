@@ -1,0 +1,8 @@
+void achaMenor(int vet[], int tam){
+    if ( tam == 0 ) return vet[tam]; 
+
+    int menor = achaMenor(vet, tam - 1);
+
+    if ( vet[tam] < menor ) return vet[tam];
+    else return menor;
+}

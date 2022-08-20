@@ -1,0 +1,5 @@
+int somaVetor(int vet[], int tam){
+    if ( tam <= 0 ) return 0;
+
+    return vet[tam - 1] + somaVetor(vet, tam - 1);
+}

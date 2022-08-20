@@ -1,0 +1,9 @@
+void imprimeRecursivo(int n){
+    if ( n <= -1 ) return;
+
+    printf("%d ", n);
+
+    imprimeRecursivo(n - 1);
+
+    return;
+}
