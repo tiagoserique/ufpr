@@ -25,14 +25,13 @@ void readInput(list_t *list, int *vertex_count, FILE *arq){
 
 int **allocMatrix(int vertex_count){
     int pointer_array_size = sizeof(int *) * vertex_count;
-
     int elements_quantity = sizeof(int) * vertex_count * vertex_count;
 
     int **matrix = (int **) malloc(pointer_array_size + elements_quantity);
 
     matrix[0] = (int *) ( matrix + vertex_count );
     
-    for ( int i = 0; i < vertex_count; i++ ){
+    for (int i = 0; i < vertex_count; i++){
         matrix[i] = matrix[0] + ( i * vertex_count );
     }
 

@@ -27,11 +27,22 @@ struct list_t {
 
 // HEADERS =====================================================================
 
+
 list_node_t *createNode(int time, int id, char op, char attr);
+
+
 list_t *createList();
+
+
 int appendList(list_t *list, list_node_t *node);
+
+
 int removeList(list_t *list, list_node_t *node);
+
+
 void printList(list_t *list);
+
+
 void destroyList(list_t *list);
 
 #endif

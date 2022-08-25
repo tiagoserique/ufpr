@@ -7,23 +7,23 @@ all: compila
 
 
 compila: $(objects)
-	gcc $(objects) $(FLAGS) -o escalona
+	g++ $(objects) $(FLAGS) -o escalona
 
 
 main.o: main.*
-	gcc -c $(FLAGS) main.c
+	g++ -c $(FLAGS) main.c
 
 
 utils.o: utils.*
-	gcc -c $(FLAGS) utils.c
+	g++ -c $(FLAGS) utils.c
 
 
 graph.o: graph.*
-	gcc -c $(FLAGS) graph.c
+	g++ -c $(FLAGS) graph.c
 
 
 linked_list.o: linked_list.*
-	gcc -c $(FLAGS) linked_list.c
+	g++ -c $(FLAGS) linked_list.c
 
 
 clean:
