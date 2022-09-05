@@ -52,6 +52,9 @@ struct sigaction action;
 // struct that defines the timer
 struct itimerval timer;
 
+// 
+int isUserTask = TRUE;
+
 // another functions ===========================================================
 
 void print_queue(void *element){
@@ -115,7 +118,9 @@ void ppos_init(){
     currentTask = &mainTask;
 
     // create the task for dispatcher
+    isUserTask = FALSE;
     task_create(&dispatcherTask, dispatcher, NULL);
+    isUserTask = TRUE;
 
     task_yield();
 }
@@ -176,15 +181,14 @@ int task_create(task_t *task, void (*start_routine)(void *), void *arg){
     #endif
 
 
-    // return the id if the id is from the dispatcher
-    if ( tid == 1 ) return task->id;
-
-
     // if it is a user task, so increase the counter of user tasks, the task is 
     // preemptable and add the task to the ready queue
-    userTask++;
-    task->preemptable = 1;
-    queue_append((queue_t **) &readyQueue, (queue_t *) task);
+    if ( isUserTask ){
+        userTask++;
+        task->preemptable = 1;
+        queue_append((queue_t **) &readyQueue, (queue_t *) task);
+    }
+
 
     return task->id;
 }
