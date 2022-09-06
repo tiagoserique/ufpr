@@ -1,0 +1,9 @@
+graph bipartido3 {
+    a -- b;
+
+    b -- c;
+
+    c -- d;
+
+    d -- e;
+}

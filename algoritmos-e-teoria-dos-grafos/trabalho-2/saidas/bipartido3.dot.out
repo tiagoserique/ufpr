@@ -1,0 +1,29 @@
+graph bipartido3 {
+	a -- b;
+	b -- c;
+	c -- d;
+	d -- e;
+}
+
+n vertices = 5 | n arestas = 4
+
+grau maximo = 2 | grau minimo = 1
+
+grau medio = 1
+
+eh regular? nao
+
+eh completo? nao
+
+eh conexo? sim
+
+eh bipartido? sim
+
+n triangulos = 0
+
+0 1 0 0 0 
+1 0 1 0 0 
+0 1 0 1 0 
+0 0 1 0 1 
+0 0 0 1 0 
+

@@ -1,0 +1,41 @@
+graph bipartido2 {
+	0 -- 1;
+	0 -- 2;
+	1 -- 3;
+	2 -- 3;
+	3 -- 4;
+	3 -- 5;
+	4 -- 6;
+	4 -- 7;
+	5 -- 6;
+	5 -- 7;
+	6 -- 8;
+	7 -- 8;
+}
+
+n vertices = 9 | n arestas = 12
+
+grau maximo = 4 | grau minimo = 2
+
+grau medio = 2
+
+eh regular? nao
+
+eh completo? nao
+
+eh conexo? sim
+
+eh bipartido? sim
+
+n triangulos = 0
+
+0 1 1 0 0 0 0 0 0 
+1 0 0 1 0 0 0 0 0 
+1 0 0 1 0 0 0 0 0 
+0 1 1 0 1 1 0 0 0 
+0 0 0 1 0 0 1 1 0 
+0 0 0 1 0 0 1 1 0 
+0 0 0 0 1 1 0 0 1 
+0 0 0 0 1 1 0 0 1 
+0 0 0 0 0 0 1 1 0 
+
