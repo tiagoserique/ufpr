@@ -1,3 +1,7 @@
+// GRR20195138 Tiago Serique Valadares
+// PingPongOS - PingPong Operating System
+// Prof. Carlos A. Maziero, DINF UFPR
+// Versão 1.4 -- Janeiro de 2022
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,19 +16,21 @@
 
 // headers =====================================================================
 
-// 
+// the handler for the SIGUSR1 signal
 void signal_disk_handler();
 
-// 
+// create a new request for the disk driver
 disk_request_t *create_request(int block, void *buffer, int operation);
-
 
 // global variables ============================================================
 
+// the task that will be the disk driver
 task_t diskDriverTask;
 
+// the disk
 disk_t disk;
 
+// the action for the SIGUSR1 signal
 struct sigaction actionDisk;
 
 // functions ===================================================================
@@ -71,11 +77,9 @@ void diskDriverBody(void * args){
 }
 
 
-// inicializacao do gerente de disco
-// retorna -1 em erro ou 0 em sucesso
-// numBlocks: tamanho do disco, em blocos
-// blockSize: tamanho de cada bloco do disco, em bytes
 int disk_mgr_init(int *numBlocks, int *blockSize){
+
+    // register the SIGALRM signal handler
     actionDisk.sa_handler = signal_disk_handler;
     sigemptyset(&actionDisk.sa_mask);
     actionDisk.sa_flags = 0 ;
@@ -107,16 +111,17 @@ int disk_mgr_init(int *numBlocks, int *blockSize){
 
     sem_up(&disk.access);
 
+
     #ifdef DEBUG
     printf("disk_mgr_init: inicia disco com numBlock = %d e blockSize = %d\n", *numBlocks, *blockSize);
     printf("\n");
     #endif
 
+
     return 0;
 }
 
 
-// leitura de um bloco, do disco para o buffer
 int disk_block_read(int block, void *buffer){
     if ( block < 0 || !buffer ) return -1;
 
@@ -131,11 +136,13 @@ int disk_block_read(int block, void *buffer){
 
     sem_up(&disk.access);
 
+
     #ifdef DEBUG
     queue_print("disk_block_read: waiting queue", (queue_t *) disk.waiting_queue,
      (void *) print_queue);
     printf("\n");
     #endif
+
 
     task_suspend((task_t **) &disk.waiting_queue);
 
@@ -143,7 +150,6 @@ int disk_block_read(int block, void *buffer){
 }
 
 
-// escrita de um bloco, do buffer para o disco
 int disk_block_write(int block, void *buffer){
     if ( block < 0 || !buffer ) return -1;
 
@@ -158,11 +164,13 @@ int disk_block_write(int block, void *buffer){
 
     sem_up(&disk.access);
 
+
     #ifdef DEBUG
     queue_print("disk_block_write: waiting queue", (queue_t *) disk.waiting_queue,
      (void *) print_queue);
     printf("\n");
     #endif
+
 
     task_suspend((task_t **) &disk.waiting_queue);
 
@@ -170,7 +178,6 @@ int disk_block_write(int block, void *buffer){
 }
 
 
-// 
 disk_request_t *create_request(int block, void *buffer, int operation){
     disk_request_t *request = (disk_request_t *) malloc(sizeof(disk_request_t));
     
@@ -187,7 +194,6 @@ disk_request_t *create_request(int block, void *buffer, int operation){
 }
 
 
-// 
 void signal_disk_handler(){
     if ( diskDriverTask.status == TASK_SUSPENDED ){
         task_resume((task_t *) &diskDriverTask, NULL);

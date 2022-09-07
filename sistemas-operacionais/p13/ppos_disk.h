@@ -1,3 +1,4 @@
+// GRR20195138 Tiago Serique Valadares
 // PingPongOS - PingPong Operating System
 // Prof. Carlos A. Maziero, DINF UFPR
 // Versão 1.4 -- Janeiro de 2022
@@ -26,8 +27,6 @@ typedef struct disk_t
     task_t *waiting_queue;
 
     int sinal;
-
-    // completar com os campos necessarios
 } disk_t;
 
 typedef struct disk_request_t {

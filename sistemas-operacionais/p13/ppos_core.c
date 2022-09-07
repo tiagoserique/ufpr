@@ -52,7 +52,7 @@ struct sigaction action;
 // struct that defines the timer
 struct itimerval timer;
 
-// 
+// flag that indicates if the new task is a user task or not 
 int isUserTask = TRUE;
 
 // another functions ===========================================================
