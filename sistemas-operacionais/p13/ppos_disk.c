@@ -69,6 +69,7 @@ void diskDriverBody(void * args){
 
             diskDriverTask.status = TASK_SUSPENDED;
         }
+        else diskDriverTask.status = TASK_READY;
 
         sem_up(&disk.access);
 
