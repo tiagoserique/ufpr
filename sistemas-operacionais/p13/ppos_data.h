@@ -29,6 +29,9 @@
 #define TRUE  1
 #define FALSE 0
 
+// print the elements of the queue test
+void print_queue(void *element);
+
 // Estrutura que define um Task Control Block (TCB)
 typedef struct task_t
 {

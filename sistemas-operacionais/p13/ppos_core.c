@@ -60,7 +60,7 @@ int isUserTask = TRUE;
 void print_queue(void *element){
     task_t *task = (task_t *) element;
 
-    printf("%d <- %d -> %d", task->prev->id, task->id, task->next->id);
+    printf("<- %d", task->id);
     task = task->next;
 }
 

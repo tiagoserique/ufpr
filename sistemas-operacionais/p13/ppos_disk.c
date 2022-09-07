@@ -35,43 +35,37 @@ void diskDriverBody(void * args){
     while ( TRUE ){
         sem_down(&disk.access);
 
+        // if the request was acceded, then remove the task from the waiting 
+        // queue and remove the request from the queue and free it
         if ( disk.sinal == TRUE ){
-            task_resume((task_t *) disk.request_queue->task, (task_t **) &disk.waiting_queue);
-
+            task_resume((task_t *) request->task, (task_t **) &disk.waiting_queue);
             queue_remove((queue_t **) &disk.request_queue, (queue_t *) request);
-
-            // queue_append((queue_t **) &readyQueue, (queue_t *) request->task);
 
             free(request);
             disk.sinal = FALSE;
         }
 
-        // se o disco estiver livre e houver pedidos de E/S na fila
-        // if (disco_livre && (fila_disco != NULL))
-        // {
-            // escolhe na fila o pedido a ser atendido, usando FCFS
-            // solicita ao disco a operação de E/S, usando disk_cmd()
-        // }
+
         int disk_status = disk_cmd(DISK_CMD_STATUS, 0, 0);
 
+
+        // if the disk is not busy, then get the next request from the queue
         if ( disk_status == DISK_STATUS_IDLE && disk.request_queue ){
             request = disk.request_queue;
 
             disk_cmd(request->operation, request->block, request->buffer);
         }
 
-        if ( !disk.request_queue ){
+
+        // if there is no request in the queue, then the disk is idle
+        if ( !disk.request_queue && !disk.waiting_queue ){
             queue_remove((queue_t **) &readyQueue, (queue_t *) &diskDriverTask);
 
             diskDriverTask.status = TASK_SUSPENDED;
         }
-        else {
-            diskDriverTask.status = TASK_READY;
-        }
 
         sem_up(&disk.access);
 
-        // suspende a tarefa corrente (retorna ao dispatcher)
         task_yield();
     }
 }
@@ -82,8 +76,6 @@ void diskDriverBody(void * args){
 // numBlocks: tamanho do disco, em blocos
 // blockSize: tamanho de cada bloco do disco, em bytes
 int disk_mgr_init(int *numBlocks, int *blockSize){
-
-    // register the SIGUSR1 signal handler
     actionDisk.sa_handler = signal_disk_handler;
     sigemptyset(&actionDisk.sa_mask);
     actionDisk.sa_flags = 0 ;
@@ -115,6 +107,10 @@ int disk_mgr_init(int *numBlocks, int *blockSize){
 
     sem_up(&disk.access);
 
+    #ifdef DEBUG
+    printf("disk_mgr_init: inicia disco com numBlock = %d e blockSize = %d\n", *numBlocks, *blockSize);
+    printf("\n");
+    #endif
 
     return 0;
 }
@@ -130,13 +126,16 @@ int disk_block_read(int block, void *buffer){
     queue_append((queue_t **) &disk.request_queue, (queue_t *) request);
 
     if ( diskDriverTask.status == TASK_SUSPENDED ){
-        // diskDriverTask.status = TASK_READY;
-        
-        // queue_append((queue_t **) &readyQueue, (queue_t *) &diskDriverTask);
         task_resume((task_t *) &diskDriverTask, NULL);
     }
 
     sem_up(&disk.access);
+
+    #ifdef DEBUG
+    queue_print("disk_block_read: waiting queue", (queue_t *) disk.waiting_queue,
+     (void *) print_queue);
+    printf("\n");
+    #endif
 
     task_suspend((task_t **) &disk.waiting_queue);
 
@@ -154,13 +153,16 @@ int disk_block_write(int block, void *buffer){
     queue_append((queue_t **) &disk.request_queue, (queue_t *) request);
 
     if ( diskDriverTask.status == TASK_SUSPENDED ){
-        // diskDriverTask.status = TASK_READY;
-        
-        // queue_append((queue_t **) &readyQueue, (queue_t *) &diskDriverTask);
         task_resume((task_t *) &diskDriverTask, NULL);
     }
 
     sem_up(&disk.access);
+
+    #ifdef DEBUG
+    queue_print("disk_block_write: waiting queue", (queue_t *) disk.waiting_queue,
+     (void *) print_queue);
+    printf("\n");
+    #endif
 
     task_suspend((task_t **) &disk.waiting_queue);
 
@@ -189,9 +191,6 @@ disk_request_t *create_request(int block, void *buffer, int operation){
 void signal_disk_handler(){
     if ( diskDriverTask.status == TASK_SUSPENDED ){
         task_resume((task_t *) &diskDriverTask, NULL);
-
-        // diskDriverTask.status = TASK_READY;
-        // queue_append((queue_t **) &readyQueue, (queue_t *) &diskDriverTask);
     }
 
     disk.sinal = TRUE;
