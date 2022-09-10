@@ -5,14 +5,36 @@
 #include <string.h>
 #include "grafo.h"
 
+
+//------------------------------------------------------------------------------
+
 typedef long unsigned int uint_t;
 typedef Agedge_t *aresta;
 
+typedef struct lista_t lista_t; 
+typedef struct vertice_dfs_t vertice_dfs_t;
+
+//------------------------------------------------------------------------------
+
+struct lista_t {
+    vertice v;
+    struct lista *prox;
+};
+
+struct vertice_dfs_t {
+    vertice v;
+    int estado;
+    int componente;
+    int pos;
+};
+
+//------------------------------------------------------------------------------
 
 #define SEM_COR -1
 #define COR_0 0
 #define COR_1 1
 
+//------------------------------------------------------------------------------
 
 // faz a busca do indice do nodo no vetor de nodos
 // f(vertice) = indice do nodo no vetor de nodos 
@@ -27,12 +49,14 @@ vertice *nodos);
 grafo le_grafo(void) {
     return agread(stdin, NULL); 
 }
+
 //------------------------------------------------------------------------------
 void destroi_grafo(grafo g) {
     agclose(g);
 
     return;
 }
+
 //------------------------------------------------------------------------------
 grafo escreve_grafo(grafo g) {
     agwrite(g, stdout);
@@ -311,8 +335,34 @@ grafo complemento(grafo g) {
 }
 
 //------------------------------------------------------------------------------
+// DFS(G, r, c)
+    // r.estado = 1
+    // para cada v pertencente a vizinhanca de saida de r em G
+        // se v.estado == 0
+            // DFS(G, v, c)
+    // r.componente = c
+    // r.estado = 2
+
+
 grafo decompoe(grafo g) {
 
-  return g;
+    if ( !agisdirected(g) ){
+        printf("O grafo nao eh direcionado.\n");
+        return NULL;
+    }
+
+    // lista = reverso da pos-ordem resultante de uma busca em profundidade no
+    // grafo g transposto
+
+    // para cada vertice v de V(G)
+        // v.estado = v.componente = 0
+    // c = 0
+    // para cada v em lista
+        // se v.estado = 0
+            // c = c + 1
+            // DFS(G, v, c)
+
+
+    return g;
 }
 

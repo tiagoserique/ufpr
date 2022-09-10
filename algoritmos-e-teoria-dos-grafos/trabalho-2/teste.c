@@ -10,37 +10,12 @@ int main(void) {
 
     escreve_grafo(g);
 
-    printf("\nn vertices = %d | n arestas = %d\n", n_vertices(g), n_arestas(g));
+    grafo h = decompoe(g);
 
-    printf("\ngrau maximo = %d | grau minimo = %d\n", grau_maximo(g), grau_minimo(g));
-
-    printf("\ngrau medio = %d\n", grau_medio(g));
-
-    printf("\neh regular? %s\n", regular(g) ? "sim" : "nao");
-
-    printf("\neh completo? %s\n", completo(g) ? "sim" : "nao");
-
-    printf("\neh conexo? %s\n", conexo(g) ? "sim" : "nao");
-
-    printf("\neh bipartido? %s\n", bipartido(g) ? "sim" : "nao");
-
-    printf("\nn triangulos = %d\n", n_triangulos(g));
-
-    int **matriz = matriz_adjacencia(g);
-    int n = n_vertices(g);
-
-    printf("\n");
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%d ", matriz[i][j]);
-        }
-        printf("\n");
+    if ( h != NULL ) {
+        escreve_grafo(h);
     }
 
-    printf("\n");
-    complemento(g);
-
-    free(matriz);
     destroi_grafo(g);
 
     return 0;
