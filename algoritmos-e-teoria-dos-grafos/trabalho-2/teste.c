@@ -10,11 +10,12 @@ int main(void) {
 
     escreve_grafo(g);
 
-    grafo h = decompoe(g);
+    // grafo h = decompoe(g);
+    decompoe(g);
 
-    if ( h != NULL ) {
-        escreve_grafo(h);
-    }
+    // if ( h != NULL ) {
+    //     escreve_grafo(h);
+    // }
 
     destroi_grafo(g);
 

@@ -11,23 +11,6 @@
 typedef long unsigned int uint_t;
 typedef Agedge_t *aresta;
 
-typedef struct lista_t lista_t; 
-typedef struct vertice_dfs_t vertice_dfs_t;
-
-//------------------------------------------------------------------------------
-
-struct lista_t {
-    vertice v;
-    struct lista *prox;
-};
-
-struct vertice_dfs_t {
-    vertice v;
-    int estado;
-    int componente;
-    int pos;
-};
-
 //------------------------------------------------------------------------------
 
 #define SEM_COR -1
@@ -335,21 +318,105 @@ grafo complemento(grafo g) {
 }
 
 //------------------------------------------------------------------------------
-// DFS(G, r, c)
+
+typedef struct pilha_t pilha_t;
+
+struct pilha_t {
+    long int topo;
+    Agnode_t **pilha;
+};
+
+void dfsPosOrdem(grafo g, vertice v, vertice *nodos, int *estado, pilha_t *pilha);
+pilha_t *dfsPosOrdemInit(grafo g);
+void push(pilha_t *p, vertice v);
+void imprime_pilha(pilha_t *p);
+
+
+void push(pilha_t *p, vertice v) {
+    p->pilha[++p->topo] = v;
+}
+
+// imprime a pilha
+void imprime_pilha(pilha_t *p) {
+    for (int i = 0; i <= p->topo; i++) {
+        printf("%s ", agnameof(p->pilha[i]));
+    }
+    printf("\n");
+}
+
+
+void dfsPosOrdem(grafo g, vertice r, vertice *nodos, int *estado, pilha_t *pilha){
+    estado[buscaI(g, r, nodos)] = 1;
+
+    // para cada r pertencente a vizinhanca de entrada de r em G
+    for (aresta e = agfstedge(g, r); e != NULL; e = agnxtedge(g, e, r)){
+        vertice vizinho = agtail(e);
+
+        // se a variavel vizinho eh o proprio vertice r, entao eh um vizinho de 
+        // saida, logo, continua o loop
+        if ( vizinho == r ) continue;
+
+        if ( estado[buscaI(g, vizinho, nodos)] == 0 ){
+            dfsPosOrdem(g, vizinho, nodos, estado, pilha);
+        }
+    }
+
+    // atualiza estado
+    estado[buscaI(g, r, nodos)] = 2;
+
+    // empilha o vertice r, garante pos ordenacao
+    push(pilha, r);
+}
+
+
+pilha_t *dfsPosOrdemInit(grafo g){
+    // cria um vetor de vertices para guardar os nodos do grafo
+    vertice *nodos = (vertice *) calloc((uint_t)n_vertices(g), sizeof(vertice));
+    vertice v1;
+    int j;
+    for (v1 = agfstnode(g), j = 0; v1 != NULL; v1 = agnxtnode(g, v1), j++){
+        nodos[j] = v1;
+    }
+
+    // cria um vetor de estados para guardar os estados dos nodos
+    int *estado = (int *) calloc((uint_t)n_vertices(g), sizeof(int));
+
+    // cria uma pilha para guardar os nodos em ordem de pos-ordem
+    pilha_t *pilha = (pilha_t *) malloc(sizeof(pilha_t));
+    pilha->topo = -1;
+    pilha->pilha = (vertice *) malloc(sizeof(vertice) * (uint_t)n_vertices(g));
+
+
+    // para cada vertice v pertencente a G
+    for (vertice v = agfstnode(g); v != NULL; v = agnxtnode(g, v)){
+        if ( estado[buscaI(g, v, nodos)] == 0 ){
+            dfsPosOrdem(g, v, nodos, estado, pilha);
+        }
+    }
+
+
+    return pilha;
+}
+
+
+// dfs(G, r, c)
     // r.estado = 1
     // para cada v pertencente a vizinhanca de saida de r em G
         // se v.estado == 0
-            // DFS(G, v, c)
+            // dfs(G, v, c)
     // r.componente = c
     // r.estado = 2
 
 
 grafo decompoe(grafo g) {
-
     if ( !agisdirected(g) ){
         printf("O grafo nao eh direcionado.\n");
         return NULL;
     }
+
+    pilha_t *pilha = dfsPosOrdemInit(g);
+
+    imprime_pilha(pilha);
 
     // lista = reverso da pos-ordem resultante de uma busca em profundidade no
     // grafo g transposto
