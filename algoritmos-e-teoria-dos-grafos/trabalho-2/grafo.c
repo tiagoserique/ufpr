@@ -11,11 +11,18 @@
 typedef long unsigned int uint_t;
 typedef Agedge_t *aresta;
 
+typedef struct pilha_t pilha_t;
+struct pilha_t {
+    long int topo;
+    Agnode_t **pilha;
+};
+
 //------------------------------------------------------------------------------
 
 #define SEM_COR -1
 #define COR_0 0
 #define COR_1 1
+#define LINE_SIZE 1024
 
 //------------------------------------------------------------------------------
 
@@ -27,6 +34,19 @@ int buscaI(grafo g, vertice v, vertice *nodos);
 int buscaVertice(grafo g, vertice v, vertice buscando, int *visitados, 
 vertice *nodos);
 
+
+// header de funcoes para do trab 2 --------------------------------------------
+
+void dfsPosOrdem(grafo g, vertice v, vertice *nodos, int *estado, pilha_t *pilha);
+
+pilha_t *dfsPosOrdemInit(grafo g);
+void push(pilha_t *p, vertice v);
+
+void pop(pilha_t *p);
+
+void imprimePilha(pilha_t *p);
+
+void dfsDecompoe(grafo g, vertice v, int c, int *estado, int *comp, vertice *nodos);
 
 //------------------------------------------------------------------------------
 grafo le_grafo(void) {
@@ -317,22 +337,7 @@ grafo complemento(grafo g) {
     return h;
 }
 
-//------------------------------------------------------------------------------
-
-typedef struct pilha_t pilha_t;
-
-struct pilha_t {
-    long int topo;
-    Agnode_t **pilha;
-};
-
-void dfsPosOrdem(grafo g, vertice v, vertice *nodos, int *estado, pilha_t *pilha);
-pilha_t *dfsPosOrdemInit(grafo g);
-void push(pilha_t *p, vertice v);
-void pop(pilha_t *p);
-void imprime_pilha(pilha_t *p);
-void dfsDecompoe(grafo g, vertice v, int c, int *estado, int *componente, vertice *nodos);
-
+// trabalho 2 ------------------------------------------------------------------
 
 void push(pilha_t *p, vertice v) {
     p->pilha[++p->topo] = v;
@@ -342,14 +347,12 @@ void pop(pilha_t *p){
     p->topo--;
 }
 
-// imprime a pilha
-void imprime_pilha(pilha_t *p) {
+void imprimePilha(pilha_t *p) {
     for (int i = 0; i <= p->topo; i++) {
         printf("%s ", agnameof(p->pilha[i]));
     }
     printf("\n");
 }
-
 
 void dfsPosOrdem(grafo g, vertice r, vertice *nodos, int *estado, pilha_t *pilha){
     estado[buscaI(g, r, nodos)] = 1;
@@ -373,7 +376,6 @@ void dfsPosOrdem(grafo g, vertice r, vertice *nodos, int *estado, pilha_t *pilha
     // empilha o vertice r, garante pos ordenacao
     push(pilha, r);
 }
-
 
 pilha_t *dfsPosOrdemInit(grafo g){
     // cria um vetor de vertices para guardar os nodos do grafo
@@ -406,16 +408,7 @@ pilha_t *dfsPosOrdemInit(grafo g){
     return pilha;
 }
 
-
-// dfs(G, r, c)
-    // r.estado = 1
-    // para cada v pertencente a vizinhanca de saida de r em G
-        // se v.estado == 0
-            // dfs(G, v, c)
-    // r.componente = c
-    // r.estado = 2
-
-void dfsDecompoe(grafo g, vertice r, int c, int *estado, int *componente, vertice *nodos){
+void dfsDecompoe(grafo g, vertice r, int c, int *estado, int *comp, vertice *nodos){
     estado[buscaI(g, r, nodos)] = 1;
 
     // para cada r pertencente a vizinhanca de saida de r em G
@@ -427,17 +420,16 @@ void dfsDecompoe(grafo g, vertice r, int c, int *estado, int *componente, vertic
         if ( vizinho == r ) continue;
 
         if ( estado[buscaI(g, vizinho, nodos)] == 0 ){
-            dfsDecompoe(g, vizinho, c, estado, componente, nodos);
+            dfsDecompoe(g, vizinho, c, estado, comp, nodos);
         }
     }
 
     // atualiza a componente do vertice r
-    componente[buscaI(g, r, nodos)] = c;
+    comp[buscaI(g, r, nodos)] = c;
 
     // atualiza estado
     estado[buscaI(g, r, nodos)] = 2;
 }
-
 
 grafo decompoe(grafo g) {
     if ( !agisdirected(g) ){
@@ -449,7 +441,6 @@ grafo decompoe(grafo g) {
     // grafo g transposto
     pilha_t *pilha = dfsPosOrdemInit(g);
 
-    imprime_pilha(pilha);
 
     // cria um vetor de vertices para guardar os nodos do grafo
     vertice *nodos = (vertice *) calloc((uint_t)n_vertices(g), sizeof(vertice));
@@ -460,44 +451,71 @@ grafo decompoe(grafo g) {
     }
 
 
-    // para cada vertice v de V(G)
-        // v.estado = v.componente = 0
-
     // cria um vetor de estados para guardar os estados dos nodos
     int *estado = (int *) calloc((uint_t)n_vertices(g), sizeof(int));
 
     // cria um vetor de componentes para guardar os componentes dos nodos
-    int *componente = (int *) calloc((uint_t)n_vertices(g), sizeof(int));
+    int *comp = (int *) calloc((uint_t)n_vertices(g), sizeof(int));
 
-    // c = 0
     int c = 0;
     
     // para cada v em lista
     while ( pilha->topo >= 0 ){
         vertice v = pilha->pilha[pilha->topo];
 
-        // se v.estado = 0
         if ( estado[buscaI(g, v, nodos)] == 0 ){
-            // c = c + 1
-            // DFS(G, v, c)
-            dfsDecompoe(g, v, ++c, estado, componente, nodos);
+            dfsDecompoe(g, v, ++c, estado, comp, nodos);
         }
 
         pop(pilha);
     }
 
-    // imprime vetor de componentes
-    printf("\n");
-    for (int i = 0; i < n_vertices(g); i++){
-        printf("componente do vertice %s = %d\n", agnameof(nodos[i]), componente[i]);
+
+    // cria os subgrafos para cada componente
+    char *nome = (char *) malloc((LINE_SIZE + 1) * sizeof(char));
+
+    for (vertice v = agfstnode(g); v != NULL; v = agnxtnode(g, v)){
+        int idComponente = comp[buscaI(g, v, nodos)];
+
+        sprintf(nome, "C%d", idComponente);
+
+        if ( agsubg(g, nome, 0) ){
+            grafo subg = agsubg(g, nome, 0);
+            agsubnode(subg, v, 1);
+        } 
+        else {
+            grafo subg = agsubg(g, nome, 1);
+            agsubnode(subg, v, 1);
+        }
+    }
+
+    // itera sobre os subgrafos do grafo g
+    for (grafo subg = agfstsubg(g); subg != NULL; subg = agnxtsubg(subg)){
+        
+        // itera sobre os vertices do subgrafo subg
+        for (vertice v = agfstnode(subg); v != NULL; v = agnxtnode(subg, v)){
+            
+            // verifica se os vizinhos de v pertencem ao mesmo subgrafo e se 
+            // pertencem, cria uma aresta entre eles no subgrafo subg
+            for (aresta e = agfstedge(g, v); e != NULL; e = agnxtedge(g, e, v)){
+                vertice u = aghead(e);
+
+                if ( u == v ) continue;
+
+                if ( comp[buscaI(g, v, nodos)] == comp[buscaI(g, u, nodos)] ){
+                    agsubedge(subg, e, 1);
+                }
+            }
+
+        }
+
     }
 
     free(nodos);
     free(estado);
-    free(componente);
+    free(comp);
     free(pilha->pilha);
     free(pilha);
 
     return g;
 }
-

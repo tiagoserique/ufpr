@@ -1,0 +1,25 @@
+digraph G3 {
+	subgraph C5 {
+		1;
+	}
+	subgraph C3 {
+		2 -> 5;
+		4 -> 2;
+		5 -> 4;
+	}
+	subgraph C1 {
+		6;
+	}
+	subgraph C4 {
+		3;
+	}
+	subgraph C2 {
+		7;
+	}
+	1 -> 2;
+	1 -> 4;
+	5 -> 6;
+	3 -> 5;
+	3 -> 7;
+	7 -> 6;
+}

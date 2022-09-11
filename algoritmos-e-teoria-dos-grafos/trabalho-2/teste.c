@@ -8,14 +8,9 @@ int main(void) {
 
     grafo g = le_grafo();
 
-    escreve_grafo(g);
+    g = decompoe(g);
 
-    // grafo h = decompoe(g);
-    decompoe(g);
-
-    // if ( h != NULL ) {
-    //     escreve_grafo(h);
-    // }
+    if ( g != NULL ) escreve_grafo(g);
 
     destroi_grafo(g);
 
