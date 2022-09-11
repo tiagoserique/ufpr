@@ -1,3 +1,3 @@
 #!/bin/bash
 
-tar -czvf GRR20195138.tar.gz GRR20195138/
+tar -czvf GRR20190367_GRR20195138.tar.gz GRR20190367_GRR20195138/
