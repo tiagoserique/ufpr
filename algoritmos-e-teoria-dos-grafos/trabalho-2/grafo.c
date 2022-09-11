@@ -329,11 +329,17 @@ struct pilha_t {
 void dfsPosOrdem(grafo g, vertice v, vertice *nodos, int *estado, pilha_t *pilha);
 pilha_t *dfsPosOrdemInit(grafo g);
 void push(pilha_t *p, vertice v);
+void pop(pilha_t *p);
 void imprime_pilha(pilha_t *p);
+void dfsDecompoe(grafo g, vertice v, int c, int *estado, int *componente, vertice *nodos);
 
 
 void push(pilha_t *p, vertice v) {
     p->pilha[++p->topo] = v;
+}
+
+void pop(pilha_t *p){
+    p->topo--;
 }
 
 // imprime a pilha
@@ -394,6 +400,8 @@ pilha_t *dfsPosOrdemInit(grafo g){
         }
     }
 
+    free(nodos);
+    free(estado);
 
     return pilha;
 }
@@ -407,6 +415,29 @@ pilha_t *dfsPosOrdemInit(grafo g){
     // r.componente = c
     // r.estado = 2
 
+void dfsDecompoe(grafo g, vertice r, int c, int *estado, int *componente, vertice *nodos){
+    estado[buscaI(g, r, nodos)] = 1;
+
+    // para cada r pertencente a vizinhanca de saida de r em G
+    for (aresta e = agfstedge(g, r); e != NULL; e = agnxtedge(g, e, r)){
+        vertice vizinho = aghead(e);
+
+        // se a variavel vizinho eh o proprio vertice r, entao eh um vizinho de 
+        // entrada, logo, continua o loop
+        if ( vizinho == r ) continue;
+
+        if ( estado[buscaI(g, vizinho, nodos)] == 0 ){
+            dfsDecompoe(g, vizinho, c, estado, componente, nodos);
+        }
+    }
+
+    // atualiza a componente do vertice r
+    componente[buscaI(g, r, nodos)] = c;
+
+    // atualiza estado
+    estado[buscaI(g, r, nodos)] = 2;
+}
+
 
 grafo decompoe(grafo g) {
     if ( !agisdirected(g) ){
@@ -414,21 +445,58 @@ grafo decompoe(grafo g) {
         return NULL;
     }
 
+    // lista = reverso da pos-ordem resultante de uma busca em profundidade no
+    // grafo g transposto
     pilha_t *pilha = dfsPosOrdemInit(g);
 
     imprime_pilha(pilha);
 
-    // lista = reverso da pos-ordem resultante de uma busca em profundidade no
-    // grafo g transposto
+    // cria um vetor de vertices para guardar os nodos do grafo
+    vertice *nodos = (vertice *) calloc((uint_t)n_vertices(g), sizeof(vertice));
+    vertice v1;
+    int j;
+    for (v1 = agfstnode(g), j = 0; v1 != NULL; v1 = agnxtnode(g, v1), j++){
+        nodos[j] = v1;
+    }
+
 
     // para cada vertice v de V(G)
         // v.estado = v.componente = 0
+
+    // cria um vetor de estados para guardar os estados dos nodos
+    int *estado = (int *) calloc((uint_t)n_vertices(g), sizeof(int));
+
+    // cria um vetor de componentes para guardar os componentes dos nodos
+    int *componente = (int *) calloc((uint_t)n_vertices(g), sizeof(int));
+
     // c = 0
+    int c = 0;
+    
     // para cada v em lista
+    while ( pilha->topo >= 0 ){
+        vertice v = pilha->pilha[pilha->topo];
+
         // se v.estado = 0
+        if ( estado[buscaI(g, v, nodos)] == 0 ){
             // c = c + 1
             // DFS(G, v, c)
+            dfsDecompoe(g, v, ++c, estado, componente, nodos);
+        }
 
+        pop(pilha);
+    }
+
+    // imprime vetor de componentes
+    printf("\n");
+    for (int i = 0; i < n_vertices(g); i++){
+        printf("componente do vertice %s = %d\n", agnameof(nodos[i]), componente[i]);
+    }
+
+    free(nodos);
+    free(estado);
+    free(componente);
+    free(pilha->pilha);
+    free(pilha);
 
     return g;
 }

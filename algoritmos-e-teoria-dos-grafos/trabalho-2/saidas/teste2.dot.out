@@ -23,3 +23,16 @@ digraph G2 {
 	10 -> 6;
 }
 4 2 8 9 10 6 3 5 1 11 12 7 
+
+componente do vertice 1 = 2
+componente do vertice 2 = 2
+componente do vertice 4 = 2
+componente do vertice 3 = 2
+componente do vertice 7 = 1
+componente do vertice 5 = 2
+componente do vertice 12 = 1
+componente do vertice 6 = 3
+componente do vertice 8 = 3
+componente do vertice 11 = 1
+componente do vertice 9 = 3
+componente do vertice 10 = 3
