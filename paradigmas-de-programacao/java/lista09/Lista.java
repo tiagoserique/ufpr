@@ -1,3 +1,5 @@
+package lista09;
+
 public class Lista {
     private Nodo inicio = null;
     private int size    = 0;

@@ -1,3 +1,4 @@
+package lista09;
 
 class Exe01L09 {
     public static void main(String[] args) {

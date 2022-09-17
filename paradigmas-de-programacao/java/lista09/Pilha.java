@@ -1,3 +1,5 @@
+package lista09;
+
 public class Pilha {
     private Nodo topo = null;
     private int size = 0;
