@@ -12,6 +12,8 @@
 #include "queue.h"
 
 
+// constraints =================================================================
+
 #define STACKSIZE 64*1024
 
 #define TASK_READY     1
@@ -29,8 +31,18 @@
 #define TRUE  1
 #define FALSE 0
 
+// extern global variables =====================================================
+
+extern task_t *readyQueue;
+extern task_t *currentTask;
+extern int isUserTask;
+
+// headers =====================================================================
+
 // print the elements of the queue test
 void print_queue(void *element);
+
+// structures ==================================================================
 
 // Estrutura que define um Task Control Block (TCB)
 typedef struct task_t
@@ -92,13 +104,6 @@ typedef struct mqueue_t
     semaphore_t s_buffer;             // sinaliza o buffer da fila
 } mqueue_t ;
 
-
-
-extern task_t *readyQueue;     // fila de tarefas prontas
-extern task_t *suspendedQueue; // fila de tarefas suspensas
-extern task_t *currentTask;
-extern task_t dispatcherTask;
-extern int isUserTask;
 
 #endif
 
