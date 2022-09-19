@@ -31,11 +31,6 @@
 #define TRUE  1
 #define FALSE 0
 
-// extern global variables =====================================================
-
-extern task_t *readyQueue;
-extern task_t *currentTask;
-extern int isUserTask;
 
 // headers =====================================================================
 
@@ -103,6 +98,14 @@ typedef struct mqueue_t
     semaphore_t s_item;               // sinaliza o item da fila
     semaphore_t s_buffer;             // sinaliza o buffer da fila
 } mqueue_t ;
+
+
+// extern global variables =====================================================
+
+extern task_t *readyQueue;
+extern task_t *currentTask;
+extern int isUserTask;
+
 
 
 #endif
