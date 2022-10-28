@@ -1,0 +1,14 @@
+frases substantivas:
+    1. cliente, checkout, pdv, servicos, comprar
+    2. caixa, nova venda
+    3. identificador do item
+    4. item de linha de venda, conjunto de regras de preco
+    5. impostos calculados
+    6. 
+    7. 
+    8. contabilidade externa (para a contabilidade e comissoes), sistemas de inventario (para atualizar o inventario)
+    9. 
+    10. mercadorias
+
+SVCAAD:
+   forma de pagamento, produto, cesta de produtos 
